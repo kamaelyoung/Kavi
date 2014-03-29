@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <XMLRPC.h>
 
-typedef NSArray* (^HandleResponseBlock)(NSArray *rawResponse);
+typedef NSMutableArray *(^HandleResponseBlock)(void);
 
-@interface KCPostsTableViewController : UITableViewController <XMLRPCConnectionDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface KCPostsTableViewController : UITableViewController <UITableViewDelegate,UITableViewDataSource>
 
-- (instancetype)initWithMethod:(NSString *)myMethod
-                     andFilter:(id)myFilter;
+- (instancetype)init;
+- (void)handleResponse:(HandleResponseBlock)myTrimBlock;
 
 @end

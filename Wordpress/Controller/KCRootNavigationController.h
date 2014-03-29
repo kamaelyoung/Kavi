@@ -13,7 +13,4 @@
 
 + (instancetype)sharedInstance;
 
-- (void)selectCategoriesTableViewController;
-- (void)selectCategoriedPostsTableViewController;
-
 @end

@@ -15,14 +15,12 @@
 @property (nonatomic,strong) WPRequestManager *requestManager;
 @property (nonatomic,strong) KCPostsTableViewController *recentPostsTableViewController;
 @property (nonatomic,strong) KCCategoriesTableViewController *categoriesTableViewController;
-@property (nonatomic,strong) KCPostsTableViewController *categoriedPostsTableViewController;
 @end
 
 @implementation KCRootNavigationController
 @synthesize requestManager = _requestManager;
 @synthesize recentPostsTableViewController = _recentPostsTableViewController;
 @synthesize categoriesTableViewController = _categoriesTableViewController;
-@synthesize categoriedPostsTableViewController = _categoriedPostsTableViewController;
 
 #pragma mark - Setter & Getter
 - (WPRequestManager *)requestManager
@@ -30,13 +28,10 @@
     return [WPRequestManager sharedInstance];
 }
 
-- (KCPostsTableViewController *)tableViewController
+- (KCPostsTableViewController *)recentPostsTableViewController
 {
     if (!_recentPostsTableViewController) {
-        NSString *postMethod = @"mt.getRecentPostTitles";
-        NSString *numberOfPosts = @"10";
-        _recentPostsTableViewController = [[KCPostsTableViewController alloc] initWithMethod:postMethod
-                                                                                   andFilter:numberOfPosts];
+        _recentPostsTableViewController = [[KCPostsTableViewController alloc] init];
     }
     return _recentPostsTableViewController;
 }
@@ -59,9 +54,15 @@
         [self.requestManager spawnConnectWithWPRequest:getBlogNameRequest delegate:self];
         
         self.view.backgroundColor = [UIColor whiteColor];
-        [self pushViewController:self.tableViewController animated:YES];
+        [self pushViewController:self.recentPostsTableViewController animated:YES];
         
-        self.recentPostsTableViewController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"分类" style:UIBarButtonItemStylePlain target:self action:@selector(selectCategoriesTableViewController)];
+
+        
+        WPRequest *getRecentPostTitlesRequest = [self.requestManager createRequest];
+        [self.requestManager setWPRequest:getRecentPostTitlesRequest
+                                   Method:@"mt.getRecentPostTitles"
+                           withParameters:@[@"1",getRecentPostTitlesRequest.myUsername,getRecentPostTitlesRequest.myPassword,@"10"]];
+        [self.requestManager spawnConnectWithWPRequest:getRecentPostTitlesRequest delegate:self];
     }
     return self;
 }
@@ -85,22 +86,45 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
+    
 }
 
 #pragma mark - XMLRPConnectionDelegate
 - (void)request:(XMLRPCRequest *)request didReceiveResponse:(XMLRPCResponse *)response
 {
     NSString *methodName = request.method;
+    NSArray *rawResponse = [response object];
+    
     if ([methodName isEqualToString:@"wp.getUsersBlogs"]) {
-        self.recentPostsTableViewController.title = [[[response object] lastObject] objectForKey:@"blogName"];
+        self.recentPostsTableViewController.title = [[rawResponse lastObject] objectForKey:@"blogName"];
+    }else if ([methodName isEqualToString:@"mt.getRecentPostTitles"]){
+        HandleResponseBlock MTBlock = ^(void){
+            NSMutableArray *MTPostsArray = [NSMutableArray array];
+            for (int i = 0; i < [rawResponse count]; i++) {
+                NSString *postID = [[rawResponse objectAtIndex:i] objectForKey:@"postid"];
+                NSString *postTitle = [[rawResponse objectAtIndex:i] objectForKey:@"title"];
+                NSDictionary *postDictionary = @{@"postID": postID,
+                                                 @"postTitle":postTitle,
+                                                 @"postContent":[NSNull null]};
+                
+                [MTPostsArray addObject:postDictionary];
+                self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
+                [[UIBarButtonItem alloc] initWithTitle:@"分类"
+                                                 style:UIBarButtonItemStylePlain
+                                                target:self
+                                                action:@selector(selectCategoriesTableViewController)];
+            }
+            return MTPostsArray;
+        };
+        [self.recentPostsTableViewController handleResponse:MTBlock];
     }
 }
 
 - (void)request:(XMLRPCRequest *)request
 didSendBodyData:(float)percent
 {
-    NSLog(@"%f",percent);
+    NSString *methodName = request.method;
+    NSLog(@"%@,%f",methodName,percent);
 }
 
 
@@ -134,8 +158,4 @@ didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
     [self pushViewController:self.categoriesTableViewController animated:YES];
 }
 
-- (void)selectCategoriedPostsTableViewController
-{
-    [self pushViewController:self.categoriedPostsTableViewController animated:YES];
-}
 @end

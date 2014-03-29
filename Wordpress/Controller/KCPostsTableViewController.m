@@ -9,50 +9,47 @@
 #import "KCPostsTableViewController.h"
 #import "WPRequestManager.h"
 #import "KCPostTableViewCell.h"
+#import "KCRootNavigationController.h"
 
 @interface KCPostsTableViewController ()
-@property (nonatomic,strong) WPRequestManager *requestManager;
-@property (nonatomic,strong) NSString *myBlogName;
-//@property (nonatomic,strong) NSDictionary *myFilter;
-@property (nonatomic,strong) NSArray *myPosts;
-@property (nonatomic,strong) HandleResponseBlock block;
+{
+    UIActivityIndicatorView *indicatorView;
+}
+@property (nonatomic,strong) NSString *myNavigationBarTitle;
+@property (nonatomic,strong) NSMutableArray *myPosts;
+
 @end
 
 @implementation KCPostsTableViewController
-@synthesize requestManager = _requestManager;
-@synthesize myBlogName = _myBlogName;
 @synthesize myPosts = _myPosts;
+@synthesize myNavigationBarTitle = _myNavigationBarTitle;
 
 #pragma mark - Inital Method
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self) {
-
+        indicatorView = [[UIActivityIndicatorView alloc]
+                         initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+                                                 initWithCustomView:indicatorView];
+        [indicatorView startAnimating];
     }
     return self;
 }
-
-- (instancetype)initWithMethod:(NSString *)myMethod andFilter:(id)myFilter
-{
-    self = [self initWithNibName:nil bundle:nil];
-    if (self) {
-        WPRequest *postRequest = [self.requestManager createRequest];
-        NSMutableArray *myParameters = [NSMutableArray arrayWithObjects:@"1",postRequest.myUsername,postRequest.myPassword, nil];
-        [myParameters addObject:myFilter];
-        [self.requestManager setWPRequest:postRequest
-                                   Method:myMethod
-                           withParameters:myParameters];
-        [self.requestManager spawnConnectWithWPRequest:postRequest delegate:self];
-    }
-    return self;
-}
-
 
 #pragma mark - Getter & Setter
 - (WPRequestManager *)requestManager
 {
     return [WPRequestManager sharedInstance];
+}
+
+- (void)setTitle:(NSString *)title
+{
+    [super setTitle:title];
+    if (![title isEqualToString:@""]) {
+        self.myNavigationBarTitle = title;
+    }
 }
 
 #pragma mark - ViewController life cycle
@@ -65,62 +62,13 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    self.title = @"";
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-}
-
-#pragma mark - XMLRPCConnectionDelegate
-- (void)request:(XMLRPCRequest *)request didReceiveResponse:(XMLRPCResponse *)response
-{
-    if([response isFault]){
-        NSLog(@"Fault Code: %@",[response faultCode]);
-        NSLog(@"Fault string: %@",[response faultString]);
-    }else{
-        if ([request.method isEqualToString:@"wp.getUsersBlogs"]) {
-            NSLog(@"%@",[response object]);
-        }else if([request.method isEqualToString:@"mt.getRecentPostTitles"]){
-            self.myPosts = [self handleResponse:[response object] withMethodName:@"mt.getRecentPostTitles"];;
-        }else if([request.method isEqualToString:@"wp.getPosts"]){
-            self.myPosts = [self handleResponse:[response object] withMethodName:@"wp.getPosts"];
-            NSLog(@"%@",[response object]);
-        }
-    }
-    
-    [self.tableView reloadData];
-}
-
-- (void)request:(XMLRPCRequest *)request
-    didSendBodyData:(float)percent
-{
-    NSLog(@"%f",percent);
-}
-
-
-- (void)request:(XMLRPCRequest *)request
-    didFailWithError:(NSError *)error
-{
-    
-}
-
-- (BOOL)request:(XMLRPCRequest *)request
-    canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
-{
-    return NO;
-}
-
-- (void)request:(XMLRPCRequest *)request
-    didReceiveAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
-{
-    
-}
-
-- (void)request:(XMLRPCRequest *)request
-    didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
-{
-    
+    self.title = self.myNavigationBarTitle;
 }
 
 #pragma mark - UITableViewDelegate
@@ -136,13 +84,14 @@
     static NSString *cellIdentity = @"post_cell";
     KCPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentity];
     if (cell == nil) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"KCPostTableViewCell" owner:self options:nil];
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"KCPostTableViewCell"
+                                                     owner:self
+                                                   options:nil];
         cell = [nib objectAtIndex:0];
     }
     
     cell.postTitleLabel.text = [[self.myPosts objectAtIndex:indexPath.row]
-                                               objectForKey:@"postTitle"];
-    NSLog(@"%@",cell.postTitleLabel.text);
+                                objectForKey:@"postTitle"];
     return cell;
 }
 
@@ -152,31 +101,12 @@
 }
 
 #pragma mark - Handle Response Wrapper
-- (NSArray *)handleResponse:(id)myResponse withMethodName:(NSString *)methodName
+- (void)handleResponse:(HandleResponseBlock)block
 {
-    NSMutableArray *postsArray = [NSMutableArray array];
-    
-    if ([methodName isEqualToString:@"mt.getRecentPostTitles"]) {
-        for (int i = 0; i < [myResponse count]; i++) {
-            NSString *postID = [[myResponse objectAtIndex:i] objectForKey:@"postid"];
-            NSString *postTitle = [[myResponse objectAtIndex:i] objectForKey:@"title"];
-            
-            NSDictionary *postDictionary = @{@"postID": postID,@"postTitle":postTitle};
-            [postsArray addObject:postDictionary];
-        }
-    }else if([methodName isEqualToString:@"wp.getPosts"]){
-        for (int i = 0; i < [myResponse count]; i++) {
-            NSString *postID = [[myResponse objectAtIndex:i] objectForKey:@"post_id"];
-            NSString *postTitle = [[myResponse objectAtIndex:i] objectForKey:@"post_title"];
-            NSString *postContent = [[myResponse objectAtIndex:i] objectForKey:@"post_content"];
-            
-            NSDictionary *postDictionary = @{@"postID": postID,@"postTitle":postTitle,@"postContent":postContent};
-            
-            [postsArray addObject:postDictionary];
-        }
-    }
-    
-    return postsArray;
+    self.myPosts = block();
+    [self.tableView reloadData];
+    [indicatorView stopAnimating];
+    self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem;
 }
 
 @end

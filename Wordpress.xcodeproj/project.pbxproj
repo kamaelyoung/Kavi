@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5A2AB6A218DABD47000D9605 /* KCPostListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2AB6A118DABD47000D9605 /* KCPostListTableViewController.m */; };
 		5A42F25D18E3C06000FE6085 /* KCPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A42F25B18E3C06000FE6085 /* KCPostTableViewCell.m */; };
 		5A42F25E18E3C06000FE6085 /* KCPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A42F25C18E3C06000FE6085 /* KCPostTableViewCell.xib */; };
 		5AE4A0AA18E286160007759A /* KCRootNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4A0A918E286160007759A /* KCRootNavigationController.m */; };
@@ -43,8 +42,6 @@
 
 /* Begin PBXFileReference section */
 		2ED28D173AA34971908983B2 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
-		5A2AB6A018DABD47000D9605 /* KCPostListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCPostListTableViewController.h; path = Controller/KCPostListTableViewController.h; sourceTree = "<group>"; };
-		5A2AB6A118DABD47000D9605 /* KCPostListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCPostListTableViewController.m; path = Controller/KCPostListTableViewController.m; sourceTree = "<group>"; };
 		5A42F25A18E3C06000FE6085 /* KCPostTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCPostTableViewCell.h; path = View/KCPostTableViewCell.h; sourceTree = "<group>"; };
 		5A42F25B18E3C06000FE6085 /* KCPostTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCPostTableViewCell.m; path = View/KCPostTableViewCell.m; sourceTree = "<group>"; };
 		5A42F25C18E3C06000FE6085 /* KCPostTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KCPostTableViewCell.xib; path = View/KCPostTableViewCell.xib; sourceTree = "<group>"; };
@@ -211,8 +208,6 @@
 				5AE4A4A818D981C30000DB21 /* KCPostsTableViewController.m */,
 				5AE4A4AA18DA88590000DB21 /* KCCategoriesTableViewController.h */,
 				5AE4A4AB18DA88590000DB21 /* KCCategoriesTableViewController.m */,
-				5A2AB6A018DABD47000D9605 /* KCPostListTableViewController.h */,
-				5A2AB6A118DABD47000D9605 /* KCPostListTableViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -358,7 +353,6 @@
 				5AE4A4A918D981C30000DB21 /* KCPostsTableViewController.m in Sources */,
 				5AE4A46A18D93F800000DB21 /* KCAppDelegate.m in Sources */,
 				5AE4A0AA18E286160007759A /* KCRootNavigationController.m in Sources */,
-				5A2AB6A218DABD47000D9605 /* KCPostListTableViewController.m in Sources */,
 				5AE4A46618D93F800000DB21 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
