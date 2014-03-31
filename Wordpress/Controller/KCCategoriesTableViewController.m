@@ -45,6 +45,7 @@
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                                   initWithCustomView:rightIndicatorView];
         [rightIndicatorView startAnimating];
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         
         WPRequest *getCategoriesRequest = [self.requestManager createRequest];
         [self.requestManager setWPRequest:getCategoriesRequest
@@ -111,6 +112,7 @@
             self.myCategories = [self retrieveResponse:(NSMutableArray *)[response object]];
             [self.tableView reloadData];
             [rightIndicatorView stopAnimating];
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         }
         else if([methodName isEqualToString:@"wp.getPosts"]){
             HandleResponseBlock WPBlock = ^(void){
@@ -187,7 +189,7 @@ didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
     if ([self.myPostViewControllers objectAtIndex:indexPath.row] == [NSNull null]) {
         KCPostsTableViewController *viewController = [self createPostsTableViewControllerAndInsertIntoMyPostViewControllersAtIndex:indexPath.row];
         self.selectedCategory  = indexPath.row;
-        NSLog(@"%@",self.myPostViewControllers);
+//        NSLog(@"%@",self.myPostViewControllers);
         [self.navigationController pushViewController:viewController animated:YES];
     }else{
         self.selectedCategory = indexPath.row;
@@ -200,7 +202,7 @@ didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
     KCPostsTableViewController *postsTableViewController = [[KCPostsTableViewController alloc] init];
     
     NSString *termID = [[self.myCategories objectAtIndex:index] objectForKey:@"term_id"];
-    NSDictionary *filter = @{@"number":@"10",@"category":termID};
+    NSDictionary *filter = @{@"number":@"10",@"category":termID,@"post_status": @"publish",@"author":@"1"};
     WPRequest *postsRequest = [self.requestManager createRequest];
     [self.requestManager setWPRequest:postsRequest
                                Method:@"wp.getPosts"

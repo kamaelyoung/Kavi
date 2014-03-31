@@ -32,6 +32,7 @@
 {
     if (!_recentPostsTableViewController) {
         _recentPostsTableViewController = [[KCPostsTableViewController alloc] init];
+        _recentPostsTableViewController.view.frame = CGRectMake(0.0f, 64.0f, [UIScreen mainScreen].bounds.size.width, CGFLOAT_MAX);
     }
     return _recentPostsTableViewController;
 }
@@ -56,13 +57,15 @@
         self.view.backgroundColor = [UIColor whiteColor];
         [self pushViewController:self.recentPostsTableViewController animated:YES];
         
-
-        
-        WPRequest *getRecentPostTitlesRequest = [self.requestManager createRequest];
-        [self.requestManager setWPRequest:getRecentPostTitlesRequest
-                                   Method:@"mt.getRecentPostTitles"
-                           withParameters:@[@"1",getRecentPostTitlesRequest.myUsername,getRecentPostTitlesRequest.myPassword,@"10"]];
-        [self.requestManager spawnConnectWithWPRequest:getRecentPostTitlesRequest delegate:self];
+        WPRequest *getPostsRequest = [self.requestManager createRequest];
+        NSDictionary *filter = @{@"post_status": @"publish",@"number":@"10",@"author":@"1"};
+        [self.requestManager setWPRequest:getPostsRequest
+                                   Method:@"wp.getPosts"
+                           withParameters:@[@"1",getPostsRequest.myUsername,
+                                            getPostsRequest.myPassword,
+                                            filter
+                                            ]];
+        [self.requestManager spawnConnectWithWPRequest:getPostsRequest delegate:self];
     }
     return self;
 }
@@ -97,26 +100,25 @@
     
     if ([methodName isEqualToString:@"wp.getUsersBlogs"]) {
         self.recentPostsTableViewController.title = [[rawResponse lastObject] objectForKey:@"blogName"];
-    }else if ([methodName isEqualToString:@"mt.getRecentPostTitles"]){
-        HandleResponseBlock MTBlock = ^(void){
-            NSMutableArray *MTPostsArray = [NSMutableArray array];
+    }else if ([methodName isEqualToString:@"wp.getPosts"]){
+        HandleResponseBlock WPBlock = ^(void){
+            NSMutableArray *WPPostsArray = [NSMutableArray array];
             for (int i = 0; i < [rawResponse count]; i++) {
-                NSString *postID = [[rawResponse objectAtIndex:i] objectForKey:@"postid"];
-                NSString *postTitle = [[rawResponse objectAtIndex:i] objectForKey:@"title"];
-                NSDictionary *postDictionary = @{@"postID": postID,
-                                                 @"postTitle":postTitle,
-                                                 @"postContent":[NSNull null]};
+                NSString *postID = [[rawResponse objectAtIndex:i] objectForKey:@"post_id"];
+                NSString *postTitle = [[rawResponse objectAtIndex:i] objectForKey:@"post_title"];
+                NSString *postContent = [[rawResponse objectAtIndex:i] objectForKey:@"post_content"];
+                NSDictionary *postDictionary = @{@"postID": postID,@"postTitle":postTitle,@"postContent":postContent};
+                [WPPostsArray addObject:postDictionary];
                 
-                [MTPostsArray addObject:postDictionary];
                 self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
                 [[UIBarButtonItem alloc] initWithTitle:@"分类"
                                                  style:UIBarButtonItemStylePlain
                                                 target:self
                                                 action:@selector(selectCategoriesTableViewController)];
             }
-            return MTPostsArray;
+            return WPPostsArray;
         };
-        [self.recentPostsTableViewController handleResponse:MTBlock];
+        [self.recentPostsTableViewController handleResponse:WPBlock];
     }
 }
 

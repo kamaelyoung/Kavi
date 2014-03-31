@@ -10,6 +10,7 @@
 #import "WPRequestManager.h"
 #import "KCPostTableViewCell.h"
 #import "KCRootNavigationController.h"
+#import "KCPostPageViewController.h"
 
 @interface KCPostsTableViewController ()
 {
@@ -34,6 +35,7 @@
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
                                                  initWithCustomView:indicatorView];
         [indicatorView startAnimating];
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     }
     return self;
 }
@@ -100,6 +102,15 @@
     return 64.0f;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *post = self.myPosts[indexPath.row];
+    KCPostPageViewController *viewController = [[KCPostPageViewController alloc] init];
+    viewController.myPost = (NSMutableDictionary *)post;
+    [self.navigationController pushViewController:viewController animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
 #pragma mark - Handle Response Wrapper
 - (void)handleResponse:(HandleResponseBlock)block
 {
@@ -107,6 +118,7 @@
     [self.tableView reloadData];
     [indicatorView stopAnimating];
     self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem;
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 @end
