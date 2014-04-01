@@ -1,13 +1,16 @@
 PODS:
   - NSData+Base64 (1.0.0)
+  - SVPullToRefresh (HEAD based on 0.4.1)
   - xmlrpc (HEAD based on 2.3.3):
     - NSData+Base64 (~> 1.0.0)
 
 DEPENDENCIES:
+  - SVPullToRefresh (HEAD)
   - xmlrpc (HEAD)
 
 SPEC CHECKSUMS:
   NSData+Base64: 4819562faee4544e3cf5703f2139820b09732b28
+  SVPullToRefresh: 61a0e4bd12bd6f8e3465909810b0fbeb1a28d5f2
   xmlrpc: 9ebaa6298ce90ff0c3c30404681f2030bdde54db
 
 COCOAPODS: 0.29.0

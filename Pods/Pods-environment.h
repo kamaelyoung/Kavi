@@ -12,6 +12,12 @@
 #define COCOAPODS_VERSION_MINOR_NSData_Base64 0
 #define COCOAPODS_VERSION_PATCH_NSData_Base64 0
 
+// SVPullToRefresh
+#define COCOAPODS_POD_AVAILABLE_SVPullToRefresh
+#define COCOAPODS_VERSION_MAJOR_SVPullToRefresh 0
+#define COCOAPODS_VERSION_MINOR_SVPullToRefresh 4
+#define COCOAPODS_VERSION_PATCH_SVPullToRefresh 1
+
 // xmlrpc
 #define COCOAPODS_POD_AVAILABLE_xmlrpc
 #define COCOAPODS_VERSION_MAJOR_xmlrpc 2

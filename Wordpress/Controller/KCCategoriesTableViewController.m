@@ -126,7 +126,8 @@
                 }
                 return WPPostsArray;
             };
-            [[self.myPostViewControllers objectAtIndex:self.selectedCategory] handleResponse:WPBlock];
+            [[self.myPostViewControllers objectAtIndex:self.selectedCategory]
+             handleResponse:WPBlock];
         }
     }
 }
@@ -189,11 +190,11 @@ didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
     if ([self.myPostViewControllers objectAtIndex:indexPath.row] == [NSNull null]) {
         KCPostsTableViewController *viewController = [self createPostsTableViewControllerAndInsertIntoMyPostViewControllersAtIndex:indexPath.row];
         self.selectedCategory  = indexPath.row;
-//        NSLog(@"%@",self.myPostViewControllers);
         [self.navigationController pushViewController:viewController animated:YES];
     }else{
         self.selectedCategory = indexPath.row;
         [self.navigationController pushViewController:[self.myPostViewControllers objectAtIndex:indexPath.row] animated:YES];
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
     }
 }
 
@@ -209,7 +210,7 @@ didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
                        withParameters:@[@"1",postsRequest.myUsername,postsRequest.myPassword,filter]];
     [self.requestManager spawnConnectWithWPRequest:postsRequest delegate:self];
     [self.myPostViewControllers replaceObjectAtIndex:index withObject:postsTableViewController];
-//    [self.myPostViewControllers insertObject:postsTableViewController atIndex:index];
+    
     postsTableViewController.title = [[self.myCategories objectAtIndex:index] objectForKey:@"name"];
     return postsTableViewController;
 }

@@ -18,24 +18,21 @@
 }
 @property (nonatomic,strong) NSString *myNavigationBarTitle;
 @property (nonatomic,strong) NSMutableArray *myPosts;
+@property (nonatomic,strong) NSMutableArray *postPageArray;
 
 @end
 
 @implementation KCPostsTableViewController
 @synthesize myPosts = _myPosts;
 @synthesize myNavigationBarTitle = _myNavigationBarTitle;
+@synthesize postPageArray = _postPageArray;
 
 #pragma mark - Inital Method
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        indicatorView = [[UIActivityIndicatorView alloc]
-                         initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-                                                 initWithCustomView:indicatorView];
-        [indicatorView startAnimating];
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+        self.view.frame = [UIScreen mainScreen].bounds;
     }
     return self;
 }
@@ -54,11 +51,27 @@
     }
 }
 
+- (NSMutableArray *)postPageArray
+{
+    if (!_postPageArray){
+        _postPageArray = [NSMutableArray array];
+        for(int i = 0; i < [self.myPosts count]; i++){
+            [_postPageArray addObject:[NSNull null]];
+        }
+    }
+    return _postPageArray;
+}
 #pragma mark - ViewController life cycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    indicatorView = [[UIActivityIndicatorView alloc]
+                     initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+                                             initWithCustomView:indicatorView];
+    [indicatorView startAnimating];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -104,11 +117,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *post = self.myPosts[indexPath.row];
-    KCPostPageViewController *viewController = [[KCPostPageViewController alloc] init];
-    viewController.myPost = (NSMutableDictionary *)post;
-    [self.navigationController pushViewController:viewController animated:YES];
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    KCPostPageViewController *viewController;
+    
+    if ([self.postPageArray objectAtIndex:indexPath.row] == [NSNull null]){
+        viewController= [[KCPostPageViewController alloc] initWithNibName:nil bundle:nil];
+        viewController.myPost = self.myPosts[indexPath.row];
+        [self.postPageArray replaceObjectAtIndex:indexPath.row withObject:viewController];
+    }
+    [self.navigationController pushViewController:
+     [self.postPageArray objectAtIndex:indexPath.row] animated:YES];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 #pragma mark - Handle Response Wrapper

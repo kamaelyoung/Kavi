@@ -32,7 +32,6 @@
 {
     if (!_recentPostsTableViewController) {
         _recentPostsTableViewController = [[KCPostsTableViewController alloc] init];
-        _recentPostsTableViewController.view.frame = CGRectMake(0.0f, 64.0f, [UIScreen mainScreen].bounds.size.width, CGFLOAT_MAX);
     }
     return _recentPostsTableViewController;
 }
@@ -51,7 +50,8 @@
         WPRequest *getBlogNameRequest = [self.requestManager createRequest];
         [self.requestManager setWPRequest:getBlogNameRequest
                                    Method:@"wp.getUsersBlogs"
-                           withParameters:@[getBlogNameRequest.myUsername,getBlogNameRequest.myPassword]];
+                           withParameters:@[getBlogNameRequest.myUsername,
+                                            getBlogNameRequest.myPassword]];
         [self.requestManager spawnConnectWithWPRequest:getBlogNameRequest delegate:self];
         
         self.view.backgroundColor = [UIColor whiteColor];
@@ -107,19 +107,21 @@
                 NSString *postID = [[rawResponse objectAtIndex:i] objectForKey:@"post_id"];
                 NSString *postTitle = [[rawResponse objectAtIndex:i] objectForKey:@"post_title"];
                 NSString *postContent = [[rawResponse objectAtIndex:i] objectForKey:@"post_content"];
-                NSDictionary *postDictionary = @{@"postID": postID,@"postTitle":postTitle,@"postContent":postContent};
+                NSDictionary *postDictionary = @{@"postID": postID,
+                                                 @"postTitle":postTitle,
+                                                 @"postContent":postContent};
                 [WPPostsArray addObject:postDictionary];
-                
-                self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
-                [[UIBarButtonItem alloc] initWithTitle:@"分类"
-                                                 style:UIBarButtonItemStylePlain
-                                                target:self
-                                                action:@selector(selectCategoriesTableViewController)];
             }
             return WPPostsArray;
         };
         [self.recentPostsTableViewController handleResponse:WPBlock];
     }
+    self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
+    [[UIBarButtonItem alloc] initWithTitle:@"分类"
+                                     style:UIBarButtonItemStylePlain
+                                    target:self
+                                    action:@selector(selectCategoriesTableViewController)];
+    
 }
 
 - (void)request:(XMLRPCRequest *)request
