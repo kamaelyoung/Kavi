@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 kavi chen. All rights reserved.
 //
 
+
+
 #import "KCPostsTableViewController.h"
 #import "WPRequestManager.h"
 #import "KCPostTableViewCell.h"
@@ -55,6 +57,15 @@
     }
 }
 
+/**
+ *  The Getter of self.postPageArray
+ *
+ *  Insert loaded instances of KCPostPageViewController, the length of this array must be as 
+ *  same as the length of self.myPosts. If some position in this array is empty, set object in
+ *  this index as [NSNull null].
+ *
+ *  @return _postPageArray
+ */
 - (NSMutableArray *)postPageArray
 {
     if (!_postPageArray){
@@ -66,6 +77,11 @@
     return _postPageArray;
 }
 
+/**
+ *  The Getter of self.myFilter
+ *  Use this iVar in the request to filter the posts in response
+ *  @return _myFilter
+ */
 - (NSMutableDictionary *)myFilter
 {
     if (!_myFilter){
@@ -84,6 +100,10 @@
                                              initWithCustomView:indicatorView];
     [indicatorView startAnimating];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
+    /**
+     *  SVPullToRefresh Stuff
+     */
     
     __weak KCPostsTableViewController *self_ = self;
     [self.tableView addInfiniteScrollingWithActionHandler:^(void){
@@ -156,6 +176,11 @@
 }
 
 #pragma mark - Handle Response Wrapper
+/**
+ *  Handle posts in raw response object, trim and insert them into the specific array
+ *
+ *  @param block
+ */
 - (void)handleResponse:(HandleResponseBlock)block
 {
     self.myPosts = block();
@@ -184,7 +209,7 @@
         [self.tableView.infiniteScrollingView stopAnimating];
         [self stopNetworkActivity];
         [self.tableView reloadData];
-        [self.myFilter setValue:[NSString stringWithFormat:@"%d",[self.myPosts count]]
+        [self.myFilter setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[self.myPosts count]]
                          forKey:@"offset"];
         
         NSInteger offset = [self.myPosts count] - [self.postPageArray count];

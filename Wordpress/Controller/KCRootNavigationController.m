@@ -42,6 +42,16 @@
 }
 
 #pragma mark - inital method
+/**
+ *  Send getBlogNameRequest to get your blog information.
+ *  Send getPostsRequest to get recent 10 posts.
+ *  Both request set delegate as self.
+ *
+ *  @param nibNameOrNil
+ *  @param nibBundleOrNil
+ *
+ *  @return self
+ */
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -63,7 +73,6 @@
         [self.recentPostsTableViewController.myFilter setValue:@"10" forKey:@"number"];
         [self.recentPostsTableViewController.myFilter setValue:@"1" forKey:@"author"];
         
-//        NSLog(@"%@",self.recentPostsTableViewController.myFilter);
         
         [self.requestManager setWPRequest:getPostsRequest
                                    Method:@"wp.getPosts"
@@ -86,18 +95,6 @@
     return _sharedInstance;
 }
 
-#pragma mark - ViewController LifeCycle
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-}
-
 #pragma mark - XMLRPConnectionDelegate
 - (void)request:(XMLRPCRequest *)request didReceiveResponse:(XMLRPCResponse *)response
 {
@@ -105,12 +102,17 @@
     NSArray *rawResponse = [response object];
     
     if ([methodName isEqualToString:@"wp.getUsersBlogs"]) {
-        self.recentPostsTableViewController.title = [[rawResponse lastObject] objectForKey:@"blogName"];
+        
+        self.recentPostsTableViewController.title =
+        [[rawResponse lastObject] objectForKey:@"blogName"];
+        
     }else if ([methodName isEqualToString:@"wp.getPosts"]){
+
         HandleResponseBlock WPBlock = ^(void){
             NSMutableArray *WPPostsArray = [NSMutableArray array];
             NSLog(@"%@",rawResponse);
             for (int i = 0; i < [rawResponse count]; i++) {
+                
                 NSString *postID = [[rawResponse objectAtIndex:i] objectForKey:@"post_id"];
                 NSString *postTitle = [[rawResponse objectAtIndex:i] objectForKey:@"post_title"];
                 NSString *postContent = [[rawResponse objectAtIndex:i] objectForKey:@"post_content"];
@@ -118,14 +120,20 @@
                                                  @"postTitle":postTitle,
                                                  @"postContent":postContent};
                 [WPPostsArray addObject:postDictionary];
+                
             }
             return WPPostsArray;
         };
+        
+        // Handle the raw response and return the value to self.recentPostsTableViewController.myPosts
         [self.recentPostsTableViewController handleResponse:WPBlock];
+        
+        // Set offset in filter to 10 (10 recent posts loaded)
         [self.recentPostsTableViewController.myFilter setValue:@"10" forKey:@"offset"];
     }
+    
     self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
-    [[UIBarButtonItem alloc] initWithTitle:@"分类"
+    [[UIBarButtonItem alloc] initWithTitle:@"Categories"
                                      style:UIBarButtonItemStylePlain
                                     target:self
                                     action:@selector(selectCategoriesTableViewController)];
