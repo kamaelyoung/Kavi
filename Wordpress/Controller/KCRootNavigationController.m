@@ -58,12 +58,18 @@
         [self pushViewController:self.recentPostsTableViewController animated:YES];
         
         WPRequest *getPostsRequest = [self.requestManager createRequest];
-        NSDictionary *filter = @{@"post_status": @"publish",@"number":@"10",@"author":@"1"};
+        
+        [self.recentPostsTableViewController.myFilter setValue:@"publish" forKey:@"post_status"];
+        [self.recentPostsTableViewController.myFilter setValue:@"10" forKey:@"number"];
+        [self.recentPostsTableViewController.myFilter setValue:@"1" forKey:@"author"];
+        
+//        NSLog(@"%@",self.recentPostsTableViewController.myFilter);
+        
         [self.requestManager setWPRequest:getPostsRequest
                                    Method:@"wp.getPosts"
                            withParameters:@[@"1",getPostsRequest.myUsername,
                                             getPostsRequest.myPassword,
-                                            filter
+                                            self.recentPostsTableViewController.myFilter
                                             ]];
         [self.requestManager spawnConnectWithWPRequest:getPostsRequest delegate:self];
     }
@@ -103,6 +109,7 @@
     }else if ([methodName isEqualToString:@"wp.getPosts"]){
         HandleResponseBlock WPBlock = ^(void){
             NSMutableArray *WPPostsArray = [NSMutableArray array];
+            NSLog(@"%@",rawResponse);
             for (int i = 0; i < [rawResponse count]; i++) {
                 NSString *postID = [[rawResponse objectAtIndex:i] objectForKey:@"post_id"];
                 NSString *postTitle = [[rawResponse objectAtIndex:i] objectForKey:@"post_title"];
@@ -115,6 +122,7 @@
             return WPPostsArray;
         };
         [self.recentPostsTableViewController handleResponse:WPBlock];
+        [self.recentPostsTableViewController.myFilter setValue:@"10" forKey:@"offset"];
     }
     self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
     [[UIBarButtonItem alloc] initWithTitle:@"分类"

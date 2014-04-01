@@ -11,8 +11,9 @@
 
 typedef NSMutableArray *(^HandleResponseBlock)(void);
 
-@interface KCPostsTableViewController : UITableViewController <UITableViewDelegate,UITableViewDataSource>
+@interface KCPostsTableViewController : UITableViewController <UITableViewDelegate,UITableViewDataSource,XMLRPCConnectionDelegate>
 
+@property (nonatomic,strong) NSMutableDictionary *myFilter;
 - (instancetype)init;
 - (void)handleResponse:(HandleResponseBlock)myTrimBlock;
 

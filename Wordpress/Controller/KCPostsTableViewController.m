@@ -11,6 +11,7 @@
 #import "KCPostTableViewCell.h"
 #import "KCRootNavigationController.h"
 #import "KCPostPageViewController.h"
+#import <SVPullToRefresh.h>
 
 @interface KCPostsTableViewController ()
 {
@@ -19,6 +20,7 @@
 @property (nonatomic,strong) NSString *myNavigationBarTitle;
 @property (nonatomic,strong) NSMutableArray *myPosts;
 @property (nonatomic,strong) NSMutableArray *postPageArray;
+@property (nonatomic,strong) WPRequestManager *requestManager;
 
 @end
 
@@ -26,6 +28,8 @@
 @synthesize myPosts = _myPosts;
 @synthesize myNavigationBarTitle = _myNavigationBarTitle;
 @synthesize postPageArray = _postPageArray;
+@synthesize requestManager = _requestManager;
+@synthesize myFilter = _myFilter;
 
 #pragma mark - Inital Method
 - (instancetype)init
@@ -61,8 +65,16 @@
     }
     return _postPageArray;
 }
-#pragma mark - ViewController life cycle
 
+- (NSMutableDictionary *)myFilter
+{
+    if (!_myFilter){
+        _myFilter = [[NSMutableDictionary alloc] init];
+    }
+    return _myFilter;
+}
+
+#pragma mark - ViewController life cycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -72,18 +84,32 @@
                                              initWithCustomView:indicatorView];
     [indicatorView startAnimating];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    self.title = @"";
+    
+    __weak KCPostsTableViewController *self_ = self;
+    [self.tableView addInfiniteScrollingWithActionHandler:^(void){
+        WPRequest *loadMorePostRequest = [self_.requestManager createRequest];
+        [self_.requestManager setWPRequest:loadMorePostRequest
+                                    Method:@"wp.getPosts"
+                            withParameters:@[@"1",
+                                             loadMorePostRequest.myUsername,
+                                             loadMorePostRequest.myPassword,
+                                             self_.myFilter]];
+        [self_.requestManager spawnConnectWithWPRequest:loadMorePostRequest
+                                               delegate:self_];
+        [self_ startNetworkActivity];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.title = self.myNavigationBarTitle;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.title = @"";
 }
 
 #pragma mark - UITableViewDelegate
@@ -104,7 +130,6 @@
                                                    options:nil];
         cell = [nib objectAtIndex:0];
     }
-    
     cell.postTitleLabel.text = [[self.myPosts objectAtIndex:indexPath.row]
                                 objectForKey:@"postTitle"];
     return cell;
@@ -135,9 +160,82 @@
 {
     self.myPosts = block();
     [self.tableView reloadData];
-    [indicatorView stopAnimating];
     self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem;
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    [self stopNetworkActivity];
 }
 
+#pragma mark - XMLRPCConnectionDelegate
+#pragma mark - XMLRPConnectionDelegate
+- (void)request:(XMLRPCRequest *)request didReceiveResponse:(XMLRPCResponse *)response
+{
+    NSString *methodName = request.method;
+    NSArray *rawResponse = [response object];
+    
+    if ([methodName isEqualToString:@"wp.getPosts"]){
+        for(int i = 0; i < [rawResponse count]; i++){
+            NSString *postID = [[rawResponse objectAtIndex:i] objectForKey:@"post_id"];
+            NSString *postTitle = [[rawResponse objectAtIndex:i] objectForKey:@"post_title"];
+            NSString *postContent = [[rawResponse objectAtIndex:i] objectForKey:@"post_content"];
+            NSDictionary *postDictionary = @{@"postID": postID,
+                                             @"postTitle":postTitle,
+                                             @"postContent":postContent};
+            [self.myPosts addObject:postDictionary];
+        }
+        [self.tableView.infiniteScrollingView stopAnimating];
+        [self stopNetworkActivity];
+        [self.tableView reloadData];
+        [self.myFilter setValue:[NSString stringWithFormat:@"%d",[self.myPosts count]]
+                         forKey:@"offset"];
+        
+        NSInteger offset = [self.myPosts count] - [self.postPageArray count];
+        for(int i = 0; i < offset; i++){
+            [self.postPageArray addObject:[NSNull null]];
+        }
+    }
+}
+
+- (void)request:(XMLRPCRequest *)request
+didSendBodyData:(float)percent
+{
+    NSString *methodName = request.method;
+    NSLog(@"%@,%f",methodName,percent);
+}
+
+
+- (void)request:(XMLRPCRequest *)request
+didFailWithError:(NSError *)error
+{
+    
+}
+
+- (BOOL)request:(XMLRPCRequest *)request
+canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
+{
+    return NO;
+}
+
+- (void)request:(XMLRPCRequest *)request
+didReceiveAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
+{
+    
+}
+
+- (void)request:(XMLRPCRequest *)request
+didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
+{
+    
+}
+
+#pragma mark - Network Activity
+- (void)startNetworkActivity
+{
+    [indicatorView startAnimating];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+}
+
+- (void)stopNetworkActivity
+{
+    [indicatorView stopAnimating];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
 @end

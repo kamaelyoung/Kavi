@@ -126,8 +126,9 @@
                 }
                 return WPPostsArray;
             };
-            [[self.myPostViewControllers objectAtIndex:self.selectedCategory]
-             handleResponse:WPBlock];
+            KCPostsTableViewController *selectedViewController = [self.myPostViewControllers objectAtIndex:self.selectedCategory];
+            [selectedViewController handleResponse:WPBlock];
+            [selectedViewController.myFilter setValue:@"10" forKey:@"offset"];
         }
     }
 }
@@ -203,11 +204,19 @@ didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
     KCPostsTableViewController *postsTableViewController = [[KCPostsTableViewController alloc] init];
     
     NSString *termID = [[self.myCategories objectAtIndex:index] objectForKey:@"term_id"];
-    NSDictionary *filter = @{@"number":@"10",@"category":termID,@"post_status": @"publish",@"author":@"1"};
+    [postsTableViewController.myFilter setValue:@"10" forKey:@"number"];
+    [postsTableViewController.myFilter setValue:termID forKey:@"category"];
+    [postsTableViewController.myFilter setValue:@"publish" forKey:@"post_status"];
+    [postsTableViewController.myFilter setValue:@"1" forKey:@"author"];
+//    NSDictionary *filter = @{@"number":@"10",@"category":termID,@"post_status": @"publish",@"author":@"1"};
     WPRequest *postsRequest = [self.requestManager createRequest];
     [self.requestManager setWPRequest:postsRequest
                                Method:@"wp.getPosts"
-                       withParameters:@[@"1",postsRequest.myUsername,postsRequest.myPassword,filter]];
+                       withParameters:@[@"1",
+                                        postsRequest.myUsername,
+                                        postsRequest.myPassword,
+                                        postsTableViewController.myFilter]];
+    
     [self.requestManager spawnConnectWithWPRequest:postsRequest delegate:self];
     [self.myPostViewControllers replaceObjectAtIndex:index withObject:postsTableViewController];
     
@@ -224,8 +233,9 @@ didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
             [firstLevelCategories addObject:category];
         }
     }
-    NSSet *ignoredCategories = [NSSet setWithObjects:@"其他", @"李孟蓉的日記", @"阅读收藏", nil];
-    return [self trimCategaries:firstLevelCategories withIgnoredSet:ignoredCategories];
+//    NSSet *ignoredCategories = [NSSet setWithObjects:@"其他", @"李孟蓉的日記", @"阅读收藏", nil];
+//    return [self trimCategaries:firstLevelCategories withIgnoredSet:ignoredCategories];
+    return firstLevelCategories;
 }
 
 - (NSMutableArray *)trimCategaries:(NSMutableArray *)categories withIgnoredSet:(NSSet *)set
