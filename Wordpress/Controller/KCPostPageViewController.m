@@ -9,50 +9,50 @@
 #import "KCPostPageViewController.h"
 
 @interface KCPostPageViewController ()
-//@property (nonatomic,strong) UIWebView *webView;
+@property (nonatomic,strong) UIWebView *webView;
 @end
 
 @implementation KCPostPageViewController
 @synthesize myPost = _myPost;
-//@synthesize webView = _webView;
+@synthesize webView = _webView;
 
 #pragma mark - Initial Function
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithMyPost:(NSMutableDictionary *)myPost
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self) {
-        //        self.view.backgroundColor = [UIColor whiteColor];
+        self.myPost = myPost;
+        [self.view addSubview:self.webView];
     }
     return self;
 }
 
 #pragma mark - Setter & Getter
-//- (UIWebView *)webView
-//{
-//    if(!_webView){
-//        _webView = [[UIWebView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-//    }
-//    return _webView;
-//}
 
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSMutableString *postContent = [NSMutableString stringWithString:@"<link rel=\"stylesheet\" href = \"style.css\" type=\"text/css\"/>"];
+    NSString *prefix = @"<link rel=\"stylesheet\" href = \"style.css\" type=\"text/css\"/>";
+    NSMutableString *postContent = [NSMutableString string];
+    [postContent appendString:prefix];
     [postContent appendString:[self.myPost objectForKey:@"postContent"]];
+    
     NSString *mainBundleDirectory = [[NSBundle mainBundle] resourcePath];
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    [webView loadHTMLString:postContent
+    [self.webView loadHTMLString:postContent
                     baseURL:[NSURL fileURLWithPath:mainBundleDirectory]];
-    [self.view addSubview:webView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.title = [self.myPost objectForKey:@"postTitle"];
+    // webView 的 Size 要与 self.view.frame.size 保持一致
+    self.webView.frame = CGRectMake(CGPointZero.x,
+                                    CGPointZero.y,
+                                    self.view.frame.size.width,
+                                    self.view.frame.size.height);
 }
 
 - (void)viewDidAppear:(BOOL)animated

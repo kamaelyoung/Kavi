@@ -39,6 +39,7 @@
     self = [super init];
     if (self) {
         self.view.frame = [UIScreen mainScreen].bounds;
+//        self.automaticallyAdjustsScrollViewInsets = NO;
     }
     return self;
 }
@@ -94,6 +95,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     indicatorView = [[UIActivityIndicatorView alloc]
                      initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
@@ -106,7 +108,8 @@
      */
     
     __weak KCPostsTableViewController *self_ = self;
-    [self.tableView addInfiniteScrollingWithActionHandler:^(void){
+    
+    [self.tableView addPullToRefreshWithActionHandler:^(void){
         WPRequest *loadMorePostRequest = [self_.requestManager createRequest];
         [self_.requestManager setWPRequest:loadMorePostRequest
                                     Method:@"wp.getPosts"
@@ -117,7 +120,8 @@
         [self_.requestManager spawnConnectWithWPRequest:loadMorePostRequest
                                                delegate:self_];
         [self_ startNetworkActivity];
-    }];
+//        self_.tableView.contentOffset = CGPointMake(0.0f, 64.0f);
+    }position:SVPullToRefreshPositionBottom];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -165,10 +169,12 @@
     KCPostPageViewController *viewController;
     
     if ([self.postPageArray objectAtIndex:indexPath.row] == [NSNull null]){
-        viewController= [[KCPostPageViewController alloc] initWithNibName:nil bundle:nil];
-        viewController.myPost = self.myPosts[indexPath.row];
+//        viewController= [[KCPostPageViewController alloc] initWithNibName:nil bundle:nil];
+        viewController = [[KCPostPageViewController alloc] initWithMyPost:[self.myPosts objectAtIndex:indexPath.row]];
+//        viewController.myPost = self.myPosts[indexPath.row];
         [self.postPageArray replaceObjectAtIndex:indexPath.row withObject:viewController];
     }
+//    self.navigationController.navigationBar.translucent = YES;
     [self.navigationController pushViewController:
      [self.postPageArray objectAtIndex:indexPath.row] animated:YES];
     
@@ -200,15 +206,15 @@
         for(int i = 0; i < [rawResponse count]; i++){
             NSString *postID = [[rawResponse objectAtIndex:i] objectForKey:@"post_id"];
             NSString *postTitle = [[rawResponse objectAtIndex:i] objectForKey:@"post_title"];
-            NSString *postContent = [[rawResponse objectAtIndex:i] objectForKey:@"post_content"];
+            NSMutableString *postContent = [[rawResponse objectAtIndex:i] objectForKey:@"post_content"];
             NSDictionary *postDictionary = @{@"postID": postID,
                                              @"postTitle":postTitle,
                                              @"postContent":postContent};
             [self.myPosts addObject:postDictionary];
         }
-        [self.tableView.infiniteScrollingView stopAnimating];
+        [self.tableView.pullToRefreshView stopAnimating];
+//        [self.tableView.infiniteScrollingView stopAnimating];
         [self stopNetworkActivity];
-        [self.tableView reloadData];
         [self.myFilter setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[self.myPosts count]]
                          forKey:@"offset"];
         
@@ -216,6 +222,7 @@
         for(int i = 0; i < offset; i++){
             [self.postPageArray addObject:[NSNull null]];
         }
+        [self.tableView reloadData];
     }
 }
 

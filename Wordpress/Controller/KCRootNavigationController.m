@@ -32,6 +32,8 @@
 {
     if (!_recentPostsTableViewController) {
         _recentPostsTableViewController = [[KCPostsTableViewController alloc] init];
+        _recentPostsTableViewController.view.frame = [[UIScreen mainScreen] bounds];
+//        _recentPostsTableViewController.view.frame = CGRectMake(0.0f, 64.0f, 320.0f, 528.0f);
     }
     return _recentPostsTableViewController;
 }
@@ -57,6 +59,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         
+        // if the navigation bar is translucent, SVPullToRefresh give rise to first tableview cell cut-off.
+        self.navigationBar.translucent = NO;
         WPRequest *getBlogNameRequest = [self.requestManager createRequest];
         [self.requestManager setWPRequest:getBlogNameRequest
                                    Method:@"wp.getUsersBlogs"
@@ -110,7 +114,6 @@
 
         HandleResponseBlock WPBlock = ^(void){
             NSMutableArray *WPPostsArray = [NSMutableArray array];
-            NSLog(@"%@",rawResponse);
             for (int i = 0; i < [rawResponse count]; i++) {
                 
                 NSString *postID = [[rawResponse objectAtIndex:i] objectForKey:@"post_id"];
@@ -133,7 +136,7 @@
     }
     
     self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
-    [[UIBarButtonItem alloc] initWithTitle:@"Categories"
+    [[UIBarButtonItem alloc] initWithTitle:@"分类"
                                      style:UIBarButtonItemStylePlain
                                     target:self
                                     action:@selector(selectCategoriesTableViewController)];

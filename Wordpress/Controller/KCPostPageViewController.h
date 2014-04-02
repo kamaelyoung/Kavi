@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <XMLRPC.h>
 
-@interface KCPostPageViewController : UIViewController
+@interface KCPostPageViewController : UIViewController 
 
 @property (nonatomic,strong) NSMutableDictionary *myPost;
+
+- (instancetype)initWithMyPost:(NSMutableDictionary *)myPost;
 
 @end

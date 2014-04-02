@@ -10,6 +10,7 @@
 #import "WPRequestManager.h"
 #import "KCPostsTableViewController.h"
 #import "KCRootNavigationController.h"
+#import "KCCategoriesTableViewController+filterSpecifiedCategories.h"
 
 @interface KCCategoriesTableViewController ()
 {
@@ -231,20 +232,9 @@ didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
             [firstLevelCategories addObject:category];
         }
     }
-//    NSSet *ignoredCategories = [NSSet setWithObjects:@"其他", @"李孟蓉的日記", @"阅读收藏", nil];
-//    return [self trimCategaries:firstLevelCategories withIgnoredSet:ignoredCategories];
-    return firstLevelCategories;
-}
-
-- (NSMutableArray *)trimCategaries:(NSMutableArray *)categories withIgnoredSet:(NSSet *)set
-{
-    for (int i = 0; i < [categories count]; i++) {
-        NSDictionary *category = [categories objectAtIndex:i];
-        if ([set containsObject:[category objectForKey:@"name"]]) {
-            [categories removeObjectAtIndex:i];
-        }
-    }
-    return categories;
+    NSSet *ignoredCategories = [NSSet setWithObjects:@"其他", @"李孟蓉的日記", @"阅读收藏", nil]; // the name of ignored categories
+    return [self trimCategaries:firstLevelCategories withIgnoredSet:ignoredCategories];
+//    return firstLevelCategories;
 }
 
 #pragma  mark - handle error 

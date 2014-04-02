@@ -43,6 +43,7 @@
 - (WPRequest *)createRequest
 {
     WPRequest *request = [[WPRequest alloc] init];
+//    request setTimeoutInterval:
     return request;
 }
 

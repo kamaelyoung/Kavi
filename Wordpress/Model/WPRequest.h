@@ -7,7 +7,6 @@
 //
 
 #import "XMLRPCRequest.h"
-#import "Constants.h"
 
 @interface WPRequest : XMLRPCRequest
 @property (nonatomic,readonly) NSString *myUsername;
