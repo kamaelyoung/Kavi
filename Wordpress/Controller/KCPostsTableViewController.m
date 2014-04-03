@@ -14,6 +14,7 @@
 #import "KCRootNavigationController.h"
 #import "KCPostPageViewController.h"
 #import <SVPullToRefresh.h>
+#import <SVProgressHUD.h>
 
 @interface KCPostsTableViewController ()
 {
@@ -23,6 +24,7 @@
 @property (nonatomic,strong) NSMutableArray *myPosts;
 @property (nonatomic,strong) NSMutableArray *postPageArray;
 @property (nonatomic,strong) WPRequestManager *requestManager;
+@property (nonatomic,strong) KCPostRequestManager *postRequestManager;
 
 @end
 
@@ -32,6 +34,7 @@
 @synthesize postPageArray = _postPageArray;
 @synthesize requestManager = _requestManager;
 @synthesize myFilter = _myFilter;
+@synthesize postRequestManager = _postRequestManager;
 
 #pragma mark - Inital Method
 - (instancetype)init
@@ -39,7 +42,8 @@
     self = [super init];
     if (self) {
         self.view.frame = [UIScreen mainScreen].bounds;
-//        self.automaticallyAdjustsScrollViewInsets = NO;
+        self.tableView.showsPullToRefresh = NO;
+        [self.tableView setHidden:YES];
     }
     return self;
 }
@@ -89,6 +93,14 @@
         _myFilter = [[NSMutableDictionary alloc] init];
     }
     return _myFilter;
+}
+
+- (KCPostRequestManager *)postRequestManager
+{
+    if (!_postRequestManager) {
+        _postRequestManager = [[KCPostRequestManager alloc] init];
+    }
+    return _postRequestManager;
 }
 
 #pragma mark - ViewController life cycle
@@ -193,10 +205,11 @@
     [self.tableView reloadData];
     self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem;
     [self stopNetworkActivity];
+    [self.tableView setHidden:NO];
+    self.tableView.showsPullToRefresh = YES;
 }
 
 #pragma mark - XMLRPCConnectionDelegate
-#pragma mark - XMLRPConnectionDelegate
 - (void)request:(XMLRPCRequest *)request didReceiveResponse:(XMLRPCResponse *)response
 {
     NSString *methodName = request.method;
@@ -237,7 +250,13 @@ didSendBodyData:(float)percent
 - (void)request:(XMLRPCRequest *)request
 didFailWithError:(NSError *)error
 {
-    
+    NSString *methodName = request.method;
+    if ([methodName isEqualToString:@"wp.getPosts"]) {
+        [self stopNetworkActivity];
+        [SVProgressHUD showErrorWithStatus:@"Network Error"];
+        [self.tableView reloadData];
+        [self.tableView setHidden:NO];
+    }
 }
 
 - (BOOL)request:(XMLRPCRequest *)request
@@ -257,6 +276,13 @@ didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
 {
     
 }
+
+#pragma KCPostRequestManagerDelegate
+- (void)achievePostResponse:(NSArray *)response
+{
+    NSLog(@"%@",response);
+}
+
 
 #pragma mark - Network Activity
 - (void)startNetworkActivity

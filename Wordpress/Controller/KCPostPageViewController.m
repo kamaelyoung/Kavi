@@ -28,6 +28,13 @@
 }
 
 #pragma mark - Setter & Getter
+- (UIWebView *)webView
+{
+    if (!_webView) {
+        _webView = [[UIWebView alloc] init];
+    }
+    return _webView;
+}
 
 #pragma mark - View Controller Life Cycle
 - (void)viewDidLoad
@@ -42,6 +49,7 @@
     NSString *mainBundleDirectory = [[NSBundle mainBundle] resourcePath];
     [self.webView loadHTMLString:postContent
                     baseURL:[NSURL fileURLWithPath:mainBundleDirectory]];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <XMLRPC.h>
+#import "KCPostRequestManager.h"
 
 typedef NSMutableArray *(^HandleResponseBlock)(void);
 
-@interface KCPostsTableViewController : UITableViewController <UITableViewDelegate,UITableViewDataSource,XMLRPCConnectionDelegate>
+@interface KCPostsTableViewController : UITableViewController <UITableViewDelegate,UITableViewDataSource,XMLRPCConnectionDelegate,KCPostRequestManagerDelegate>
 
 @property (nonatomic,strong) NSMutableDictionary *myFilter;
 - (instancetype)init;

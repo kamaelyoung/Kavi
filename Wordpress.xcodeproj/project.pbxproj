@@ -10,6 +10,7 @@
 		5A25AFEE18E6B8F8006843CD /* KCPostPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A25AFED18E6B8F8006843CD /* KCPostPageViewController.m */; };
 		5A25AFF018E91B9C006843CD /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 5A25AFEF18E91B9C006843CD /* style.css */; };
 		5A25AFF318EABDB6006843CD /* KCCategoriesTableViewController+filterSpecifiedCategories.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A25AFF218EABDB6006843CD /* KCCategoriesTableViewController+filterSpecifiedCategories.m */; };
+		5A391C3C18ECE776008BF9C0 /* KCPostRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A391C3B18ECE776008BF9C0 /* KCPostRequestManager.m */; };
 		5A42F25D18E3C06000FE6085 /* KCPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A42F25B18E3C06000FE6085 /* KCPostTableViewCell.m */; };
 		5A42F25E18E3C06000FE6085 /* KCPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A42F25C18E3C06000FE6085 /* KCPostTableViewCell.xib */; };
 		5AE4A0AA18E286160007759A /* KCRootNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4A0A918E286160007759A /* KCRootNavigationController.m */; };
@@ -50,6 +51,8 @@
 		5A25AFEF18E91B9C006843CD /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 		5A25AFF118EABDB6006843CD /* KCCategoriesTableViewController+filterSpecifiedCategories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KCCategoriesTableViewController+filterSpecifiedCategories.h"; path = "Controller/KCCategoriesTableViewController+filterSpecifiedCategories.h"; sourceTree = "<group>"; };
 		5A25AFF218EABDB6006843CD /* KCCategoriesTableViewController+filterSpecifiedCategories.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KCCategoriesTableViewController+filterSpecifiedCategories.m"; path = "Controller/KCCategoriesTableViewController+filterSpecifiedCategories.m"; sourceTree = "<group>"; };
+		5A391C3A18ECE776008BF9C0 /* KCPostRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCPostRequestManager.h; path = Controller/KCPostRequestManager.h; sourceTree = "<group>"; };
+		5A391C3B18ECE776008BF9C0 /* KCPostRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCPostRequestManager.m; path = Controller/KCPostRequestManager.m; sourceTree = "<group>"; };
 		5A42F25A18E3C06000FE6085 /* KCPostTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCPostTableViewCell.h; path = View/KCPostTableViewCell.h; sourceTree = "<group>"; };
 		5A42F25B18E3C06000FE6085 /* KCPostTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCPostTableViewCell.m; path = View/KCPostTableViewCell.m; sourceTree = "<group>"; };
 		5A42F25C18E3C06000FE6085 /* KCPostTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KCPostTableViewCell.xib; path = View/KCPostTableViewCell.xib; sourceTree = "<group>"; };
@@ -219,6 +222,8 @@
 				5A25AFF218EABDB6006843CD /* KCCategoriesTableViewController+filterSpecifiedCategories.m */,
 				5A25AFEC18E6B8F8006843CD /* KCPostPageViewController.h */,
 				5A25AFED18E6B8F8006843CD /* KCPostPageViewController.m */,
+				5A391C3A18ECE776008BF9C0 /* KCPostRequestManager.h */,
+				5A391C3B18ECE776008BF9C0 /* KCPostRequestManager.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -360,6 +365,7 @@
 			files = (
 				5AE4A4A618D96CDA0000DB21 /* WPRequestManager.m in Sources */,
 				5A42F25D18E3C06000FE6085 /* KCPostTableViewCell.m in Sources */,
+				5A391C3C18ECE776008BF9C0 /* KCPostRequestManager.m in Sources */,
 				5AE4A4A318D968EB0000DB21 /* WPRequest.m in Sources */,
 				5A25AFEE18E6B8F8006843CD /* KCPostPageViewController.m in Sources */,
 				5AE4A4AC18DA88590000DB21 /* KCCategoriesTableViewController.m in Sources */,
