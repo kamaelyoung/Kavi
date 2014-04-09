@@ -15,13 +15,20 @@
 - (void)achievePostResponse:(NSArray *)response;
 @end
 
-typedef void *(^completeBlock)(void);
+//typedef void *(^completeBlock)(void);
 
 @interface KCPostRequestManager : NSObject <XMLRPCConnectionDelegate>
-@property (nonatomic,strong) id<KCPostRequestManagerDelegate> delegate;
 
-//+ (instancetype)sharedInstance;
+typedef void (^CompleteBlock)(KCPostRequestManager *);
+typedef NSDictionary* (^FilterBlock)(void);
+
+@property (nonatomic,strong) id<KCPostRequestManagerDelegate> delegate;
+@property (nonatomic,strong) NSMutableDictionary *myFilter;
+@property NSUInteger myOffset;
+
 - (instancetype)init;
-- (void)sendGetPostsRequestWithFilter:(NSDictionary *)filter
-                        CompleteBlock:(completeBlock)block;
+- (void)sendGetPostsRequest;
+- (void)sendGetPostsRequestWithCompleteBlock:(CompleteBlock)block;
+- (void)setMyOffset:(NSUInteger)myOffset;
+
 @end

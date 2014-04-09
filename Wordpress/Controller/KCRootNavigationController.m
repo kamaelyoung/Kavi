@@ -11,6 +11,7 @@
 #import "KCPostsTableViewController.h"
 #import "KCCategoriesTableViewController.h"
 #import <SVProgressHUD.h>
+#import <SVPullToRefresh.h>
 
 @interface KCRootNavigationController ()
 {
@@ -19,12 +20,14 @@
 @property (nonatomic,strong) WPRequestManager *requestManager;
 @property (nonatomic,strong) KCPostsTableViewController *recentPostsTableViewController;
 @property (nonatomic,strong) KCCategoriesTableViewController *categoriesTableViewController;
+@property (nonatomic,strong) KCPostRequestManager *postRequestManager;
 @end
 
 @implementation KCRootNavigationController
 @synthesize requestManager = _requestManager;
 @synthesize recentPostsTableViewController = _recentPostsTableViewController;
 @synthesize categoriesTableViewController = _categoriesTableViewController;
+@synthesize postRequestManager = _postRequestManager;
 
 #pragma mark - Setter & Getter
 - (WPRequestManager *)requestManager
@@ -46,6 +49,14 @@
     return [KCCategoriesTableViewController sharedInstance];
 }
 
+- (KCPostRequestManager *)postRequestManager
+{
+    if (!_postRequestManager) {
+        _postRequestManager = [[KCPostRequestManager alloc] init];
+    }
+    return _postRequestManager;
+}
+
 #pragma mark - inital method
 /**
  *  Send getBlogNameRequest to get your blog information.
@@ -64,19 +75,6 @@
         // if the navigation bar is translucent, SVPullToRefresh give rise to first tableview cell cut-off.
         self.navigationBar.translucent = NO;
         self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-        [self sendInitialGetUsersBlogsRequest];
-        [self sendInitialGetPostsRequest];
-        
-        [self pushViewController:self.recentPostsTableViewController animated:YES];
-        [self.recentPostsTableViewController.myFilter setValue:@"publish" forKey:@"post_status"];
-        [self.recentPostsTableViewController.myFilter setValue:@"10" forKey:@"number"];
-        [self.recentPostsTableViewController.myFilter setValue:@"1" forKey:@"author"];
-        
-        leftNavigationBarButtomItem =
-        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-                                                      target:self
-                                                      action:@selector(sendInitialGetPostsRequest)];
-        
     }
     return self;
 }
@@ -91,6 +89,29 @@
     return _sharedInstance;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self sendInitialGetUsersBlogsRequest];
+    self.postRequestManager.delegate = self;
+    
+    __weak KCRootNavigationController *self_ = self;
+    
+    [self.postRequestManager.myFilter setValue:@"publish" forKey:@"post_status"];
+    [self.postRequestManager.myFilter setValue:@"8" forKey:@"number"];
+    [self.postRequestManager.myFilter setValue:@"1" forKey:@"author"];
+    [self.postRequestManager.myFilter setValue:@"0" forKey:@"offset"];
+    
+    [self pushViewController:self.recentPostsTableViewController animated:NO];
+    [self.recentPostsTableViewController.tableView addPullToRefreshWithActionHandler:^(void){
+        [self_.postRequestManager sendGetPostsRequest];
+    }position:SVPullToRefreshPositionBottom];
+    
+    [self.recentPostsTableViewController.tableView triggerPullToRefresh];
+    [self.recentPostsTableViewController startNetworkActivity];
+    
+}
+
 #pragma mark - XMLRPConnectionDelegate
 - (void)request:(XMLRPCRequest *)request didReceiveResponse:(XMLRPCResponse *)response
 {
@@ -102,31 +123,6 @@
         self.recentPostsTableViewController.title =
         [[rawResponse lastObject] objectForKey:@"blogName"];
         
-    }else if ([methodName isEqualToString:@"wp.getPosts"]){
-        
-        HandleResponseBlock WPBlock = ^(void){
-            NSMutableArray *WPPostsArray = [NSMutableArray array];
-            for (int i = 0; i < [rawResponse count]; i++) {
-                
-                NSString *postID = [[rawResponse objectAtIndex:i] objectForKey:@"post_id"];
-                NSString *postTitle = [[rawResponse objectAtIndex:i] objectForKey:@"post_title"];
-                NSString *postContent = [[rawResponse objectAtIndex:i] objectForKey:@"post_content"];
-                NSDictionary *postDictionary = @{@"postID": postID,
-                                                 @"postTitle":postTitle,
-                                                 @"postContent":postContent};
-                [WPPostsArray addObject:postDictionary];
-                
-            }
-            return WPPostsArray;
-        };
-        
-
-
-        // Handle the raw response and return the value to self.recentPostsTableViewController.myPosts
-        [self.recentPostsTableViewController handleResponse:WPBlock];
-        
-        // Set offset in filter to 10 (10 recent posts loaded)
-        [self.recentPostsTableViewController.myFilter setValue:@"10" forKey:@"offset"];
     }
     
     self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
@@ -157,7 +153,6 @@ didFailWithError:(NSError *)error
         [SVProgressHUD showErrorWithStatus:@"Network Error"];
         [self.recentPostsTableViewController.tableView reloadData];
         [self.recentPostsTableViewController.tableView setHidden:NO];
-//        self.recentPostsTableViewController.navigationItem.leftBarButtonItem = leftNavigationBarButtomItem;
     }
     NSLog(@"error");
 }
@@ -197,29 +192,28 @@ didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
     [self.requestManager spawnConnectWithWPRequest:getBlogNameRequest delegate:self];
 }
 
-- (void)sendInitialGetPostsRequest
+#pragma mark - KCPostRequestManagerDelegate
+- (void)achievePostResponse:(NSArray *)response
 {
-    WPRequest *getPostsRequest = [self.requestManager createRequest];
-    [getPostsRequest setTimeoutInterval:30];
-    [self.requestManager setWPRequest:getPostsRequest
-                               Method:@"wp.getPosts"
-                       withParameters:@[@"1",getPostsRequest.myUsername,
-                                        getPostsRequest.myPassword,
-                                        self.recentPostsTableViewController.myFilter
-                                        ]];
-    [self.requestManager spawnConnectWithWPRequest:getPostsRequest delegate:self];
-}
-
-#pragma mark - Network Activity
-- (void)startNetworkActivity
-{
-//    [indicatorView startAnimating];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-}
-
-- (void)stopNetworkActivity
-{
-//    [indicatorView stopAnimating];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    // Handle the raw response and return the value to self.recentPostsTableViewController.myPosts
+    [self.recentPostsTableViewController handleResponse:^(KCPostsTableViewController *viewController){
+//        NSMutableArray *WPPostsArray = [NSMutableArray array];
+        for (int i = 0; i < [response count]; i++) {
+    
+            NSString *postID = [[response objectAtIndex:i] objectForKey:@"post_id"];
+            NSString *postTitle = [[response objectAtIndex:i] objectForKey:@"post_title"];
+            NSString *postContent = [[response objectAtIndex:i] objectForKey:@"post_content"];
+            NSDictionary *postDictionary = @{@"postID": postID,
+                                             @"postTitle":postTitle,
+                                             @"postContent":postContent};
+            [viewController.myPosts addObject:postDictionary];
+        }
+    }];
+    NSString *newOffSet = [NSString stringWithFormat:@"%lu",(unsigned long)[self.recentPostsTableViewController.myPosts count]];
+    [self.postRequestManager.myFilter setObject:newOffSet forKey:@"offset"];
+    [self.recentPostsTableViewController.tableView reloadData];
+    [self.recentPostsTableViewController.tableView.pullToRefreshView stopAnimating];
+    
+    [self.recentPostsTableViewController stopNetworkActivity];
 }
 @end

@@ -21,10 +21,7 @@
     UIActivityIndicatorView *indicatorView;
 }
 @property (nonatomic,strong) NSString *myNavigationBarTitle;
-@property (nonatomic,strong) NSMutableArray *myPosts;
 @property (nonatomic,strong) NSMutableArray *postPageArray;
-@property (nonatomic,strong) WPRequestManager *requestManager;
-@property (nonatomic,strong) KCPostRequestManager *postRequestManager;
 
 @end
 
@@ -32,9 +29,6 @@
 @synthesize myPosts = _myPosts;
 @synthesize myNavigationBarTitle = _myNavigationBarTitle;
 @synthesize postPageArray = _postPageArray;
-@synthesize requestManager = _requestManager;
-@synthesize myFilter = _myFilter;
-@synthesize postRequestManager = _postRequestManager;
 
 #pragma mark - Inital Method
 - (instancetype)init
@@ -42,17 +36,15 @@
     self = [super init];
     if (self) {
         self.view.frame = [UIScreen mainScreen].bounds;
-        self.tableView.showsPullToRefresh = NO;
-        [self.tableView setHidden:YES];
+        self.tableView.showsPullToRefresh = YES;
+//        [self.tableView setHidden:YES];
+        indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+
     }
     return self;
 }
 
 #pragma mark - Getter & Setter
-- (WPRequestManager *)requestManager
-{
-    return [WPRequestManager sharedInstance];
-}
 
 - (void)setTitle:(NSString *)title
 {
@@ -60,6 +52,14 @@
     if (![title isEqualToString:@""]) {
         self.myNavigationBarTitle = title;
     }
+}
+
+- (NSMutableArray *)myPosts
+{
+    if (!_myPosts) {
+        _myPosts = [[NSMutableArray alloc] init];
+    }
+    return _myPosts;
 }
 
 /**
@@ -82,58 +82,10 @@
     return _postPageArray;
 }
 
-/**
- *  The Getter of self.myFilter
- *  Use this iVar in the request to filter the posts in response
- *  @return _myFilter
- */
-- (NSMutableDictionary *)myFilter
-{
-    if (!_myFilter){
-        _myFilter = [[NSMutableDictionary alloc] init];
-    }
-    return _myFilter;
-}
-
-- (KCPostRequestManager *)postRequestManager
-{
-    if (!_postRequestManager) {
-        _postRequestManager = [[KCPostRequestManager alloc] init];
-    }
-    return _postRequestManager;
-}
-
 #pragma mark - ViewController life cycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    indicatorView = [[UIActivityIndicatorView alloc]
-                     initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-                                             initWithCustomView:indicatorView];
-    [indicatorView startAnimating];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    
-    /**
-     *  SVPullToRefresh Stuff
-     */
-    
-    __weak KCPostsTableViewController *self_ = self;
-    
-    [self.tableView addPullToRefreshWithActionHandler:^(void){
-        WPRequest *loadMorePostRequest = [self_.requestManager createRequest];
-        [self_.requestManager setWPRequest:loadMorePostRequest
-                                    Method:@"wp.getPosts"
-                            withParameters:@[@"1",
-                                             loadMorePostRequest.myUsername,
-                                             loadMorePostRequest.myPassword,
-                                             self_.myFilter]];
-        [self_.requestManager spawnConnectWithWPRequest:loadMorePostRequest
-                                               delegate:self_];
-        [self_ startNetworkActivity];
-//        self_.tableView.contentOffset = CGPointMake(0.0f, 64.0f);
-    }position:SVPullToRefreshPositionBottom];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -142,18 +94,23 @@
     self.title = self.myNavigationBarTitle;
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+//    [self.tableView triggerPullToRefresh];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     self.title = @"";
 }
 
-#pragma mark - UITableViewDelegate
-#pragma mark - UITableViewDataSource
+#pragma mark - UITableViewDelegate && UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.myPosts count];
+    return self.myPosts ? [self.myPosts count] : 0 ;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -181,12 +138,9 @@
     KCPostPageViewController *viewController;
     
     if ([self.postPageArray objectAtIndex:indexPath.row] == [NSNull null]){
-//        viewController= [[KCPostPageViewController alloc] initWithNibName:nil bundle:nil];
         viewController = [[KCPostPageViewController alloc] initWithMyPost:[self.myPosts objectAtIndex:indexPath.row]];
-//        viewController.myPost = self.myPosts[indexPath.row];
         [self.postPageArray replaceObjectAtIndex:indexPath.row withObject:viewController];
     }
-//    self.navigationController.navigationBar.translucent = YES;
     [self.navigationController pushViewController:
      [self.postPageArray objectAtIndex:indexPath.row] animated:YES];
     
@@ -201,7 +155,7 @@
  */
 - (void)handleResponse:(HandleResponseBlock)block
 {
-    self.myPosts = block();
+    block(self);
     [self.tableView reloadData];
     self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem;
     [self stopNetworkActivity];
@@ -209,84 +163,11 @@
     self.tableView.showsPullToRefresh = YES;
 }
 
-#pragma mark - XMLRPCConnectionDelegate
-- (void)request:(XMLRPCRequest *)request didReceiveResponse:(XMLRPCResponse *)response
-{
-    NSString *methodName = request.method;
-    NSArray *rawResponse = [response object];
-    
-    if ([methodName isEqualToString:@"wp.getPosts"]){
-        for(int i = 0; i < [rawResponse count]; i++){
-            NSString *postID = [[rawResponse objectAtIndex:i] objectForKey:@"post_id"];
-            NSString *postTitle = [[rawResponse objectAtIndex:i] objectForKey:@"post_title"];
-            NSMutableString *postContent = [[rawResponse objectAtIndex:i] objectForKey:@"post_content"];
-            NSDictionary *postDictionary = @{@"postID": postID,
-                                             @"postTitle":postTitle,
-                                             @"postContent":postContent};
-            [self.myPosts addObject:postDictionary];
-        }
-        [self.tableView.pullToRefreshView stopAnimating];
-//        [self.tableView.infiniteScrollingView stopAnimating];
-        [self stopNetworkActivity];
-        [self.myFilter setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[self.myPosts count]]
-                         forKey:@"offset"];
-        
-        NSInteger offset = [self.myPosts count] - [self.postPageArray count];
-        for(int i = 0; i < offset; i++){
-            [self.postPageArray addObject:[NSNull null]];
-        }
-        [self.tableView reloadData];
-    }
-}
-
-- (void)request:(XMLRPCRequest *)request
-didSendBodyData:(float)percent
-{
-    NSString *methodName = request.method;
-    NSLog(@"%@,%f",methodName,percent);
-}
-
-
-- (void)request:(XMLRPCRequest *)request
-didFailWithError:(NSError *)error
-{
-    NSString *methodName = request.method;
-    if ([methodName isEqualToString:@"wp.getPosts"]) {
-        [self stopNetworkActivity];
-        [SVProgressHUD showErrorWithStatus:@"Network Error"];
-        [self.tableView reloadData];
-        [self.tableView setHidden:NO];
-    }
-}
-
-- (BOOL)request:(XMLRPCRequest *)request
-canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
-{
-    return NO;
-}
-
-- (void)request:(XMLRPCRequest *)request
-didReceiveAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
-{
-    
-}
-
-- (void)request:(XMLRPCRequest *)request
-didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
-{
-    
-}
-
-#pragma KCPostRequestManagerDelegate
-- (void)achievePostResponse:(NSArray *)response
-{
-    NSLog(@"%@",response);
-}
-
-
 #pragma mark - Network Activity
 - (void)startNetworkActivity
 {
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+                                             initWithCustomView:indicatorView];
     [indicatorView startAnimating];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }

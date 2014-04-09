@@ -10,12 +10,17 @@
 #import <XMLRPC.h>
 #import "KCPostRequestManager.h"
 
-typedef NSMutableArray *(^HandleResponseBlock)(void);
+@interface KCPostsTableViewController : UITableViewController <UITableViewDelegate,UITableViewDataSource>
 
-@interface KCPostsTableViewController : UITableViewController <UITableViewDelegate,UITableViewDataSource,XMLRPCConnectionDelegate,KCPostRequestManagerDelegate>
+//@property (nonatomic,strong) NSMutableDictionary *myFilter;
+@property (nonatomic,strong) NSMutableArray *myPosts;
 
-@property (nonatomic,strong) NSMutableDictionary *myFilter;
+typedef void (^HandleResponseBlock)(KCPostsTableViewController *);
+
 - (instancetype)init;
 - (void)handleResponse:(HandleResponseBlock)myTrimBlock;
+- (void)startNetworkActivity;
+- (void)stopNetworkActivity;
+
 
 @end

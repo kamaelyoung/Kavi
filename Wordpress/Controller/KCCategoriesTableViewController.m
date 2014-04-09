@@ -112,27 +112,27 @@
         NSLog(@"Fault string: %@",[response faultString]);
     }else{
         if ([methodName isEqualToString:@"wp.getTerms"]) {
-            self.myCategories = [self retrieveResponse:(NSMutableArray *)[response object]];
+            self.myCategories = [self retrieveResponse:(NSMutableArray *)rawResponse];
             [self.tableView reloadData];
             [rightIndicatorView stopAnimating];
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         }
-        else if([methodName isEqualToString:@"wp.getPosts"]){
-            HandleResponseBlock WPBlock = ^(void){
-                NSMutableArray *WPPostsArray = [NSMutableArray array];
-                for (int i = 0; i < [rawResponse count]; i++) {
-                    NSString *postID = [[rawResponse objectAtIndex:i] objectForKey:@"post_id"];
-                    NSString *postTitle = [[rawResponse objectAtIndex:i] objectForKey:@"post_title"];
-                    NSString *postContent = [[rawResponse objectAtIndex:i] objectForKey:@"post_content"];
-                    NSDictionary *postDictionary = @{@"postID": postID,@"postTitle":postTitle,@"postContent":postContent};
-                    [WPPostsArray addObject:postDictionary];
-                }
-                return WPPostsArray;
-            };
-            KCPostsTableViewController *selectedViewController = [self.myPostsTableViewControllers objectAtIndex:self.selectedCategory];
-            [selectedViewController handleResponse:WPBlock];
-            [selectedViewController.myFilter setValue:@"10" forKey:@"offset"];
-        }
+//        else if([methodName isEqualToString:@"wp.getPosts"]){
+//            HandleResponseBlock WPBlock = ^(void){
+//                NSMutableArray *WPPostsArray = [NSMutableArray array];
+//                for (int i = 0; i < [rawResponse count]; i++) {
+//                    NSString *postID = [[rawResponse objectAtIndex:i] objectForKey:@"post_id"];
+//                    NSString *postTitle = [[rawResponse objectAtIndex:i] objectForKey:@"post_title"];
+//                    NSString *postContent = [[rawResponse objectAtIndex:i] objectForKey:@"post_content"];
+//                    NSDictionary *postDictionary = @{@"postID": postID,@"postTitle":postTitle,@"postContent":postContent};
+//                    [WPPostsArray addObject:postDictionary];
+//                }
+//                return WPPostsArray;
+//            };
+//            KCPostsTableViewController *selectedViewController = [self.myPostsTableViewControllers objectAtIndex:self.selectedCategory];
+//            [selectedViewController handleResponse:WPBlock];
+//            [selectedViewController.myFilter setValue:@"10" forKey:@"offset"];
+//        }
     }
 }
 
@@ -201,26 +201,26 @@ didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
 
 - (void)createPostsTableViewControllerAndInsertIntoMyPostsTableViewControllersAtIndex:(NSInteger)index
 {
-    KCPostsTableViewController *postsTableViewController = [[KCPostsTableViewController alloc] init];
-    
-    NSString *termID = [[self.myCategories objectAtIndex:index] objectForKey:@"term_id"];
-    [postsTableViewController.myFilter setValue:@"10" forKey:@"number"];
-    [postsTableViewController.myFilter setValue:termID forKey:@"category"];
-    [postsTableViewController.myFilter setValue:@"publish" forKey:@"post_status"];
-    [postsTableViewController.myFilter setValue:@"1" forKey:@"author"];
-
-    WPRequest *postsRequest = [self.requestManager createRequest];
-    [self.requestManager setWPRequest:postsRequest
-                               Method:@"wp.getPosts"
-                       withParameters:@[@"1",
-                                        postsRequest.myUsername,
-                                        postsRequest.myPassword,
-                                        postsTableViewController.myFilter]];
-    
-    [self.requestManager spawnConnectWithWPRequest:postsRequest delegate:self];
-    [self.myPostsTableViewControllers replaceObjectAtIndex:index withObject:postsTableViewController];
-    
-    postsTableViewController.title = [[self.myCategories objectAtIndex:index] objectForKey:@"name"];
+//    KCPostsTableViewController *postsTableViewController = [[KCPostsTableViewController alloc] init];
+//    
+//    NSString *termID = [[self.myCategories objectAtIndex:index] objectForKey:@"term_id"];
+//    [postsTableViewController.myFilter setValue:@"10" forKey:@"number"];
+//    [postsTableViewController.myFilter setValue:termID forKey:@"category"];
+//    [postsTableViewController.myFilter setValue:@"publish" forKey:@"post_status"];
+//    [postsTableViewController.myFilter setValue:@"1" forKey:@"author"];
+//
+//    WPRequest *postsRequest = [self.requestManager createRequest];
+//    [self.requestManager setWPRequest:postsRequest
+//                               Method:@"wp.getPosts"
+//                       withParameters:@[@"1",
+//                                        postsRequest.myUsername,
+//                                        postsRequest.myPassword,
+//                                        postsTableViewController.myFilter]];
+//    
+//    [self.requestManager spawnConnectWithWPRequest:postsRequest delegate:self];
+//    [self.myPostsTableViewControllers replaceObjectAtIndex:index withObject:postsTableViewController];
+//    
+//    postsTableViewController.title = [[self.myCategories objectAtIndex:index] objectForKey:@"name"];
 }
 
 #pragma mark - Categories Function
