@@ -15,7 +15,7 @@
 - (void)achieveBlogInfoResponse:(NSArray *)response;
 @end
 
-@interface KCBlogInfoRequestManager : NSObject
+@interface KCBlogInfoRequestManager : NSObject <XMLRPCConnectionDelegate>
 @property (nonatomic,strong) id<KCBlogInfoRequestManagerDelegate> delegate;
 
 - (instancetype)init;

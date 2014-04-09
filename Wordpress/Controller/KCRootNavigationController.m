@@ -21,6 +21,7 @@
 @property (nonatomic,strong) KCPostsTableViewController *recentPostsTableViewController;
 @property (nonatomic,strong) KCCategoriesTableViewController *categoriesTableViewController;
 @property (nonatomic,strong) KCPostRequestManager *postRequestManager;
+@property (nonatomic,strong) KCBlogInfoRequestManager *blogInfoRequestManager;
 @end
 
 @implementation KCRootNavigationController
@@ -28,6 +29,7 @@
 @synthesize recentPostsTableViewController = _recentPostsTableViewController;
 @synthesize categoriesTableViewController = _categoriesTableViewController;
 @synthesize postRequestManager = _postRequestManager;
+@synthesize blogInfoRequestManager = _blogInfoRequestManager;
 
 #pragma mark - Setter & Getter
 - (WPRequestManager *)requestManager
@@ -57,6 +59,13 @@
     return _postRequestManager;
 }
 
+- (KCBlogInfoRequestManager *)blogInfoRequestManager
+{
+    if (!_blogInfoRequestManager) {
+        _blogInfoRequestManager = [[KCBlogInfoRequestManager alloc] init];
+    }
+    return _blogInfoRequestManager;
+}
 #pragma mark - inital method
 /**
  *  Send getBlogNameRequest to get your blog information.
@@ -92,8 +101,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self sendInitialGetUsersBlogsRequest];
+    [self.blogInfoRequestManager sendGetBlogInfoRequest];
     self.postRequestManager.delegate = self;
+    self.blogInfoRequestManager.delegate = self;
     
     __weak KCRootNavigationController *self_ = self;
     
@@ -112,84 +122,10 @@
     
 }
 
-#pragma mark - XMLRPConnectionDelegate
-- (void)request:(XMLRPCRequest *)request didReceiveResponse:(XMLRPCResponse *)response
-{
-    NSString *methodName = request.method;
-    NSArray *rawResponse = [response object];
-    
-    if ([methodName isEqualToString:@"wp.getUsersBlogs"]) {
-        
-        self.recentPostsTableViewController.title =
-        [[rawResponse lastObject] objectForKey:@"blogName"];
-        
-    }
-    
-    self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
-    [[UIBarButtonItem alloc] initWithTitle:@"分类"
-                                     style:UIBarButtonItemStylePlain
-                                    target:self
-                                    action:@selector(selectCategoriesTableViewController)];
-    
-}
-
-- (void)request:(XMLRPCRequest *)request
-didSendBodyData:(float)percent
-{
-    NSString *methodName = request.method;
-    NSLog(@"%@,%f",methodName,percent);
-}
-
-
-- (void)request:(XMLRPCRequest *)request
-didFailWithError:(NSError *)error
-{
-    NSString *methodName = request.method;
-    
-    if ([methodName isEqualToString:@"wp.getUsersBlogs"]) {
-        self.recentPostsTableViewController.title = @"Blog";
-        
-    }else if ([methodName isEqualToString:@"wp.getPosts"]){
-        [SVProgressHUD showErrorWithStatus:@"Network Error"];
-        [self.recentPostsTableViewController.tableView reloadData];
-        [self.recentPostsTableViewController.tableView setHidden:NO];
-    }
-    NSLog(@"error");
-}
-
-- (BOOL)request:(XMLRPCRequest *)request
-canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
-{
-    return NO;
-}
-
-- (void)request:(XMLRPCRequest *)request
-didReceiveAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
-{
-    
-}
-
-- (void)request:(XMLRPCRequest *)request
-didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
-{
-    
-}
-
 #pragma mark - Switch View Controller
 - (void)selectCategoriesTableViewController
 {
     [self pushViewController:self.categoriesTableViewController animated:YES];
-}
-
-#pragma mark - Send Request Method
-- (void)sendInitialGetUsersBlogsRequest
-{
-    WPRequest *getBlogNameRequest = [self.requestManager createRequest];
-    [self.requestManager setWPRequest:getBlogNameRequest
-                               Method:@"wp.getUsersBlogs"
-                       withParameters:@[getBlogNameRequest.myUsername,
-                                        getBlogNameRequest.myPassword]];
-    [self.requestManager spawnConnectWithWPRequest:getBlogNameRequest delegate:self];
 }
 
 #pragma mark - KCPostRequestManagerDelegate
@@ -215,5 +151,16 @@ didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
     [self.recentPostsTableViewController.tableView.pullToRefreshView stopAnimating];
     
     [self.recentPostsTableViewController stopNetworkActivity];
+}
+
+#pragma mark - KCBlogInfoRequestManagerDelegate
+- (void)achieveBlogInfoResponse:(NSArray *)response
+{
+    self.recentPostsTableViewController.title = [[response lastObject] objectForKey:@"blogName"];
+    self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
+    [[UIBarButtonItem alloc] initWithTitle:@"分类"
+                                     style:UIBarButtonItemStylePlain
+                                    target:self
+                                    action:@selector(selectCategoriesTableViewController)];
 }
 @end

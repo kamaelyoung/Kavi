@@ -45,6 +45,56 @@
 - (void)sendGetBlogInfoRequest
 {
     WPRequest *getBlogInfoRequest = [self.myRequestManager createRequest];
-    [self.myRequestManager setWPRequest:getBlogInfoRequest Method:@"wp.getUsersBlogs" withParameters:<#(NSArray *)#>]
+    [self.myRequestManager setWPRequest:getBlogInfoRequest
+                                 Method:@"wp.getUsersBlogs"
+                         withParameters:@[getBlogInfoRequest.myUsername,
+                                          getBlogInfoRequest.myPassword]];
+    [self.myRequestManager spawnConnectWithWPRequest:getBlogInfoRequest delegate:self];
+    [self.myRequestQueue addObject:getBlogInfoRequest];
 }
+
+#pragma mark - XMLRPConnectionDelegate
+- (void)request:(XMLRPCRequest *)request didReceiveResponse:(XMLRPCResponse *)response
+{
+    NSArray *rawResponse = [response object];
+    if ([self.myRequestQueue containsObject:request]) {
+        [self.delegate achieveBlogInfoResponse:rawResponse];
+        [self.myRequestQueue removeObject:request];
+    }else{
+        NSLog(@"Unrecognition Request in KCPostRequestController");
+    }
+}
+
+- (void)request:(XMLRPCRequest *)request
+didSendBodyData:(float)percent
+{
+    NSString *methodName = request.method;
+    NSLog(@"%@,%f",methodName,percent);
+}
+
+
+- (void)request:(XMLRPCRequest *)request
+didFailWithError:(NSError *)error
+{
+    
+}
+
+- (BOOL)request:(XMLRPCRequest *)request
+canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
+{
+    return NO;
+}
+
+- (void)request:(XMLRPCRequest *)request
+didReceiveAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
+{
+    
+}
+
+- (void)request:(XMLRPCRequest *)request
+didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
+{
+    
+}
+
 @end

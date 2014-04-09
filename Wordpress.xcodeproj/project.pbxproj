@@ -114,6 +114,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A81CA9318F4F3680059D0C3 /* Request Manager */ = {
+			isa = PBXGroup;
+			children = (
+				5AE4A4A418D96CDA0000DB21 /* WPRequestManager.h */,
+				5AE4A4A518D96CDA0000DB21 /* WPRequestManager.m */,
+				5A391C3A18ECE776008BF9C0 /* KCPostRequestManager.h */,
+				5A391C3B18ECE776008BF9C0 /* KCPostRequestManager.m */,
+				5A94BD7C18F4EBCD00B00F5A /* KCBlogInfoRequestManager.h */,
+				5A94BD7D18F4EBCD00B00F5A /* KCBlogInfoRequestManager.m */,
+			);
+			name = "Request Manager";
+			sourceTree = "<group>";
+		};
 		5AE4A44D18D93F800000DB21 = {
 			isa = PBXGroup;
 			children = (
@@ -213,10 +226,9 @@
 		5AE4A49018D9401D0000DB21 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				5A81CA9318F4F3680059D0C3 /* Request Manager */,
 				5AE4A0A818E286160007759A /* KCRootNavigationController.h */,
 				5AE4A0A918E286160007759A /* KCRootNavigationController.m */,
-				5AE4A4A418D96CDA0000DB21 /* WPRequestManager.h */,
-				5AE4A4A518D96CDA0000DB21 /* WPRequestManager.m */,
 				5AE4A4A718D981C30000DB21 /* KCPostsTableViewController.h */,
 				5AE4A4A818D981C30000DB21 /* KCPostsTableViewController.m */,
 				5AE4A4AA18DA88590000DB21 /* KCCategoriesTableViewController.h */,
@@ -225,10 +237,6 @@
 				5A25AFF218EABDB6006843CD /* KCCategoriesTableViewController+filterSpecifiedCategories.m */,
 				5A25AFEC18E6B8F8006843CD /* KCPostPageViewController.h */,
 				5A25AFED18E6B8F8006843CD /* KCPostPageViewController.m */,
-				5A391C3A18ECE776008BF9C0 /* KCPostRequestManager.h */,
-				5A391C3B18ECE776008BF9C0 /* KCPostRequestManager.m */,
-				5A94BD7C18F4EBCD00B00F5A /* KCBlogInfoRequestManager.h */,
-				5A94BD7D18F4EBCD00B00F5A /* KCBlogInfoRequestManager.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";

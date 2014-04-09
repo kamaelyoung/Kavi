@@ -10,8 +10,9 @@
 #import <UIKit/UIKit.h>
 #import <XMLRPC.h>
 #import "KCPostRequestManager.h"
+#import "KCBlogInfoRequestManager.h"
 
-@interface KCRootNavigationController : UINavigationController<KCPostRequestManagerDelegate>
+@interface KCRootNavigationController : UINavigationController<KCPostRequestManagerDelegate,KCBlogInfoRequestManagerDelegate>
 
 + (instancetype)sharedInstance;
 
