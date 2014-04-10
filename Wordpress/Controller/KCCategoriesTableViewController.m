@@ -17,16 +17,17 @@
     UIActivityIndicatorView *rightIndicatorView;
     UIBarButtonItem *rightRefreshButtonView;
 }
-@property (strong, nonatomic) WPRequestManager *requestManager;
 @property (strong, nonatomic) NSMutableArray *myCategories;
 @property (strong, nonatomic) NSMutableArray *myPostsTableViewControllers;
+@property (nonatomic,strong) KCGetTermsRequestManager *getTermsRequestManager;
+@property (nonatomic,strong) KCPostRequestManager *postRequestManager;
 @property NSInteger selectedCategory;
 @end
 
 @implementation KCCategoriesTableViewController
-@synthesize requestManager = _requestManager;
 @synthesize myCategories = _myCategories;
 @synthesize myPostsTableViewControllers = _myPostsTableViewControllers;
+@synthesize getTermsRequestManager = _getTermsRequestManager;
 
 #pragma mark - inital method
 + (instancetype)sharedInstance
@@ -43,32 +44,13 @@
 {
     self = [super init];
     if (self){
-        rightIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                                  initWithCustomView:rightIndicatorView];
-        [rightIndicatorView startAnimating];
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-        
-        WPRequest *getCategoriesRequest = [self.requestManager createRequest];
-        [self.requestManager setWPRequest:getCategoriesRequest
-                                   Method:@"wp.getTerms"
-                           withParameters:@[@"1",getCategoriesRequest.myUsername,
-                                            getCategoriesRequest.myPassword,
-                                            @"category"]];
-        
-        [self.requestManager spawnConnectWithWPRequest:getCategoriesRequest
-                                              delegate:self];
+
         
     }
     return self;
 }
 
 #pragma mark - Getter & Setter
-- (WPRequestManager *)requestManager
-{
-    return [WPRequestManager sharedInstance];
-}
-
 - (NSMutableArray *)myPostsTableViewControllers
 
 {
@@ -81,12 +63,36 @@
     return _myPostsTableViewControllers;
 }
 
+- (KCGetTermsRequestManager *)getTermsRequestManager
+{
+    if (!_getTermsRequestManager) {
+        _getTermsRequestManager = [[KCGetTermsRequestManager alloc] init];
+    }
+    return _getTermsRequestManager;
+}
+
+- (KCPostRequestManager *)postRequestManager
+{
+    if (!_postRequestManager) {
+        _postRequestManager = [[KCPostRequestManager alloc] init];
+    }
+    return _postRequestManager;
+}
+
 #pragma mark - ViewController life cycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    rightIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                              initWithCustomView:rightIndicatorView];
+    [self.getTermsRequestManager sendGetTermsRequest];
     
+    [rightIndicatorView startAnimating];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    self.getTermsRequestManager.delegate = self;
+    self.postRequestManager.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -101,75 +107,7 @@
     self.title = @"";
 }
 
-#pragma mark - XMLRPCConnectionDelegate
-- (void)request:(XMLRPCRequest *)request didReceiveResponse:(XMLRPCResponse *)response
-{
-    NSString *methodName = request.method;
-    NSArray *rawResponse = [response object];
-    
-    if([response isFault]){
-        NSLog(@"Fault Code: %@",[response faultCode]);
-        NSLog(@"Fault string: %@",[response faultString]);
-    }else{
-        if ([methodName isEqualToString:@"wp.getTerms"]) {
-            self.myCategories = [self retrieveResponse:(NSMutableArray *)rawResponse];
-            [self.tableView reloadData];
-            [rightIndicatorView stopAnimating];
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        }
-//        else if([methodName isEqualToString:@"wp.getPosts"]){
-//            HandleResponseBlock WPBlock = ^(void){
-//                NSMutableArray *WPPostsArray = [NSMutableArray array];
-//                for (int i = 0; i < [rawResponse count]; i++) {
-//                    NSString *postID = [[rawResponse objectAtIndex:i] objectForKey:@"post_id"];
-//                    NSString *postTitle = [[rawResponse objectAtIndex:i] objectForKey:@"post_title"];
-//                    NSString *postContent = [[rawResponse objectAtIndex:i] objectForKey:@"post_content"];
-//                    NSDictionary *postDictionary = @{@"postID": postID,@"postTitle":postTitle,@"postContent":postContent};
-//                    [WPPostsArray addObject:postDictionary];
-//                }
-//                return WPPostsArray;
-//            };
-//            KCPostsTableViewController *selectedViewController = [self.myPostsTableViewControllers objectAtIndex:self.selectedCategory];
-//            [selectedViewController handleResponse:WPBlock];
-//            [selectedViewController.myFilter setValue:@"10" forKey:@"offset"];
-//        }
-    }
-}
-
-- (void)request:(XMLRPCRequest *)request
-didSendBodyData:(float)percent
-{
-    NSLog(@"%@ %f",request.method,percent);
-}
-
-
-- (void)request:(XMLRPCRequest *)request
-didFailWithError:(NSError *)error
-{
-    rightRefreshButtonView = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(handleNetworkError)];
-}
-
-- (BOOL)request:(XMLRPCRequest *)request
-canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
-{
-    return NO;
-}
-
-- (void)request:(XMLRPCRequest *)request
-didReceiveAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
-{
-    
-}
-
-- (void)request:(XMLRPCRequest *)request
-didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
-{
-    
-}
-
-#pragma mark - UITableViewDelegate
-#pragma mark - UITableViewDataSource
-
+#pragma mark - UITableViewDelegate && UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.myCategories count];
@@ -201,26 +139,56 @@ didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
 
 - (void)createPostsTableViewControllerAndInsertIntoMyPostsTableViewControllersAtIndex:(NSInteger)index
 {
-//    KCPostsTableViewController *postsTableViewController = [[KCPostsTableViewController alloc] init];
-//    
-//    NSString *termID = [[self.myCategories objectAtIndex:index] objectForKey:@"term_id"];
-//    [postsTableViewController.myFilter setValue:@"10" forKey:@"number"];
-//    [postsTableViewController.myFilter setValue:termID forKey:@"category"];
-//    [postsTableViewController.myFilter setValue:@"publish" forKey:@"post_status"];
-//    [postsTableViewController.myFilter setValue:@"1" forKey:@"author"];
+    KCPostsTableViewController *postsTableViewController = [[KCPostsTableViewController alloc] init];
 //
-//    WPRequest *postsRequest = [self.requestManager createRequest];
-//    [self.requestManager setWPRequest:postsRequest
-//                               Method:@"wp.getPosts"
-//                       withParameters:@[@"1",
-//                                        postsRequest.myUsername,
-//                                        postsRequest.myPassword,
-//                                        postsTableViewController.myFilter]];
-//    
-//    [self.requestManager spawnConnectWithWPRequest:postsRequest delegate:self];
-//    [self.myPostsTableViewControllers replaceObjectAtIndex:index withObject:postsTableViewController];
-//    
-//    postsTableViewController.title = [[self.myCategories objectAtIndex:index] objectForKey:@"name"];
+    NSString *termID = [[self.myCategories objectAtIndex:index] objectForKey:@"term_id"];
+    [self.postRequestManager.myFilter setValue:@"8" forKey:@"number"];
+    [self.postRequestManager.myFilter setValue:termID forKey:@"category"];
+    [self.postRequestManager.myFilter setValue:@"publish" forKey:@"post_status"];
+    [self.postRequestManager.myFilter setValue:@"1" forKey:@"author"];
+    
+    [self.postRequestManager sendGetPostsRequest];
+
+    [self.myPostsTableViewControllers replaceObjectAtIndex:index withObject:postsTableViewController];
+    __weak KCCategoriesTableViewController *self_ = self;
+    [postsTableViewController.tableView addPullToRefreshWithActionHandler:^(void){
+        [self_.postRequestManager sendGetPostsRequest];
+    }position:SVPullToRefreshPositionBottom];
+    
+    postsTableViewController.title = [[self.myCategories objectAtIndex:index] objectForKey:@"name"];
+    [postsTableViewController startNetworkActivity];
+}
+
+#pragma mark - KCGetTermsRequestDelegate
+- (void)achieveTermsResponse:(NSArray *)response
+{
+    self.myCategories = [self retrieveResponse:(NSMutableArray *)response];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    [rightIndicatorView stopAnimating];
+    [self.tableView reloadData];
+}
+
+#pragma mark - KCPostRequestManagerDelegate
+- (void)achievePostResponse:(NSArray *)response
+{
+    KCPostsTableViewController *postsTableViewController = [self.myPostsTableViewControllers objectAtIndex:self.selectedCategory];
+    [postsTableViewController handleResponse:^(KCPostsTableViewController *viewController){
+        //        NSMutableArray *WPPostsArray = [NSMutableArray array];
+        for (int i = 0; i < [response count]; i++) {
+            
+            NSString *postID = [[response objectAtIndex:i] objectForKey:@"post_id"];
+            NSString *postTitle = [[response objectAtIndex:i] objectForKey:@"post_title"];
+            NSString *postContent = [[response objectAtIndex:i] objectForKey:@"post_content"];
+            NSDictionary *postDictionary = @{@"postID": postID,
+                                             @"postTitle":postTitle,
+                                             @"postContent":postContent};
+            [viewController.myPosts addObject:postDictionary];
+        }
+        [viewController stopNetworkActivity];
+    }];
+    
+    NSString *newOffSet = [NSString stringWithFormat:@"%lu",(unsigned long)[postsTableViewController.myPosts count]];
+    [self.postRequestManager.myFilter setObject:newOffSet forKey:@"offset"];
 }
 
 #pragma mark - Categories Function
@@ -240,15 +208,7 @@ didCancelAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge
 #pragma  mark - handle error 
 - (void)handleNetworkError
 {
-    WPRequest *getCategoriesRequest = [self.requestManager createRequest];
-    [self.requestManager setWPRequest:getCategoriesRequest
-                               Method:@"wp.getTerms"
-                       withParameters:@[@"1",getCategoriesRequest.myUsername,
-                                        getCategoriesRequest.myPassword,
-                                        @"category"]];
-    
-    [self.requestManager spawnConnectWithWPRequest:getCategoriesRequest
-                                          delegate:self];
+
 }
 
 @end

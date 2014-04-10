@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <XMLRPC.h>
-
-@interface KCCategoriesTableViewController : UITableViewController <XMLRPCConnectionDelegate,UITableViewDelegate,UITableViewDataSource>
+#import "KCGetTermsRequestManager.h"
+#import "KCPostRequestManager.h"
+@interface KCCategoriesTableViewController : UITableViewController <UITableViewDelegate,UITableViewDataSource,KCGetTermsRequestDelegate,KCPostRequestManagerDelegate>
 
 + (instancetype)sharedInstance;
 

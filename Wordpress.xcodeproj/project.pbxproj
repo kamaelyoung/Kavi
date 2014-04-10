@@ -10,10 +10,15 @@
 		5A25AFEE18E6B8F8006843CD /* KCPostPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A25AFED18E6B8F8006843CD /* KCPostPageViewController.m */; };
 		5A25AFF018E91B9C006843CD /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 5A25AFEF18E91B9C006843CD /* style.css */; };
 		5A25AFF318EABDB6006843CD /* KCCategoriesTableViewController+filterSpecifiedCategories.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A25AFF218EABDB6006843CD /* KCCategoriesTableViewController+filterSpecifiedCategories.m */; };
-		5A391C3C18ECE776008BF9C0 /* KCPostRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A391C3B18ECE776008BF9C0 /* KCPostRequestManager.m */; };
 		5A42F25D18E3C06000FE6085 /* KCPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A42F25B18E3C06000FE6085 /* KCPostTableViewCell.m */; };
 		5A42F25E18E3C06000FE6085 /* KCPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A42F25C18E3C06000FE6085 /* KCPostTableViewCell.xib */; };
-		5A94BD7E18F4EBCD00B00F5A /* KCBlogInfoRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A94BD7D18F4EBCD00B00F5A /* KCBlogInfoRequestManager.m */; };
+		5A71099B18F5237300EB85A1 /* KCCategoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71099A18F5237300EB85A1 /* KCCategoryTableViewController.m */; };
+		5A7109A118F52DFD00EB85A1 /* KCCategoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7109A018F52DFD00EB85A1 /* KCCategoryManager.m */; };
+		5A7109A418F53BEF00EB85A1 /* KCPostListInCategoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7109A318F53BEF00EB85A1 /* KCPostListInCategoryManager.m */; };
+		5A81CA9A18F4F41B0059D0C3 /* KCBlogInfoRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81CA9518F4F41B0059D0C3 /* KCBlogInfoRequestManager.m */; };
+		5A81CA9B18F4F41B0059D0C3 /* KCPostRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81CA9718F4F41B0059D0C3 /* KCPostRequestManager.m */; };
+		5A81CA9C18F4F41B0059D0C3 /* WPRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81CA9918F4F41B0059D0C3 /* WPRequestManager.m */; };
+		5A81CA9F18F4F4D80059D0C3 /* KCGetTermsRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81CA9E18F4F4D80059D0C3 /* KCGetTermsRequestManager.m */; };
 		5AE4A0AA18E286160007759A /* KCRootNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4A0A918E286160007759A /* KCRootNavigationController.m */; };
 		5AE4A45A18D93F800000DB21 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE4A45918D93F800000DB21 /* Foundation.framework */; };
 		5AE4A45C18D93F800000DB21 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE4A45B18D93F800000DB21 /* CoreGraphics.framework */; };
@@ -29,7 +34,6 @@
 		5AE4A48318D93F810000DB21 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5AE4A48118D93F810000DB21 /* InfoPlist.strings */; };
 		5AE4A48518D93F810000DB21 /* WordpressTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4A48418D93F810000DB21 /* WordpressTests.m */; };
 		5AE4A4A318D968EB0000DB21 /* WPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4A4A218D968EB0000DB21 /* WPRequest.m */; };
-		5AE4A4A618D96CDA0000DB21 /* WPRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4A4A518D96CDA0000DB21 /* WPRequestManager.m */; };
 		5AE4A4A918D981C30000DB21 /* KCPostsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4A4A818D981C30000DB21 /* KCPostsTableViewController.m */; };
 		5AE4A4AC18DA88590000DB21 /* KCCategoriesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4A4AB18DA88590000DB21 /* KCCategoriesTableViewController.m */; };
 		B0E568436612432490C17C30 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC12DA695FB64963BFB16FBD /* libPods.a */; };
@@ -52,13 +56,23 @@
 		5A25AFEF18E91B9C006843CD /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 		5A25AFF118EABDB6006843CD /* KCCategoriesTableViewController+filterSpecifiedCategories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KCCategoriesTableViewController+filterSpecifiedCategories.h"; path = "Controller/KCCategoriesTableViewController+filterSpecifiedCategories.h"; sourceTree = "<group>"; };
 		5A25AFF218EABDB6006843CD /* KCCategoriesTableViewController+filterSpecifiedCategories.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KCCategoriesTableViewController+filterSpecifiedCategories.m"; path = "Controller/KCCategoriesTableViewController+filterSpecifiedCategories.m"; sourceTree = "<group>"; };
-		5A391C3A18ECE776008BF9C0 /* KCPostRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCPostRequestManager.h; path = Controller/KCPostRequestManager.h; sourceTree = "<group>"; };
-		5A391C3B18ECE776008BF9C0 /* KCPostRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCPostRequestManager.m; path = Controller/KCPostRequestManager.m; sourceTree = "<group>"; };
 		5A42F25A18E3C06000FE6085 /* KCPostTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCPostTableViewCell.h; path = View/KCPostTableViewCell.h; sourceTree = "<group>"; };
 		5A42F25B18E3C06000FE6085 /* KCPostTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCPostTableViewCell.m; path = View/KCPostTableViewCell.m; sourceTree = "<group>"; };
 		5A42F25C18E3C06000FE6085 /* KCPostTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KCPostTableViewCell.xib; path = View/KCPostTableViewCell.xib; sourceTree = "<group>"; };
-		5A94BD7C18F4EBCD00B00F5A /* KCBlogInfoRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCBlogInfoRequestManager.h; path = Controller/KCBlogInfoRequestManager.h; sourceTree = "<group>"; };
-		5A94BD7D18F4EBCD00B00F5A /* KCBlogInfoRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCBlogInfoRequestManager.m; path = Controller/KCBlogInfoRequestManager.m; sourceTree = "<group>"; };
+		5A71099918F5237300EB85A1 /* KCCategoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCCategoryTableViewController.h; path = Controller/KCCategoryTableViewController.h; sourceTree = "<group>"; };
+		5A71099A18F5237300EB85A1 /* KCCategoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCCategoryTableViewController.m; path = Controller/KCCategoryTableViewController.m; sourceTree = "<group>"; };
+		5A71099F18F52DFD00EB85A1 /* KCCategoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCCategoryManager.h; path = Controller/KCCategoryManager.h; sourceTree = "<group>"; };
+		5A7109A018F52DFD00EB85A1 /* KCCategoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCCategoryManager.m; path = Controller/KCCategoryManager.m; sourceTree = "<group>"; };
+		5A7109A218F53BEF00EB85A1 /* KCPostListInCategoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCPostListInCategoryManager.h; sourceTree = "<group>"; };
+		5A7109A318F53BEF00EB85A1 /* KCPostListInCategoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCPostListInCategoryManager.m; sourceTree = "<group>"; };
+		5A81CA9418F4F41B0059D0C3 /* KCBlogInfoRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCBlogInfoRequestManager.h; path = "Controller/Request Manager/KCBlogInfoRequestManager.h"; sourceTree = "<group>"; };
+		5A81CA9518F4F41B0059D0C3 /* KCBlogInfoRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCBlogInfoRequestManager.m; path = "Controller/Request Manager/KCBlogInfoRequestManager.m"; sourceTree = "<group>"; };
+		5A81CA9618F4F41B0059D0C3 /* KCPostRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCPostRequestManager.h; path = "Controller/Request Manager/KCPostRequestManager.h"; sourceTree = "<group>"; };
+		5A81CA9718F4F41B0059D0C3 /* KCPostRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCPostRequestManager.m; path = "Controller/Request Manager/KCPostRequestManager.m"; sourceTree = "<group>"; };
+		5A81CA9818F4F41B0059D0C3 /* WPRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPRequestManager.h; path = "Controller/Request Manager/WPRequestManager.h"; sourceTree = "<group>"; };
+		5A81CA9918F4F41B0059D0C3 /* WPRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPRequestManager.m; path = "Controller/Request Manager/WPRequestManager.m"; sourceTree = "<group>"; };
+		5A81CA9D18F4F4D80059D0C3 /* KCGetTermsRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCGetTermsRequestManager.h; path = "Controller/Request Manager/KCGetTermsRequestManager.h"; sourceTree = "<group>"; };
+		5A81CA9E18F4F4D80059D0C3 /* KCGetTermsRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCGetTermsRequestManager.m; path = "Controller/Request Manager/KCGetTermsRequestManager.m"; sourceTree = "<group>"; };
 		5AE4A0A818E286160007759A /* KCRootNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCRootNavigationController.h; path = Controller/KCRootNavigationController.h; sourceTree = "<group>"; };
 		5AE4A0A918E286160007759A /* KCRootNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCRootNavigationController.m; path = Controller/KCRootNavigationController.m; sourceTree = "<group>"; };
 		5AE4A45618D93F800000DB21 /* Wordpress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wordpress.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,8 +94,6 @@
 		5AE4A48418D93F810000DB21 /* WordpressTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WordpressTests.m; sourceTree = "<group>"; };
 		5AE4A4A118D968EB0000DB21 /* WPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPRequest.h; path = Model/WPRequest.h; sourceTree = "<group>"; };
 		5AE4A4A218D968EB0000DB21 /* WPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPRequest.m; path = Model/WPRequest.m; sourceTree = "<group>"; };
-		5AE4A4A418D96CDA0000DB21 /* WPRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPRequestManager.h; path = Controller/WPRequestManager.h; sourceTree = "<group>"; };
-		5AE4A4A518D96CDA0000DB21 /* WPRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPRequestManager.m; path = Controller/WPRequestManager.m; sourceTree = "<group>"; };
 		5AE4A4A718D981C30000DB21 /* KCPostsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCPostsTableViewController.h; path = Controller/KCPostsTableViewController.h; sourceTree = "<group>"; };
 		5AE4A4A818D981C30000DB21 /* KCPostsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCPostsTableViewController.m; path = Controller/KCPostsTableViewController.m; sourceTree = "<group>"; };
 		5AE4A4AA18DA88590000DB21 /* KCCategoriesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCCategoriesTableViewController.h; path = Controller/KCCategoriesTableViewController.h; sourceTree = "<group>"; };
@@ -117,12 +129,14 @@
 		5A81CA9318F4F3680059D0C3 /* Request Manager */ = {
 			isa = PBXGroup;
 			children = (
-				5AE4A4A418D96CDA0000DB21 /* WPRequestManager.h */,
-				5AE4A4A518D96CDA0000DB21 /* WPRequestManager.m */,
-				5A391C3A18ECE776008BF9C0 /* KCPostRequestManager.h */,
-				5A391C3B18ECE776008BF9C0 /* KCPostRequestManager.m */,
-				5A94BD7C18F4EBCD00B00F5A /* KCBlogInfoRequestManager.h */,
-				5A94BD7D18F4EBCD00B00F5A /* KCBlogInfoRequestManager.m */,
+				5A81CA9418F4F41B0059D0C3 /* KCBlogInfoRequestManager.h */,
+				5A81CA9518F4F41B0059D0C3 /* KCBlogInfoRequestManager.m */,
+				5A81CA9618F4F41B0059D0C3 /* KCPostRequestManager.h */,
+				5A81CA9718F4F41B0059D0C3 /* KCPostRequestManager.m */,
+				5A81CA9818F4F41B0059D0C3 /* WPRequestManager.h */,
+				5A81CA9918F4F41B0059D0C3 /* WPRequestManager.m */,
+				5A81CA9D18F4F4D80059D0C3 /* KCGetTermsRequestManager.h */,
+				5A81CA9E18F4F4D80059D0C3 /* KCGetTermsRequestManager.m */,
 			);
 			name = "Request Manager";
 			sourceTree = "<group>";
@@ -237,6 +251,12 @@
 				5A25AFF218EABDB6006843CD /* KCCategoriesTableViewController+filterSpecifiedCategories.m */,
 				5A25AFEC18E6B8F8006843CD /* KCPostPageViewController.h */,
 				5A25AFED18E6B8F8006843CD /* KCPostPageViewController.m */,
+				5A71099918F5237300EB85A1 /* KCCategoryTableViewController.h */,
+				5A71099A18F5237300EB85A1 /* KCCategoryTableViewController.m */,
+				5A71099F18F52DFD00EB85A1 /* KCCategoryManager.h */,
+				5A7109A018F52DFD00EB85A1 /* KCCategoryManager.m */,
+				5A7109A218F53BEF00EB85A1 /* KCPostListInCategoryManager.h */,
+				5A7109A318F53BEF00EB85A1 /* KCPostListInCategoryManager.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -376,18 +396,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5AE4A4A618D96CDA0000DB21 /* WPRequestManager.m in Sources */,
 				5A42F25D18E3C06000FE6085 /* KCPostTableViewCell.m in Sources */,
-				5A391C3C18ECE776008BF9C0 /* KCPostRequestManager.m in Sources */,
+				5A81CA9B18F4F41B0059D0C3 /* KCPostRequestManager.m in Sources */,
 				5AE4A4A318D968EB0000DB21 /* WPRequest.m in Sources */,
+				5A81CA9C18F4F41B0059D0C3 /* WPRequestManager.m in Sources */,
+				5A7109A118F52DFD00EB85A1 /* KCCategoryManager.m in Sources */,
+				5A81CA9F18F4F4D80059D0C3 /* KCGetTermsRequestManager.m in Sources */,
 				5A25AFEE18E6B8F8006843CD /* KCPostPageViewController.m in Sources */,
 				5AE4A4AC18DA88590000DB21 /* KCCategoriesTableViewController.m in Sources */,
+				5A7109A418F53BEF00EB85A1 /* KCPostListInCategoryManager.m in Sources */,
+				5A81CA9A18F4F41B0059D0C3 /* KCBlogInfoRequestManager.m in Sources */,
 				5AE4A4A918D981C30000DB21 /* KCPostsTableViewController.m in Sources */,
+				5A71099B18F5237300EB85A1 /* KCCategoryTableViewController.m in Sources */,
 				5AE4A46A18D93F800000DB21 /* KCAppDelegate.m in Sources */,
 				5AE4A0AA18E286160007759A /* KCRootNavigationController.m in Sources */,
 				5A25AFF318EABDB6006843CD /* KCCategoriesTableViewController+filterSpecifiedCategories.m in Sources */,
 				5AE4A46618D93F800000DB21 /* main.m in Sources */,
-				5A94BD7E18F4EBCD00B00F5A /* KCBlogInfoRequestManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

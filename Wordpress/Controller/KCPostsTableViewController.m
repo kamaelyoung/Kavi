@@ -13,7 +13,6 @@
 #import "KCPostTableViewCell.h"
 #import "KCRootNavigationController.h"
 #import "KCPostPageViewController.h"
-#import <SVPullToRefresh.h>
 #import <SVProgressHUD.h>
 
 @interface KCPostsTableViewController ()
@@ -39,10 +38,10 @@
         self.tableView.showsPullToRefresh = YES;
 //        [self.tableView setHidden:YES];
         indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-
     }
     return self;
 }
+
 
 #pragma mark - Getter & Setter
 
@@ -75,7 +74,7 @@
 {
     if (!_postPageArray){
         _postPageArray = [NSMutableArray array];
-        for(int i = 0; i < [self.myPosts count]; i++){
+        for(int i = 1; i < [self.myPosts count]; i++){
             [_postPageArray addObject:[NSNull null]];
         }
     }
@@ -136,7 +135,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     KCPostPageViewController *viewController;
-    
     if ([self.postPageArray objectAtIndex:indexPath.row] == [NSNull null]){
         viewController = [[KCPostPageViewController alloc] initWithMyPost:[self.myPosts objectAtIndex:indexPath.row]];
         [self.postPageArray replaceObjectAtIndex:indexPath.row withObject:viewController];
@@ -159,8 +157,17 @@
     [self.tableView reloadData];
     self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem;
     [self stopNetworkActivity];
-    [self.tableView setHidden:NO];
     self.tableView.showsPullToRefresh = YES;
+    [self.tableView.pullToRefreshView stopAnimating];
+}
+
+- (void)addPostObject:(NSDictionary *)postDictionary
+{
+    [self.myPosts addObject:postDictionary];
+    [self.postPageArray addObject:[NSNull null]];
+    
+    NSLog(@"myPosts = %d",[self.myPosts count]);
+    NSLog(@"postPage = %d",[self.postPageArray count]);
 }
 
 #pragma mark - Network Activity

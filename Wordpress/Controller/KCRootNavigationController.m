@@ -12,31 +12,28 @@
 #import "KCCategoriesTableViewController.h"
 #import <SVProgressHUD.h>
 #import <SVPullToRefresh.h>
+#import "KCCategoryManager.h"
 
 @interface KCRootNavigationController ()
 {
     UIBarButtonItem *leftNavigationBarButtomItem;
 }
-@property (nonatomic,strong) WPRequestManager *requestManager;
 @property (nonatomic,strong) KCPostsTableViewController *recentPostsTableViewController;
 @property (nonatomic,strong) KCCategoriesTableViewController *categoriesTableViewController;
+@property (nonatomic,strong) KCCategoryManager *categoryManager;
+
 @property (nonatomic,strong) KCPostRequestManager *postRequestManager;
 @property (nonatomic,strong) KCBlogInfoRequestManager *blogInfoRequestManager;
 @end
 
 @implementation KCRootNavigationController
-@synthesize requestManager = _requestManager;
 @synthesize recentPostsTableViewController = _recentPostsTableViewController;
 @synthesize categoriesTableViewController = _categoriesTableViewController;
 @synthesize postRequestManager = _postRequestManager;
 @synthesize blogInfoRequestManager = _blogInfoRequestManager;
+@synthesize categoryManager = _categoryManager;
 
 #pragma mark - Setter & Getter
-- (WPRequestManager *)requestManager
-{
-    return [WPRequestManager sharedInstance];
-}
-
 - (KCPostsTableViewController *)recentPostsTableViewController
 {
     if (!_recentPostsTableViewController) {
@@ -65,6 +62,14 @@
         _blogInfoRequestManager = [[KCBlogInfoRequestManager alloc] init];
     }
     return _blogInfoRequestManager;
+}
+
+- (KCCategoryManager *)categoryManager
+{
+    if (!_categoryManager) {
+        _categoryManager = [[KCCategoryManager alloc] init];
+    }
+    return _categoryManager;
 }
 #pragma mark - inital method
 /**
@@ -115,6 +120,7 @@
     [self pushViewController:self.recentPostsTableViewController animated:NO];
     [self.recentPostsTableViewController.tableView addPullToRefreshWithActionHandler:^(void){
         [self_.postRequestManager sendGetPostsRequest];
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     }position:SVPullToRefreshPositionBottom];
     
     [self.recentPostsTableViewController.tableView triggerPullToRefresh];
@@ -125,7 +131,8 @@
 #pragma mark - Switch View Controller
 - (void)selectCategoriesTableViewController
 {
-    [self pushViewController:self.categoriesTableViewController animated:YES];
+//    [self pushViewController:self.categoryViewController animated:YES];
+    [self pushViewController:self.categoryManager.tableViewController animated:YES];
 }
 
 #pragma mark - KCPostRequestManagerDelegate
@@ -142,7 +149,8 @@
             NSDictionary *postDictionary = @{@"postID": postID,
                                              @"postTitle":postTitle,
                                              @"postContent":postContent};
-            [viewController.myPosts addObject:postDictionary];
+//            [viewController.myPosts addObject:postDictionary];
+            [viewController addPostObject:postDictionary];
         }
     }];
     NSString *newOffSet = [NSString stringWithFormat:@"%lu",(unsigned long)[self.recentPostsTableViewController.myPosts count]];

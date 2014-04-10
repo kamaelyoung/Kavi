@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XMLRPC.h>
+#import <SVPullToRefresh.h>
 #import "KCPostRequestManager.h"
 
 @interface KCPostsTableViewController : UITableViewController <UITableViewDelegate,UITableViewDataSource>
@@ -21,6 +22,6 @@ typedef void (^HandleResponseBlock)(KCPostsTableViewController *);
 - (void)handleResponse:(HandleResponseBlock)myTrimBlock;
 - (void)startNetworkActivity;
 - (void)stopNetworkActivity;
-
+- (void)addPostObject:(NSDictionary *)postDictionary;
 
 @end
