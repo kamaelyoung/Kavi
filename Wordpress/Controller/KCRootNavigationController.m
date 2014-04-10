@@ -9,7 +9,6 @@
 #import "KCRootNavigationController.h"
 #import "WPRequestManager.h"
 #import "KCPostsTableViewController.h"
-#import "KCCategoriesTableViewController.h"
 #import <SVProgressHUD.h>
 #import <SVPullToRefresh.h>
 #import "KCCategoryManager.h"
@@ -19,7 +18,6 @@
     UIBarButtonItem *leftNavigationBarButtomItem;
 }
 @property (nonatomic,strong) KCPostsTableViewController *recentPostsTableViewController;
-@property (nonatomic,strong) KCCategoriesTableViewController *categoriesTableViewController;
 @property (nonatomic,strong) KCCategoryManager *categoryManager;
 
 @property (nonatomic,strong) KCPostRequestManager *postRequestManager;
@@ -28,7 +26,6 @@
 
 @implementation KCRootNavigationController
 @synthesize recentPostsTableViewController = _recentPostsTableViewController;
-@synthesize categoriesTableViewController = _categoriesTableViewController;
 @synthesize postRequestManager = _postRequestManager;
 @synthesize blogInfoRequestManager = _blogInfoRequestManager;
 @synthesize categoryManager = _categoryManager;
@@ -43,10 +40,6 @@
     return _recentPostsTableViewController;
 }
 
-- (KCCategoriesTableViewController *)categoriesTableViewController
-{
-    return [KCCategoriesTableViewController sharedInstance];
-}
 
 - (KCPostRequestManager *)postRequestManager
 {
@@ -131,33 +124,18 @@
 #pragma mark - Switch View Controller
 - (void)selectCategoriesTableViewController
 {
-//    [self pushViewController:self.categoryViewController animated:YES];
     [self pushViewController:self.categoryManager.tableViewController animated:YES];
 }
 
 #pragma mark - KCPostRequestManagerDelegate
 - (void)achievePostResponse:(NSArray *)response
 {
-    // Handle the raw response and return the value to self.recentPostsTableViewController.myPosts
-    [self.recentPostsTableViewController handleResponse:^(KCPostsTableViewController *viewController){
-//        NSMutableArray *WPPostsArray = [NSMutableArray array];
-        for (int i = 0; i < [response count]; i++) {
+    [self.recentPostsTableViewController handleMyPostsWithRawResponse:response];
     
-            NSString *postID = [[response objectAtIndex:i] objectForKey:@"post_id"];
-            NSString *postTitle = [[response objectAtIndex:i] objectForKey:@"post_title"];
-            NSString *postContent = [[response objectAtIndex:i] objectForKey:@"post_content"];
-            NSDictionary *postDictionary = @{@"postID": postID,
-                                             @"postTitle":postTitle,
-                                             @"postContent":postContent};
-//            [viewController.myPosts addObject:postDictionary];
-            [viewController addPostObject:postDictionary];
-        }
-    }];
     NSString *newOffSet = [NSString stringWithFormat:@"%lu",(unsigned long)[self.recentPostsTableViewController.myPosts count]];
     [self.postRequestManager.myFilter setObject:newOffSet forKey:@"offset"];
-    [self.recentPostsTableViewController.tableView reloadData];
-    [self.recentPostsTableViewController.tableView.pullToRefreshView stopAnimating];
     
+    [self.recentPostsTableViewController.tableView.pullToRefreshView stopAnimating];
     [self.recentPostsTableViewController stopNetworkActivity];
 }
 

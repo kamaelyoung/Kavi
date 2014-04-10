@@ -151,23 +151,28 @@
  *
  *  @param block
  */
-- (void)handleResponse:(HandleResponseBlock)block
+
+- (void)handleMyPostsWithRawResponse:(NSArray *)response
 {
-    block(self);
+    for (int i = 0; i < [response count]; i++) {
+        NSString *postID = [[response objectAtIndex:i] objectForKey:@"post_id"];
+        NSString *postTitle = [[response objectAtIndex:i] objectForKey:@"post_title"];
+        NSString *postContent = [[response objectAtIndex:i] objectForKey:@"post_content"];
+        NSDictionary *postDictionary = @{@"postID": postID,
+                                         @"postTitle":postTitle,
+                                         @"postContent":postContent};
+        [self addPostObject:postDictionary];
+    }
     [self.tableView reloadData];
-    self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem;
-    [self stopNetworkActivity];
-    self.tableView.showsPullToRefresh = YES;
-    [self.tableView.pullToRefreshView stopAnimating];
 }
+
 
 - (void)addPostObject:(NSDictionary *)postDictionary
 {
     [self.myPosts addObject:postDictionary];
     [self.postPageArray addObject:[NSNull null]];
-    
-    NSLog(@"myPosts = %d",[self.myPosts count]);
-    NSLog(@"postPage = %d",[self.postPageArray count]);
+//    NSLog(@"myPosts = %d",[self.myPosts count]);
+//    NSLog(@"postPage = %d",[self.postPageArray count]);
 }
 
 #pragma mark - Network Activity

@@ -74,25 +74,12 @@
 - (void)achievePostResponse:(NSArray *)response
 {
 //    NSLog(@"%@",response);
-    [self.myTableViewController handleResponse:^(KCPostsTableViewController *tableViewController){
-        for (int i = 0; i < [response count]; i++) {
-            
-            NSString *postID = [[response objectAtIndex:i] objectForKey:@"post_id"];
-            NSString *postTitle = [[response objectAtIndex:i] objectForKey:@"post_title"];
-            NSString *postContent = [[response objectAtIndex:i] objectForKey:@"post_content"];
-            NSDictionary *postDictionary = @{@"postID": postID,
-                                             @"postTitle":postTitle,
-                                             @"postContent":postContent};
-            //            [viewController.myPosts addObject:postDictionary];
-            [tableViewController addPostObject:postDictionary];
-        }
-    }];
+    [self.myTableViewController handleMyPostsWithRawResponse:response];
     
     NSString *newOffSet = [NSString stringWithFormat:@"%lu",(unsigned long)[self.myTableViewController.myPosts count]];
     [self.postRequestManager.myFilter setObject:newOffSet forKey:@"offset"];
-    [self.myTableViewController.tableView reloadData];
-    [self.myTableViewController.tableView.pullToRefreshView stopAnimating];
     
+    [self.myTableViewController.tableView.pullToRefreshView stopAnimating];
     [self.myTableViewController stopNetworkActivity];
     
 }

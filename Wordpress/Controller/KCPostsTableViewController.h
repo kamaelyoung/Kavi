@@ -19,7 +19,7 @@
 typedef void (^HandleResponseBlock)(KCPostsTableViewController *);
 
 - (instancetype)init;
-- (void)handleResponse:(HandleResponseBlock)myTrimBlock;
+- (void)handleMyPostsWithRawResponse:(NSArray *)response;
 - (void)startNetworkActivity;
 - (void)stopNetworkActivity;
 - (void)addPostObject:(NSDictionary *)postDictionary;

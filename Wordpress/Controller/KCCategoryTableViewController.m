@@ -39,25 +39,23 @@
     self.myCategories = categories;
     
     for (int i = 0; i < [self.myCategories count]; i++) {
-        KCPostListInCategoryManager *manager = [[KCPostListInCategoryManager alloc] init];
-        [self.myPostListManagers addObject:manager];
+        [self.myPostListManagers insertObject:[NSNull null] atIndex:i];
     }
     
     [self.tableView reloadData];
 }
 
 #pragma mark - Getter && Setter
-
+- (NSMutableArray *)myPostListManagers
+{
+    if (!_myPostListManagers) {
+        _myPostListManagers = [NSMutableArray arrayWithCapacity:[_myCategories count]];
+    }
+    return _myPostListManagers;
+}
 
 
 #pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.myCategories ? [self.myCategories count] : 0;
@@ -79,9 +77,17 @@
 #pragma mark - Table view delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    KCPostListInCategoryManager *manager = [[KCPostListInCategoryManager alloc] initWithCategoryInfo:[self.myCategories objectAtIndex:indexPath.row]];
-    [self.myPostListManagers replaceObjectAtIndex:indexPath.row withObject:manager];
-    [manager sendGetPostsRequest];
+    KCPostListInCategoryManager *manager;
+    
+    if ( [self.myPostListManagers objectAtIndex:indexPath.row] == [NSNull null]) {
+        manager = [[KCPostListInCategoryManager alloc] initWithCategoryInfo:[self.myCategories objectAtIndex:indexPath.row]];
+        [self.myPostListManagers replaceObjectAtIndex:indexPath.row withObject:manager];
+        [manager sendGetPostsRequest];
+    }else{
+        manager = [self.myPostListManagers objectAtIndex:indexPath.row];
+    }
+    
+    manager.myTableViewController.title = [[self.myCategories objectAtIndex:indexPath.row] objectForKey:@"name"];
     [self.navigationController pushViewController:manager.myTableViewController animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
