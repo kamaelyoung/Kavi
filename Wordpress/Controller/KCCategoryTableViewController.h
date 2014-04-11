@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SVProgressHUD.h>
 
 @interface KCCategoryTableViewController : UITableViewController
 
@@ -14,4 +15,5 @@
 @property (nonatomic,strong) NSMutableArray *myPostListManagers;
 
 - (void)assignCategories:(NSMutableArray *)categories;
+- (void)showSVProgressHUD;
 @end

@@ -8,7 +8,7 @@
 
 #import "WPRequest.h"
 
-NSString *const WP_USERNAME = @"kavi";
+NSString *const WP_USERNAME = @"iOS_Client";
 NSString *const WP_PASSWORD = @"nokian81";
 NSString *const XMLPRC_URL = @"http://chenqiwei.com/blog/xmlrpc.php";
 

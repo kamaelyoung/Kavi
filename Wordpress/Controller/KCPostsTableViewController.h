@@ -10,6 +10,7 @@
 #import <XMLRPC.h>
 #import <SVPullToRefresh.h>
 #import "KCPostRequestManager.h"
+#import <SVProgressHUD.h>
 
 @interface KCPostsTableViewController : UITableViewController <UITableViewDelegate,UITableViewDataSource>
 
@@ -24,4 +25,6 @@ typedef void (^HandleResponseBlock)(KCPostsTableViewController *);
 - (void)stopNetworkActivity;
 - (void)addPostObject:(NSDictionary *)postDictionary;
 
+- (void)showSVProgressHUD;
+- (void)stopSVProgressHUD;
 @end

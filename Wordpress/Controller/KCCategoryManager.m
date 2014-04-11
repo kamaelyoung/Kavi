@@ -49,6 +49,7 @@
     if (self) {
         [self.getTermsRequestManager sendGetTermsRequest];
         self.getTermsRequestManager.delegate = self;
+        [SVProgressHUD showWithStatus:@"载入..."];
     }
     return self;
 }
@@ -58,6 +59,8 @@
 {
     self.myCategories = [self retrieveResponse:(NSMutableArray *)response];
     [self.tableViewController assignCategories:self.myCategories];
+    
+    [SVProgressHUD popActivity];
 }
 
 #pragma mark - Categories Function

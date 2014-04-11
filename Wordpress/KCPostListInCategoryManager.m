@@ -50,7 +50,9 @@
     [self.postRequestManager.myFilter setValue:@"standard" forKey:@"post_format"];
     
     [self.postRequestManager sendGetPostsRequest];
-    [self.myTableViewController startNetworkActivity];
+    
+    [SVProgressHUD showWithStatus:@"载入..." maskType:SVProgressHUDMaskTypeClear];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
 #pragma mark - Setter && Getter
@@ -80,7 +82,8 @@
     [self.postRequestManager.myFilter setObject:newOffSet forKey:@"offset"];
     
     [self.myTableViewController.tableView.pullToRefreshView stopAnimating];
-    [self.myTableViewController stopNetworkActivity];
     
+    [SVProgressHUD popActivity];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 @end

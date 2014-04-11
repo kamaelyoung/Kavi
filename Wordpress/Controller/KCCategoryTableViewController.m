@@ -20,6 +20,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -92,4 +93,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
+#pragma mark - Show HUD
+- (void)showSVProgressHUD
+{
+    [SVProgressHUD show];
+}
 @end

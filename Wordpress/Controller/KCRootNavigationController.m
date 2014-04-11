@@ -9,8 +9,6 @@
 #import "KCRootNavigationController.h"
 #import "WPRequestManager.h"
 #import "KCPostsTableViewController.h"
-#import <SVProgressHUD.h>
-#import <SVPullToRefresh.h>
 #import "KCCategoryManager.h"
 
 @interface KCRootNavigationController ()
@@ -82,6 +80,7 @@
         // if the navigation bar is translucent, SVPullToRefresh give rise to first tableview cell cut-off.
         self.navigationBar.translucent = NO;
         self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        [self setupSVProgressHUD];
     }
     return self;
 }
@@ -96,35 +95,46 @@
     return _sharedInstance;
 }
 
+- (void)setupSVProgressHUD
+{
+    [SVProgressHUD setBackgroundColor:[UIColor blackColor]];
+    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+}
+
+#pragma mark - View controller life cycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self.blogInfoRequestManager sendGetBlogInfoRequest];
+    
+
     self.postRequestManager.delegate = self;
     self.blogInfoRequestManager.delegate = self;
-    
-    __weak KCRootNavigationController *self_ = self;
     
     [self.postRequestManager.myFilter setValue:@"publish" forKey:@"post_status"];
     [self.postRequestManager.myFilter setValue:@"8" forKey:@"number"];
     [self.postRequestManager.myFilter setValue:@"1" forKey:@"author"];
     [self.postRequestManager.myFilter setValue:@"0" forKey:@"offset"];
     
-    [self pushViewController:self.recentPostsTableViewController animated:NO];
+
+    __weak KCRootNavigationController *self_ = self;
+    [self pushViewController:self.recentPostsTableViewController animated:YES];
     [self.recentPostsTableViewController.tableView addPullToRefreshWithActionHandler:^(void){
         [self_.postRequestManager sendGetPostsRequest];
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     }position:SVPullToRefreshPositionBottom];
     
+    [self.recentPostsTableViewController.tableView.pullToRefreshView setHidden:YES];
     [self.recentPostsTableViewController.tableView triggerPullToRefresh];
-    [self.recentPostsTableViewController startNetworkActivity];
-    
 }
 
+
 #pragma mark - Switch View Controller
+
 - (void)selectCategoriesTableViewController
 {
     [self pushViewController:self.categoryManager.tableViewController animated:YES];
+//    [SVProgressHUD show];
 }
 
 #pragma mark - KCPostRequestManagerDelegate
@@ -135,8 +145,10 @@
     NSString *newOffSet = [NSString stringWithFormat:@"%lu",(unsigned long)[self.recentPostsTableViewController.myPosts count]];
     [self.postRequestManager.myFilter setObject:newOffSet forKey:@"offset"];
     
+    [self.recentPostsTableViewController.tableView.pullToRefreshView setHidden:NO];
     [self.recentPostsTableViewController.tableView.pullToRefreshView stopAnimating];
     [self.recentPostsTableViewController stopNetworkActivity];
+
 }
 
 #pragma mark - KCBlogInfoRequestManagerDelegate
@@ -149,4 +161,5 @@
                                     target:self
                                     action:@selector(selectCategoriesTableViewController)];
 }
+
 @end

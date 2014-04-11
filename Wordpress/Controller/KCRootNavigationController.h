@@ -11,6 +11,8 @@
 #import <XMLRPC.h>
 #import "KCPostRequestManager.h"
 #import "KCBlogInfoRequestManager.h"
+#import <SVProgressHUD.h>
+#import <SVPullToRefresh.h>
 
 @interface KCRootNavigationController : UINavigationController<KCPostRequestManagerDelegate,KCBlogInfoRequestManagerDelegate>
 

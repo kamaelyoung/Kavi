@@ -13,7 +13,6 @@
 #import "KCPostTableViewCell.h"
 #import "KCRootNavigationController.h"
 #import "KCPostPageViewController.h"
-#import <SVProgressHUD.h>
 
 @interface KCPostsTableViewController ()
 {
@@ -38,6 +37,8 @@
         self.tableView.showsPullToRefresh = YES;
 //        [self.tableView setHidden:YES];
         indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+//                                                 initWithCustomView:indicatorView];
     }
     return self;
 }
@@ -178,8 +179,6 @@
 #pragma mark - Network Activity
 - (void)startNetworkActivity
 {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-                                             initWithCustomView:indicatorView];
     [indicatorView startAnimating];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
@@ -187,6 +186,18 @@
 - (void)stopNetworkActivity
 {
     [indicatorView stopAnimating];
+//    self.navigationItem.leftItemsSupplementBackButton = NO;
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+}
+
+- (void)showSVProgressHUD
+{
+    [SVProgressHUD showWithStatus:@"Loading"];
+}
+
+- (void)stopSVProgressHUD
+{
+    [SVProgressHUD dismiss];
+    [SVProgressHUD popActivity];
 }
 @end

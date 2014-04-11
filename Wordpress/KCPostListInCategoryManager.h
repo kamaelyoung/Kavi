@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "KCPostRequestManager.h"
 #import "KCPostsTableViewController.h"
+#import <SVProgressHUD.h>
 
 @interface KCPostListInCategoryManager : NSObject <KCPostRequestManagerDelegate>
 @property (nonatomic,strong) KCPostsTableViewController *myTableViewController;
