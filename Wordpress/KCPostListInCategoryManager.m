@@ -8,7 +8,6 @@
 
 #import "KCPostListInCategoryManager.h"
 
-
 @implementation KCPostListInCategoryManager
 @synthesize myTableViewController = _myTableViewController;
 @synthesize getPostsRequestManager = _getPostsRequestManager;
@@ -22,8 +21,6 @@
         self.postRequestManager.delegate = self;
         
         self.myTableViewController.title = [self.categoryInfomation objectForKey:@"name"];
-        
-//        [self.myTableViewController.tableView triggerPullToRefresh];
         
         __weak KCPostListInCategoryManager *self_ = self;
         [self.myTableViewController.tableView addPullToRefreshWithActionHandler:^(void){
@@ -55,7 +52,7 @@
     
     [self.getPostsRequestManager sendRequestFromOwner:self];
     
-    [SVProgressHUD showWithStatus:@"载入..." maskType:SVProgressHUDMaskTypeClear];
+    [SVProgressHUD showWithStatus:@"载入中..." maskType:SVProgressHUDMaskTypeClear];
 }
 
 #pragma mark - Setter && Getter
@@ -82,18 +79,14 @@
     
     NSString *newOffSet = [NSString stringWithFormat:@"%lu",(unsigned long)[self.myTableViewController.myPosts count]];
     [self.getPostsRequestManager.myFilter setObject:newOffSet forKey:@"offset"];
-    
-    
 
     [self.myTableViewController.tableView.pullToRefreshView stopAnimating];
     [SVProgressHUD dismiss];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-//    [self.myTableViewController.tableView triggerPullToRefresh];
-//    [self.myTableViewController.tableView reloadData];
 }
 
 #pragma mark - KCErrorNotificationCenterProtocol
-- (void)handleError
+- (void)handleRequest:(WPRequest *)request Error:(NSError *)error
 {
 //    [self.myTableViewController handleMyPostsWithRawResponse:nil];
     [self.myTableViewController.tableView.pullToRefreshView stopAnimating];

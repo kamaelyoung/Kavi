@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <SVProgressHUD.h>
+#import "WPRequest.h"
 
 @protocol KCErrorNotificationCenterProtocol <NSObject>
 @required
-- (void)handleError;
+- (void)handleRequest:(WPRequest *)request Error:(NSError *)error;
 @end
 
 @interface KCErrorNotificationCenter : NSObject

@@ -17,7 +17,6 @@
 @interface KCRootNavigationController : UINavigationController<KCGetUsersBlogsRequestManagerDelegate,KCGetPostsRequestManagerDelegate,KCErrorNotificationCenterProtocol>
 
 + (instancetype)sharedInstance;
-
-- (void)handleError;
+- (void)handleRequest:(WPRequest *)request Error:(NSError *)error;
 
 @end

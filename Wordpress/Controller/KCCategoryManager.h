@@ -21,6 +21,6 @@
 
 + (instancetype)sharedInstance;
 
-- (void)handleError;
+- (void)handleRequest:(WPRequest *)request Error:(NSError *)error;
 //- (instancetype)init;
 @end

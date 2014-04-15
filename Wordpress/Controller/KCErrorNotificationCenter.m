@@ -31,16 +31,19 @@
 
 - (void)receiveErrorNotification:(NSNotification *)notification
 {
-    [self performSelector:@selector(showErrorWithStatus:) withObject:@"出错了" afterDelay:0.5f];
+//    [self performSelector:@selector(showErrorWithStatus:) withObject:@"出错了" afterDelay:0.5f];
+    [self performSelector:@selector(showErrorWithStatus:) withObject:[notification.userInfo objectForKey:@"error"] afterDelay:0.5f];
     
-    if ([[notification.userInfo objectForKey:@"requestOwner"] respondsToSelector:@selector(handleError)]){
-        [[notification.userInfo objectForKey:@"requestOwner"] handleError];
+    if ([[notification.userInfo objectForKey:@"requestOwner"] respondsToSelector:@selector(handleRequest:Error:)]){
+        [[notification.userInfo objectForKey:@"requestOwner"] handleRequest:[notification.userInfo objectForKey:@"request"] Error:[notification.userInfo objectForKey:@"error"]];
     }
 }
 
-- (void)showErrorWithStatus:(NSString *)status
+- (void)showErrorWithStatus:(NSError *)error
 {
-    [SVProgressHUD showErrorWithStatus:status];
+    NSString *errorDesc = [[error userInfo] objectForKey:@"NSLocalizedDescription"];
+    
+    [SVProgressHUD showErrorWithStatus:errorDesc];
 }
 
 @end

@@ -321,7 +321,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5AE4A45118D93F800000DB21 /* Build configuration list for PBXProject "Wordpress" */;
+			buildConfigurationList = 5AE4A45118D93F800000DB21 /* Build configuration list for PBXProject "C's A.T.Field" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -612,7 +612,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5AE4A45118D93F800000DB21 /* Build configuration list for PBXProject "Wordpress" */ = {
+		5AE4A45118D93F800000DB21 /* Build configuration list for PBXProject "C's A.T.Field" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5AE4A48618D93F810000DB21 /* Debug */,

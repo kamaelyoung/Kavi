@@ -49,10 +49,12 @@ didSendBodyData:(float)percent
 - (void)request:(XMLRPCRequest *)request
 didFailWithError:(NSError *)error
 {
+//    NSInteger *errorCode = [error code];
     WPRequest *myRequest = (WPRequest *)request;
-    NSDictionary *myUserInfo = @{@"requestOwner":myRequest.myOwner};
-    
+    NSDictionary *myUserInfo = @{@"requestOwner":myRequest.myOwner,@"request":myRequest,@"error":error};
     [[NSNotificationCenter defaultCenter] postNotificationName:@"KCErrorOccurNotification" object:self userInfo:myUserInfo];
+    
+    NSLog(@"%@",error);
 }
 
 - (BOOL)request:(XMLRPCRequest *)request

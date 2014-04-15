@@ -18,8 +18,6 @@
 @property (nonatomic,strong) NSDictionary *categoryInfomation;
 
 - (instancetype)initWithCategoryInfo:(NSDictionary *)info;
-//- (void)sendGetPostsRequest;
-
-- (void)handleError;
+- (void)handleRequest:(WPRequest *)request Error:(NSError *)error;
 
 @end

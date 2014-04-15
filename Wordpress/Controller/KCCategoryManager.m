@@ -50,7 +50,7 @@
     if (self) {
         [self.getTermsRequestManager sendRequestFromOwner:self];
         self.getTermsRequestManager.delegate = self;
-        [SVProgressHUD showWithStatus:@"载入..."];
+        [SVProgressHUD showWithStatus:@"载入中..."];
     }
     return self;
 }
@@ -94,9 +94,10 @@
 }
 
 #pragma mark - KCErrorNotificationCenterProtocol
-- (void)handleError
+- (void)handleRequest:(WPRequest *)request Error:(NSError *)error
 {
     [self.tableViewController.tableView.pullToRefreshView stopAnimating];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     
     __weak KCCategoryManager *self_ = self;
     [self.tableViewController.tableView addPullToRefreshWithActionHandler:^(void){

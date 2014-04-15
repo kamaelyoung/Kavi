@@ -141,13 +141,25 @@
 //    [SVProgressHUD show];
 }
 
+- (void)resendRequests
+{
+    [self.getUsersBlogsRequestManager sendRequestFromOwner:self];
+    [self.recentPostsTableViewController.tableView triggerPullToRefresh];
+}
+
 #pragma mark - KCGetUsersBlogsRequestManagerDelegate
 -(void)achieveGetUsersBlogsResponse:(NSArray *)response
 {
     self.recentPostsTableViewController.title = [[response lastObject] objectForKey:@"blogName"];
+//    self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
+//    [[UIBarButtonItem alloc] initWithTitle:@"分类"
+//                                     style:UIBarButtonItemStylePlain
+//                                    target:self
+//                                    action:@selector(selectCategoriesTableViewController)];
+    
     self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
-    [[UIBarButtonItem alloc] initWithTitle:@"分类"
-                                     style:UIBarButtonItemStylePlain
+    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"CategoryImage"]
+                                     style:UIBarButtonItemStyleBordered
                                     target:self
                                     action:@selector(selectCategoriesTableViewController)];
 }
@@ -155,7 +167,6 @@
 #pragma mark - KCGetPostsRequestManagerDelegate
 - (void)achieveGetPostsResponse:(NSArray *)response
 {
-    NSLog(@"%@",response);
     [self.recentPostsTableViewController handleMyPostsWithRawResponse:response];
     
     NSString *newOffSet = [NSString stringWithFormat:@"%lu",(unsigned long)[self.recentPostsTableViewController.myPosts count]];
@@ -163,13 +174,18 @@
     
     [self.recentPostsTableViewController.tableView.pullToRefreshView setHidden:NO];
     [self.recentPostsTableViewController.tableView.pullToRefreshView stopAnimating];
-//    [self.recentPostsTableViewController stopNetworkActivity];
-    [[UIApplication sharedApplication]setNetworkActivityIndicatorVisible:NO];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 #pragma mark  - KCErrorNotificationCenter Protocol
-- (void)handleError
+- (void)handleRequest:(WPRequest *)request Error:(NSError *)error
 {
-    NSLog(@"KCRootNavigationController handle Error");
+    if ([request.method isEqualToString:@"wp.getUsersBlogs"]) {
+        [[UIApplication sharedApplication]setNetworkActivityIndicatorVisible:NO];
+        self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
+        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(resendRequests)];
+    } else if ([request.method isEqualToString:@"wp.getPosts"]){
+        [self.recentPostsTableViewController.tableView.pullToRefreshView stopAnimating];
+    }
 }
 @end

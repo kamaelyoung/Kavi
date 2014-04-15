@@ -22,6 +22,7 @@
     self = [super init];
     if (self) {
         self.myPost = myPost;
+//        self.view.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:self.webView];
     }
     return self;
@@ -49,6 +50,8 @@
     NSString *mainBundleDirectory = [[NSBundle mainBundle] resourcePath];
     [self.webView loadHTMLString:postContent
                     baseURL:[NSURL fileURLWithPath:mainBundleDirectory]];
+    
+    self.webView.backgroundColor = [UIColor whiteColor];
     
 }
 
