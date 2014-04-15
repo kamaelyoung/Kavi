@@ -7,7 +7,8 @@
 //
 
 #import "KCCategoryManager.h"
-#import "KCPostListInCategoryManager.h"
+#import <SVPullToRefresh.h>
+
 
 @implementation KCCategoryManager
 @synthesize getTermsRequestManager = _getTermsRequestManager;
@@ -47,20 +48,24 @@
 {
     self = [super init];
     if (self) {
-        [self.getTermsRequestManager sendGetTermsRequest];
+        [self.getTermsRequestManager sendRequestFromOwner:self];
         self.getTermsRequestManager.delegate = self;
         [SVProgressHUD showWithStatus:@"载入..."];
     }
     return self;
 }
 
-#pragma mark - KCGetTermsRequestDelegate
-- (void)achieveTermsResponse:(NSArray *)response
+#pragma mark - KCGetTermsRequestManagerDelegate
+- (void)achieveGetTermsResponse:(NSArray *)response
 {
+    [self.tableViewController.tableView.pullToRefreshView stopAnimating];
+    [self.tableViewController.tableView.pullToRefreshView setHidden:YES];
+    
     self.myCategories = [self retrieveResponse:(NSMutableArray *)response];
     [self.tableViewController assignCategories:self.myCategories];
     
     [SVProgressHUD popActivity];
+    [self.tableViewController.tableView reloadData];
 }
 
 #pragma mark - Categories Function
@@ -87,4 +92,16 @@
     }
     return categories;
 }
+
+#pragma mark - KCErrorNotificationCenterProtocol
+- (void)handleError
+{
+    [self.tableViewController.tableView.pullToRefreshView stopAnimating];
+    
+    __weak KCCategoryManager *self_ = self;
+    [self.tableViewController.tableView addPullToRefreshWithActionHandler:^(void){
+        [self_.getTermsRequestManager sendRequestFromOwner:self_];
+    }position:SVPullToRefreshPositionTop];
+}
+
 @end

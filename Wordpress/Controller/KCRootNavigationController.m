@@ -7,9 +7,9 @@
 //
 
 #import "KCRootNavigationController.h"
-#import "WPRequestManager.h"
 #import "KCPostsTableViewController.h"
 #import "KCCategoryManager.h"
+
 
 @interface KCRootNavigationController ()
 {
@@ -17,16 +17,18 @@
 }
 @property (nonatomic,strong) KCPostsTableViewController *recentPostsTableViewController;
 @property (nonatomic,strong) KCCategoryManager *categoryManager;
-
-@property (nonatomic,strong) KCPostRequestManager *postRequestManager;
-@property (nonatomic,strong) KCBlogInfoRequestManager *blogInfoRequestManager;
+@property (nonatomic,strong) KCGetUsersBlogsRequestManager *getUsersBlogsRequestManager;
+@property (nonatomic,strong) KCGetPostsRequestManager *getPostsRequestManager;
+@property (nonatomic,strong) KCErrorNotificationCenter *errorNotificationCenter;
 @end
 
 @implementation KCRootNavigationController
+
 @synthesize recentPostsTableViewController = _recentPostsTableViewController;
-@synthesize postRequestManager = _postRequestManager;
-@synthesize blogInfoRequestManager = _blogInfoRequestManager;
 @synthesize categoryManager = _categoryManager;
+@synthesize getUsersBlogsRequestManager = _getUsersBlogsRequestManager;
+@synthesize getPostsRequestManager = _getPostsRequestManager;
+@synthesize errorNotificationCenter =  _errorNotificationCenter;
 
 #pragma mark - Setter & Getter
 - (KCPostsTableViewController *)recentPostsTableViewController
@@ -39,20 +41,12 @@
 }
 
 
-- (KCPostRequestManager *)postRequestManager
+- (KCGetUsersBlogsRequestManager *)getUsersBlogsRequestManager
 {
-    if (!_postRequestManager) {
-        _postRequestManager = [[KCPostRequestManager alloc] init];
+    if (!_getUsersBlogsRequestManager) {
+        _getUsersBlogsRequestManager = [[KCGetUsersBlogsRequestManager alloc] init];
     }
-    return _postRequestManager;
-}
-
-- (KCBlogInfoRequestManager *)blogInfoRequestManager
-{
-    if (!_blogInfoRequestManager) {
-        _blogInfoRequestManager = [[KCBlogInfoRequestManager alloc] init];
-    }
-    return _blogInfoRequestManager;
+    return _getUsersBlogsRequestManager;
 }
 
 - (KCCategoryManager *)categoryManager
@@ -62,6 +56,15 @@
     }
     return _categoryManager;
 }
+
+- (KCGetPostsRequestManager *)getPostsRequestManager
+{
+    if (!_getPostsRequestManager) {
+        _getPostsRequestManager = [[KCGetPostsRequestManager alloc] init];
+    }
+    return _getPostsRequestManager;
+}
+
 #pragma mark - inital method
 /**
  *  Send getBlogNameRequest to get your blog information.
@@ -81,6 +84,7 @@
         self.navigationBar.translucent = NO;
         self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
         [self setupSVProgressHUD];
+        self.errorNotificationCenter = [KCErrorNotificationCenter sharedInstance];
     }
     return self;
 }
@@ -105,24 +109,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.blogInfoRequestManager sendGetBlogInfoRequest];
+//    [self.blogInfoRequestManager sendGetBlogInfoRequest];
+    self.getUsersBlogsRequestManager.delegate = self;
+    self.getPostsRequestManager.delegate = self;
     
-
-    self.postRequestManager.delegate = self;
-    self.blogInfoRequestManager.delegate = self;
-    
-    [self.postRequestManager.myFilter setValue:@"publish" forKey:@"post_status"];
-    [self.postRequestManager.myFilter setValue:@"8" forKey:@"number"];
-    [self.postRequestManager.myFilter setValue:@"1" forKey:@"author"];
-    [self.postRequestManager.myFilter setValue:@"0" forKey:@"offset"];
+    [self.getUsersBlogsRequestManager sendRequestFromOwner:self];
+    [self.getPostsRequestManager.myFilter setValue:@"publish" forKey:@"post_status"];
+    [self.getPostsRequestManager.myFilter setValue:@"8" forKey:@"number"];
+    [self.getPostsRequestManager.myFilter setValue:@"1" forKey:@"author"];
+    [self.getPostsRequestManager.myFilter setValue:@"0" forKey:@"offset"];
     
 
     __weak KCRootNavigationController *self_ = self;
     [self pushViewController:self.recentPostsTableViewController animated:YES];
     [self.recentPostsTableViewController.tableView addPullToRefreshWithActionHandler:^(void){
-        [self_.postRequestManager sendGetPostsRequest];
+        [self_.getPostsRequestManager sendRequestFromOwner:self_];
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     }position:SVPullToRefreshPositionBottom];
+    
     
     [self.recentPostsTableViewController.tableView.pullToRefreshView setHidden:YES];
     [self.recentPostsTableViewController.tableView triggerPullToRefresh];
@@ -137,22 +141,8 @@
 //    [SVProgressHUD show];
 }
 
-#pragma mark - KCPostRequestManagerDelegate
-- (void)achievePostResponse:(NSArray *)response
-{
-    [self.recentPostsTableViewController handleMyPostsWithRawResponse:response];
-    
-    NSString *newOffSet = [NSString stringWithFormat:@"%lu",(unsigned long)[self.recentPostsTableViewController.myPosts count]];
-    [self.postRequestManager.myFilter setObject:newOffSet forKey:@"offset"];
-    
-    [self.recentPostsTableViewController.tableView.pullToRefreshView setHidden:NO];
-    [self.recentPostsTableViewController.tableView.pullToRefreshView stopAnimating];
-    [self.recentPostsTableViewController stopNetworkActivity];
-
-}
-
-#pragma mark - KCBlogInfoRequestManagerDelegate
-- (void)achieveBlogInfoResponse:(NSArray *)response
+#pragma mark - KCGetUsersBlogsRequestManagerDelegate
+-(void)achieveGetUsersBlogsResponse:(NSArray *)response
 {
     self.recentPostsTableViewController.title = [[response lastObject] objectForKey:@"blogName"];
     self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
@@ -162,4 +152,24 @@
                                     action:@selector(selectCategoriesTableViewController)];
 }
 
+#pragma mark - KCGetPostsRequestManagerDelegate
+- (void)achieveGetPostsResponse:(NSArray *)response
+{
+    NSLog(@"%@",response);
+    [self.recentPostsTableViewController handleMyPostsWithRawResponse:response];
+    
+    NSString *newOffSet = [NSString stringWithFormat:@"%lu",(unsigned long)[self.recentPostsTableViewController.myPosts count]];
+    [self.getPostsRequestManager.myFilter setObject:newOffSet forKey:@"offset"];
+    
+    [self.recentPostsTableViewController.tableView.pullToRefreshView setHidden:NO];
+    [self.recentPostsTableViewController.tableView.pullToRefreshView stopAnimating];
+//    [self.recentPostsTableViewController stopNetworkActivity];
+    [[UIApplication sharedApplication]setNetworkActivityIndicatorVisible:NO];
+}
+
+#pragma mark  - KCErrorNotificationCenter Protocol
+- (void)handleError
+{
+    NSLog(@"KCRootNavigationController handle Error");
+}
 @end

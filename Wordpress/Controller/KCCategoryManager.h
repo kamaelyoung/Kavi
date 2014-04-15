@@ -9,13 +9,18 @@
 #import <Foundation/Foundation.h>
 #import "KCGetTermsRequestManager.h"
 #import "KCCategoryTableViewController.h"
+#import "KCErrorNotificationCenter.h"
+#import "KCPostListInCategoryManager.h"
 
-@interface KCCategoryManager : NSObject <KCGetTermsRequestDelegate>
+
+@interface KCCategoryManager : NSObject <KCGetTermsRequestManagerDelegate,KCErrorNotificationCenterProtocol>
 
 @property (nonatomic,strong) KCGetTermsRequestManager *getTermsRequestManager;
 @property (nonatomic,strong) KCCategoryTableViewController *tableViewController;
 @property (nonatomic,strong) NSMutableArray *myCategories;
 
 + (instancetype)sharedInstance;
+
+- (void)handleError;
 //- (instancetype)init;
 @end

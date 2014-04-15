@@ -12,6 +12,7 @@
 @property (nonatomic,readonly) NSString *myUsername;
 @property (nonatomic,readonly) NSString *myPassword;
 @property (nonatomic,readonly) NSURL *myURL;
+@property (nonatomic,weak) id myOwner;
 
 - (instancetype)init;
 

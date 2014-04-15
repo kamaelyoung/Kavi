@@ -13,7 +13,7 @@
 
 + (instancetype)sharedInstance;
 
-- (WPRequest *)createRequest;
+- (WPRequest *)createRequestInOwner:(id)owner;
 - (WPRequest *)setWPRequest:(WPRequest *)theRequest
                      Method:(NSString *)method
              withParameters:(NSArray *)parameters;

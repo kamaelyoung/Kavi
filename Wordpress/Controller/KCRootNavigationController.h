@@ -8,14 +8,16 @@
 //  
 
 #import <UIKit/UIKit.h>
-#import <XMLRPC.h>
-#import "KCPostRequestManager.h"
-#import "KCBlogInfoRequestManager.h"
 #import <SVProgressHUD.h>
 #import <SVPullToRefresh.h>
+#import "KCGetUsersBlogsRequestManager.h"
+#import "KCGetPostsRequestManager.h"
+#import "KCErrorNotificationCenter.h"
 
-@interface KCRootNavigationController : UINavigationController<KCPostRequestManagerDelegate,KCBlogInfoRequestManagerDelegate>
+@interface KCRootNavigationController : UINavigationController<KCGetUsersBlogsRequestManagerDelegate,KCGetPostsRequestManagerDelegate,KCErrorNotificationCenterProtocol>
 
 + (instancetype)sharedInstance;
+
+- (void)handleError;
 
 @end

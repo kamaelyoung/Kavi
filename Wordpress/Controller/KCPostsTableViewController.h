@@ -9,22 +9,16 @@
 #import <UIKit/UIKit.h>
 #import <XMLRPC.h>
 #import <SVPullToRefresh.h>
-#import "KCPostRequestManager.h"
 #import <SVProgressHUD.h>
 
-@interface KCPostsTableViewController : UITableViewController <UITableViewDelegate,UITableViewDataSource>
+@interface KCPostsTableViewController : UITableViewController 
 
-//@property (nonatomic,strong) NSMutableDictionary *myFilter;
 @property (nonatomic,strong) NSMutableArray *myPosts;
 
 typedef void (^HandleResponseBlock)(KCPostsTableViewController *);
 
 - (instancetype)init;
 - (void)handleMyPostsWithRawResponse:(NSArray *)response;
-- (void)startNetworkActivity;
-- (void)stopNetworkActivity;
 - (void)addPostObject:(NSDictionary *)postDictionary;
 
-- (void)showSVProgressHUD;
-- (void)stopSVProgressHUD;
 @end

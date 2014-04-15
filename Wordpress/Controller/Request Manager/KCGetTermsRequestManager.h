@@ -2,22 +2,21 @@
 //  KCGetTermsRequestManager.h
 //  Wordpress
 //
-//  Created by kavi chen on 14-4-9.
+//  Created by kavi chen on 14-4-12.
 //  Copyright (c) 2014年 kavi chen. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "WPRequestManager.h"
-#import <XMLRPC.h>
+#import "KCRequestManager.h"
 
-@protocol KCGetTermsRequestDelegate <NSObject>
+@protocol KCGetTermsRequestManagerDelegate <NSObject>
 @required
-- (void)achieveTermsResponse:(NSArray *)response;
+- (void)achieveGetTermsResponse:(NSArray *)response;
+@end
+
+@interface KCGetTermsRequestManager : KCRequestManager
+@property (nonatomic,strong) id<KCGetTermsRequestManagerDelegate> delegate;
+
+- (void)sendRequestFromOwner:(id)owner;
 
 @end
-@interface KCGetTermsRequestManager : NSObject<XMLRPCConnectionDelegate>
-@property (nonatomic,strong) id<KCGetTermsRequestDelegate> delegate;
 
-- (instancetype)init;
-- (void)sendGetTermsRequest;
-@end

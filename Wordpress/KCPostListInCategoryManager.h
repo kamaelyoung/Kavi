@@ -7,16 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "KCPostRequestManager.h"
 #import "KCPostsTableViewController.h"
+#import "KCGetPostsRequestManager.h"
 #import <SVProgressHUD.h>
+#import "KCErrorNotificationCenter.h"
 
-@interface KCPostListInCategoryManager : NSObject <KCPostRequestManagerDelegate>
+@interface KCPostListInCategoryManager : NSObject <KCGetPostsRequestManagerDelegate,KCErrorNotificationCenterProtocol>
 @property (nonatomic,strong) KCPostsTableViewController *myTableViewController;
-@property (nonatomic,strong) KCPostRequestManager *postRequestManager;
+@property (nonatomic,strong) KCGetPostsRequestManager *getPostsRequestManager;
 @property (nonatomic,strong) NSDictionary *categoryInfomation;
 
 - (instancetype)initWithCategoryInfo:(NSDictionary *)info;
-- (void)sendGetPostsRequest;
+//- (void)sendGetPostsRequest;
+
+- (void)handleError;
 
 @end

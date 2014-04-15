@@ -40,9 +40,10 @@
     return _sharedInstance;
 }
 
-- (WPRequest *)createRequest
+- (WPRequest *)createRequestInOwner:(id)owner
 {
     WPRequest *request = [[WPRequest alloc] init];
+    request.myOwner = owner;
     NSTimeInterval timeout = 30;
     [request setTimeoutInterval:timeout];
     return request;

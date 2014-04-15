@@ -35,10 +35,7 @@
     if (self) {
         self.view.frame = [UIScreen mainScreen].bounds;
         self.tableView.showsPullToRefresh = YES;
-//        [self.tableView setHidden:YES];
         indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-//                                                 initWithCustomView:indicatorView];
     }
     return self;
 }
@@ -107,10 +104,9 @@
 }
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.myPosts ? [self.myPosts count] : 0 ;
+    return self.myPosts ? [self.myPosts count] : 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -172,32 +168,9 @@
 {
     [self.myPosts addObject:postDictionary];
     [self.postPageArray addObject:[NSNull null]];
-//    NSLog(@"myPosts = %d",[self.myPosts count]);
-//    NSLog(@"postPage = %d",[self.postPageArray count]);
+    
+    NSLog(@"%d",[self.myPosts count]);
+    NSLog(@"%@",self.postPageArray);
 }
 
-#pragma mark - Network Activity
-- (void)startNetworkActivity
-{
-    [indicatorView startAnimating];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-}
-
-- (void)stopNetworkActivity
-{
-    [indicatorView stopAnimating];
-//    self.navigationItem.leftItemsSupplementBackButton = NO;
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-}
-
-- (void)showSVProgressHUD
-{
-    [SVProgressHUD showWithStatus:@"Loading"];
-}
-
-- (void)stopSVProgressHUD
-{
-    [SVProgressHUD dismiss];
-    [SVProgressHUD popActivity];
-}
 @end

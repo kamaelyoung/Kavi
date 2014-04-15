@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <SVProgressHUD.h>
+#import <SVPullToRefresh.h>
 
 @interface KCCategoryTableViewController : UITableViewController
 

@@ -8,9 +8,10 @@
 
 #import "KCPostListInCategoryManager.h"
 
+
 @implementation KCPostListInCategoryManager
 @synthesize myTableViewController = _myTableViewController;
-@synthesize postRequestManager = _postRequestManager;
+@synthesize getPostsRequestManager = _getPostsRequestManager;
 @synthesize categoryInfomation = _categoryInfomation;
 
 #pragma mark - Initial method
@@ -20,13 +21,15 @@
     if (self) {
         self.postRequestManager.delegate = self;
         
+        self.myTableViewController.title = [self.categoryInfomation objectForKey:@"name"];
+        
+//        [self.myTableViewController.tableView triggerPullToRefresh];
+        
         __weak KCPostListInCategoryManager *self_ = self;
         [self.myTableViewController.tableView addPullToRefreshWithActionHandler:^(void){
-            [self_.postRequestManager sendGetPostsRequest];
+            [self_.getPostsRequestManager sendRequestFromOwner:self_];
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         }position:SVPullToRefreshPositionBottom];
-        
-        self.myTableViewController.title = [self.categoryInfomation objectForKey:@"name"];
     }
     return self;
 }
@@ -35,33 +38,33 @@
 {
     self  = [self init];
     self.categoryInfomation = info;
-
+    [self initalGetPostsRequest];
+    
     return self;
 }
 
-- (void)sendGetPostsRequest
+- (void)initalGetPostsRequest
 {
     NSString *termID = [self.categoryInfomation objectForKey:@"term_id"];
     
-    [self.postRequestManager.myFilter setValue:@"8" forKey:@"number"];
-    [self.postRequestManager.myFilter setValue:termID forKey:@"category"];
-    [self.postRequestManager.myFilter setValue:@"publish" forKey:@"post_status"];
-    [self.postRequestManager.myFilter setValue:@"1" forKey:@"author"];
-    [self.postRequestManager.myFilter setValue:@"standard" forKey:@"post_format"];
+    [self.getPostsRequestManager.myFilter setValue:@"8" forKey:@"number"];
+    [self.getPostsRequestManager.myFilter setValue:termID forKey:@"category"];
+    [self.getPostsRequestManager.myFilter setValue:@"publish" forKey:@"post_status"];
+    [self.getPostsRequestManager.myFilter setValue:@"1" forKey:@"author"];
+    [self.getPostsRequestManager.myFilter setValue:@"standard" forKey:@"post_format"];
     
-    [self.postRequestManager sendGetPostsRequest];
+    [self.getPostsRequestManager sendRequestFromOwner:self];
     
     [SVProgressHUD showWithStatus:@"载入..." maskType:SVProgressHUDMaskTypeClear];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
 #pragma mark - Setter && Getter
-- (KCPostRequestManager *)postRequestManager
+- (KCGetPostsRequestManager *)postRequestManager
 {
-    if (!_postRequestManager) {
-        _postRequestManager = [[KCPostRequestManager alloc] init];
+    if (!_getPostsRequestManager) {
+        _getPostsRequestManager = [[KCGetPostsRequestManager alloc] init];
     }
-    return _postRequestManager;
+    return _getPostsRequestManager;
 }
 
 - (KCPostsTableViewController *)myTableViewController
@@ -73,17 +76,27 @@
 }
 
 #pragma mark - KCPostRequestManagerDelegate
-- (void)achievePostResponse:(NSArray *)response
+- (void)achieveGetPostsResponse:(NSArray *)response
 {
-//    NSLog(@"%@",response);
     [self.myTableViewController handleMyPostsWithRawResponse:response];
     
     NSString *newOffSet = [NSString stringWithFormat:@"%lu",(unsigned long)[self.myTableViewController.myPosts count]];
-    [self.postRequestManager.myFilter setObject:newOffSet forKey:@"offset"];
+    [self.getPostsRequestManager.myFilter setObject:newOffSet forKey:@"offset"];
     
+    
+
     [self.myTableViewController.tableView.pullToRefreshView stopAnimating];
-    
-    [SVProgressHUD popActivity];
+    [SVProgressHUD dismiss];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+//    [self.myTableViewController.tableView triggerPullToRefresh];
+//    [self.myTableViewController.tableView reloadData];
+}
+
+#pragma mark - KCErrorNotificationCenterProtocol
+- (void)handleError
+{
+//    [self.myTableViewController handleMyPostsWithRawResponse:nil];
+    [self.myTableViewController.tableView.pullToRefreshView stopAnimating];
+    [self.myTableViewController.tableView reloadData];
 }
 @end

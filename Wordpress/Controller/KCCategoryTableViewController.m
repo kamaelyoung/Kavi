@@ -83,7 +83,7 @@
     if ( [self.myPostListManagers objectAtIndex:indexPath.row] == [NSNull null]) {
         manager = [[KCPostListInCategoryManager alloc] initWithCategoryInfo:[self.myCategories objectAtIndex:indexPath.row]];
         [self.myPostListManagers replaceObjectAtIndex:indexPath.row withObject:manager];
-        [manager sendGetPostsRequest];
+//        [manager sendGetPostsRequest];
     }else{
         manager = [self.myPostListManagers objectAtIndex:indexPath.row];
     }

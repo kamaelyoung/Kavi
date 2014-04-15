@@ -17,6 +17,7 @@ NSString *const XMLPRC_URL = @"http://chenqiwei.com/blog/xmlrpc.php";
 @synthesize myUsername = _myUsername;
 @synthesize myPassword = _myPassword;
 @synthesize myURL = _myURL;
+@synthesize myOwner = _myOwner;
 
 - (NSString *)myUsername
 {
