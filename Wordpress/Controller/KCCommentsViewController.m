@@ -34,13 +34,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.tableView.rowHeight = 64.0f;
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+//    self.tableView.rowHeight = 64.0f;
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
     
     self.tableView.tableFooterView = [UIView new];
     
-    UIBarButtonItem *addCommentButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewComment)];
-    self.navigationItem.rightBarButtonItem  = addCommentButton;
+//    UIBarButtonItem *addCommentButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewComment)];
+//    self.navigationItem.rightBarButtonItem  = addCommentButton;
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -54,9 +54,6 @@
 {
     [super viewWillAppear:animated];
 //    [self.commentView willMoveToSuperview:self.navigationController.view];
-    NSLog(@"%@",NSStringFromCGRect(self.navigationController.view.frame));
-    NSLog(@"%@",NSStringFromCGRect(self.tableView.frame));
-    NSLog(@"%@",NSStringFromCGRect(self.view.frame));
     self.title = @"评论";
 }
 
@@ -98,15 +95,32 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                       reuseIdentifier:@"comment_cell"];
     }
+    
+    cell.textLabel.numberOfLines = 0;
     cell.textLabel.text = [self.myComments[indexPath.row] objectForKey:@"content"];
     cell.detailTextLabel.text = [self.myComments[indexPath.row] objectForKey:@"author"];
     
+    CGSize maxSize = CGSizeMake([UIScreen mainScreen].bounds.size.height - 120, MAXFLOAT);
+    
+    CGRect frame = [[self.myComments[indexPath.row] objectForKey:@"content"]
+                    boundingRectWithSize:maxSize
+                    options:NSStringDrawingUsesLineFragmentOrigin
+                    attributes:@{NSFontAttributeName: cell.textLabel.font} context:nil];
+    
+//    NSLog(@"textLabel frame = %@",NSStringFromCGRect(frame));
+    [cell.textLabel setFrame:frame];
+    [cell setFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, frame.size.height + 64)];
+//    NSLog(@"cell frame = %@",NSStringFromCGRect(cell.frame));
     return cell;
 }
 
-- (void)addNewComment
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+    return cell.frame.size.height;
 }
+
+
 
 @end

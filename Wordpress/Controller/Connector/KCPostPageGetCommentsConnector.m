@@ -26,6 +26,8 @@
 {
     if (!_commentsViewController){
         _commentsViewController = [[KCCommentsViewController alloc] init];
+        UIBarButtonItem *addCommentButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewComment)];
+        _commentsViewController.navigationItem.rightBarButtonItem = addCommentButton;
     }
     return _commentsViewController;
 }
@@ -53,4 +55,7 @@
     [self.commentsViewController.tableView reloadData];
 }
 
+- (void)addNewComment
+{
+}
 @end

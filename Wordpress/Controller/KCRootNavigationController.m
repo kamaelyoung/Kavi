@@ -123,6 +123,8 @@
     [self.getPostsRequestManager.myFilter setValue:@"0" forKey:@"offset"];
     
 
+    [self.getPostsRequestManager sendRequestFromOwner:self];
+    
     __weak KCRootNavigationController *self_ = self;
     [self pushViewController:self.recentPostsTableViewController animated:YES];
     [self.recentPostsTableViewController.tableView addPullToRefreshWithActionHandler:^(void){
@@ -130,9 +132,8 @@
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     }position:SVPullToRefreshPositionBottom];
     
-    
     [self.recentPostsTableViewController.tableView.pullToRefreshView setHidden:YES];
-    [self.recentPostsTableViewController.tableView triggerPullToRefresh];
+   
 }
 
 
