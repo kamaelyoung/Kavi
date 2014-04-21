@@ -82,7 +82,10 @@
     if (self) {
         // if the navigation bar is translucent, SVPullToRefresh give rise to first tableview cell cut-off.
         self.navigationBar.translucent = NO;
+//        self.edgesForExtendedLayout = UIRectEdgeNone;
+//         [self.navigationController.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
         self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+//        self.view.backgroundColor = [UIColor whiteColor];
         [self setupSVProgressHUD];
         self.errorNotificationCenter = [KCErrorNotificationCenter sharedInstance];
     }
@@ -120,6 +123,8 @@
     [self.getPostsRequestManager.myFilter setValue:@"0" forKey:@"offset"];
     
 
+    [self.getPostsRequestManager sendRequestFromOwner:self];
+    
     __weak KCRootNavigationController *self_ = self;
     [self pushViewController:self.recentPostsTableViewController animated:YES];
     [self.recentPostsTableViewController.tableView addPullToRefreshWithActionHandler:^(void){
@@ -127,9 +132,8 @@
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     }position:SVPullToRefreshPositionBottom];
     
-    
     [self.recentPostsTableViewController.tableView.pullToRefreshView setHidden:YES];
-    [self.recentPostsTableViewController.tableView triggerPullToRefresh];
+   
 }
 
 
@@ -151,17 +155,19 @@
 -(void)achieveGetUsersBlogsResponse:(NSArray *)response
 {
     self.recentPostsTableViewController.title = [[response lastObject] objectForKey:@"blogName"];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setImage:[UIImage imageNamed:@"CategoryImage"] forState:UIControlStateNormal];
+    [button setFrame:CGRectMake(0.0, 0.0, 31, 44)];
+    [button addTarget:self action:@selector(selectCategoriesTableViewController) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.recentPostsTableViewController.navigationItem.rightBarButtonItem = rightBarButton;
+    
 //    self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
-//    [[UIBarButtonItem alloc] initWithTitle:@"分类"
-//                                     style:UIBarButtonItemStylePlain
+//    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"CategoryImage"]
+//                                     style:UIBarButtonItemStyleBordered
 //                                    target:self
 //                                    action:@selector(selectCategoriesTableViewController)];
-    
-    self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
-    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"CategoryImage"]
-                                     style:UIBarButtonItemStyleBordered
-                                    target:self
-                                    action:@selector(selectCategoriesTableViewController)];
 }
 
 #pragma mark - KCGetPostsRequestManagerDelegate

@@ -20,6 +20,7 @@
 }
 @property (nonatomic,strong) NSString *myNavigationBarTitle;
 @property (nonatomic,strong) NSMutableArray *postPageArray;
+@property (nonatomic,strong) NSDictionary *rowHeight;
 
 @end
 
@@ -27,6 +28,7 @@
 @synthesize myPosts = _myPosts;
 @synthesize myNavigationBarTitle = _myNavigationBarTitle;
 @synthesize postPageArray = _postPageArray;
+@synthesize rowHeight = _rowHeight;
 
 #pragma mark - Inital Method
 - (instancetype)init
@@ -35,11 +37,12 @@
     if (self) {
         self.view.frame = [UIScreen mainScreen].bounds;
         self.tableView.showsPullToRefresh = YES;
+        self.tableView.rowHeight = 64.0f;
         indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        self.tableView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
     }
     return self;
 }
-
 
 #pragma mark - Getter & Setter
 
@@ -62,7 +65,7 @@
 /**
  *  The Getter of self.postPageArray
  *
- *  Insert loaded instances of KCPostPageViewController, the length of this array must be as 
+ *  Insert loaded instances of KCPostPageViewController, the length of this array must be as
  *  same as the length of self.myPosts. If some position in this array is empty, set object in
  *  this index as [NSNull null].
  *
@@ -83,6 +86,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.tableView.tableFooterView = [UIView new];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -94,7 +98,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-//    [self.tableView triggerPullToRefresh];
+    //    [self.tableView triggerPullToRefresh];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -112,22 +116,30 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentity = @"post_cell";
-    KCPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentity];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentity];
+    
     if (cell == nil) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"KCPostTableViewCell"
-                                                     owner:self
-                                                   options:nil];
-        cell = [nib objectAtIndex:0];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:cellIdentity];
     }
-    cell.postTitleLabel.text = [[self.myPosts objectAtIndex:indexPath.row]
-                                objectForKey:@"postTitle"];
+    
+    cell.textLabel.numberOfLines = 0;
+    cell.textLabel.text = [[self.myPosts objectAtIndex:indexPath.row]
+                           objectForKey:@"postTitle"];
+    
+    CGSize maxSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, MAXFLOAT);
+    
+    CGRect frame = [[[self.myPosts objectAtIndex:indexPath.row] objectForKey:@"postTitle"]
+                    boundingRectWithSize:maxSize
+                    options:NSStringDrawingUsesLineFragmentOrigin
+                    attributes:@{NSFontAttributeName:cell.textLabel.font}
+                    context:nil];
+    
+    [cell.textLabel setFrame:frame];
+    
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 64.0f;
-}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -140,6 +152,22 @@
      [self.postPageArray objectAtIndex:indexPath.row] animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+    CGFloat cellHeight = 64.0;
+    CGFloat textLabelHeight = cell.textLabel.frame.size.height;
+    CGFloat textOriginalHeight = [UIFont systemFontSize];
+    
+    CGFloat offSet = textLabelHeight - textOriginalHeight;
+    
+    if(offSet > 0){
+        return cellHeight + offSet;
+    }else{
+        return cellHeight;
+    }
 }
 
 #pragma mark - Handle Response Wrapper
@@ -169,8 +197,11 @@
     [self.myPosts addObject:postDictionary];
     [self.postPageArray addObject:[NSNull null]];
     
-    NSLog(@"%d",[self.myPosts count]);
-    NSLog(@"%@",self.postPageArray);
+    //    NSLog(@"%d",[self.myPosts count]);
+    //    NSLog(@"%@",self.postPageArray);
 }
+
+
+
 
 @end

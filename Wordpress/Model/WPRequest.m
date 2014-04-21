@@ -12,6 +12,10 @@ NSString *const WP_USERNAME = @"iOS_Client";
 NSString *const WP_PASSWORD = @"nokian81";
 NSString *const XMLPRC_URL = @"http://chenqiwei.com/blog/xmlrpc.php";
 
+//NSString *const WP_USERNAME = @"kavi";
+//NSString *const WP_PASSWORD = @"123456";
+//NSString *const XMLPRC_URL = @"http://sillyar.me/xmlrpc.php";
+
 @implementation WPRequest
 
 @synthesize myUsername = _myUsername;

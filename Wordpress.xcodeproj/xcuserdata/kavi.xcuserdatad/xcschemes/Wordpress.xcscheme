@@ -17,7 +17,7 @@
                BlueprintIdentifier = "5AE4A45518D93F800000DB21"
                BuildableName = "Wordpress.app"
                BlueprintName = "Wordpress"
-               ReferencedContainer = "container:C&apos;s A.T.Field.xcodeproj">
+               ReferencedContainer = "container:Wordpress.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "5AE4A47618D93F810000DB21"
                BuildableName = "WordpressTests.xctest"
                BlueprintName = "WordpressTests"
-               ReferencedContainer = "container:C&apos;s A.T.Field.xcodeproj">
+               ReferencedContainer = "container:Wordpress.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -45,7 +45,7 @@
             BlueprintIdentifier = "5AE4A45518D93F800000DB21"
             BuildableName = "Wordpress.app"
             BlueprintName = "Wordpress"
-            ReferencedContainer = "container:C&apos;s A.T.Field.xcodeproj">
+            ReferencedContainer = "container:Wordpress.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -64,7 +64,7 @@
             BlueprintIdentifier = "5AE4A45518D93F800000DB21"
             BuildableName = "Wordpress.app"
             BlueprintName = "Wordpress"
-            ReferencedContainer = "container:C&apos;s A.T.Field.xcodeproj">
+            ReferencedContainer = "container:Wordpress.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -82,7 +82,7 @@
             BlueprintIdentifier = "5AE4A45518D93F800000DB21"
             BuildableName = "Wordpress.app"
             BlueprintName = "Wordpress"
-            ReferencedContainer = "container:C&apos;s A.T.Field.xcodeproj">
+            ReferencedContainer = "container:Wordpress.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
