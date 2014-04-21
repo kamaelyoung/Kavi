@@ -8,12 +8,24 @@
 
 #import "KCAppDelegate.h"
 #import "KCRootNavigationController.h"
+#import "KCLaunchImageViewController.h"
 
 @implementation KCAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+//    UIImageView *splashScreen = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"FakeLaunchImage"]];
+//    [self.window addSubview:splashScreen];
+//    
+//    self.window.rootViewController =
+//    [KCLaunchImageViewController addTransitionToViewController:[KCRootNavigationController sharedInstance]
+//                                          modalTransitionStyle:UIModalTransitionStyleCrossDissolve
+//                                                     withImage:@"DisplayImage"
+//                                                     taskBlock:^(void){
+//                                                         [splashScreen removeFromSuperview];
+//                                                     }];
+    
     self.window.rootViewController = [KCRootNavigationController sharedInstance];
     return YES;
 }

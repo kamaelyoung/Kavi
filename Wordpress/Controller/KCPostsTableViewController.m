@@ -36,6 +36,7 @@
         self.view.frame = [UIScreen mainScreen].bounds;
         self.tableView.showsPullToRefresh = YES;
         indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        self.tableView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
     }
     return self;
 }
@@ -83,6 +84,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.tableView.tableFooterView = [UIView new];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -124,10 +126,10 @@
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 64.0f;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return 64.0f;
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -140,6 +142,11 @@
      [self.postPageArray objectAtIndex:indexPath.row] animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 64.0f;
 }
 
 #pragma mark - Handle Response Wrapper
@@ -169,8 +176,8 @@
     [self.myPosts addObject:postDictionary];
     [self.postPageArray addObject:[NSNull null]];
     
-    NSLog(@"%d",[self.myPosts count]);
-    NSLog(@"%@",self.postPageArray);
+//    NSLog(@"%d",[self.myPosts count]);
+//    NSLog(@"%@",self.postPageArray);
 }
 
 @end

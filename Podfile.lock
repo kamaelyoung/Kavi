@@ -1,4 +1,5 @@
 PODS:
+  - HPGrowingTextView (HEAD based on 1.1)
   - NSData+Base64 (1.0.0)
   - SVProgressHUD (HEAD based on 1.0)
   - SVPullToRefresh (HEAD based on 0.4.1)
@@ -6,14 +7,16 @@ PODS:
     - NSData+Base64 (~> 1.0.0)
 
 DEPENDENCIES:
+  - HPGrowingTextView (HEAD)
   - SVProgressHUD (HEAD)
   - SVPullToRefresh (HEAD)
   - xmlrpc (HEAD)
 
 SPEC CHECKSUMS:
+  HPGrowingTextView: 4318f557b33c19def1c53ec275d6e2a2d6589cd0
   NSData+Base64: bd5dacbc799c0339bd6a961a9ea80dd6eba11b33
   SVProgressHUD: 5e10939a296debf5fe5a5895eda9539b8b2114f1
   SVPullToRefresh: 61a0e4bd12bd6f8e3465909810b0fbeb1a28d5f2
   xmlrpc: 9ebaa6298ce90ff0c3c30404681f2030bdde54db
 
-COCOAPODS: 0.29.0
+COCOAPODS: 0.32.1
