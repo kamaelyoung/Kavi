@@ -13,13 +13,16 @@
 
 @interface KCRootNavigationController ()
 {
-    UIBarButtonItem *leftNavigationBarButtomItem;
+//    UIBarButtonItem *leftNavigationBarButtomItem;
+    UIActivityIndicatorView *indicator;
 }
 @property (nonatomic,strong) KCPostsTableViewController *recentPostsTableViewController;
 @property (nonatomic,strong) KCCategoryManager *categoryManager;
 @property (nonatomic,strong) KCGetUsersBlogsRequestManager *getUsersBlogsRequestManager;
 @property (nonatomic,strong) KCGetPostsRequestManager *getPostsRequestManager;
 @property (nonatomic,strong) KCErrorNotificationCenter *errorNotificationCenter;
+@property (nonatomic) BOOL postsFlag;
+@property (nonatomic) BOOL userInfoFlag;
 @end
 
 @implementation KCRootNavigationController
@@ -82,12 +85,15 @@
     if (self) {
         // if the navigation bar is translucent, SVPullToRefresh give rise to first tableview cell cut-off.
         self.navigationBar.translucent = NO;
-//        self.edgesForExtendedLayout = UIRectEdgeNone;
-//         [self.navigationController.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
         self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-//        self.view.backgroundColor = [UIColor whiteColor];
         [self setupSVProgressHUD];
         self.errorNotificationCenter = [KCErrorNotificationCenter sharedInstance];
+        
+        indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator.color = [UIColor blackColor];
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:indicator];
+        self.recentPostsTableViewController.navigationItem.leftBarButtonItem = leftBarButtonItem;
+        [indicator startAnimating];
     }
     return self;
 }
@@ -113,10 +119,14 @@
 {
     [super viewDidLoad];
 //    [self.blogInfoRequestManager sendGetBlogInfoRequest];
+
     self.getUsersBlogsRequestManager.delegate = self;
     self.getPostsRequestManager.delegate = self;
+    self.postsFlag = NO;
+    self.userInfoFlag = NO;
     
     [self.getUsersBlogsRequestManager sendRequestFromOwner:self];
+    
     [self.getPostsRequestManager.myFilter setValue:@"publish" forKey:@"post_status"];
     [self.getPostsRequestManager.myFilter setValue:@"8" forKey:@"number"];
     [self.getPostsRequestManager.myFilter setValue:@"1" forKey:@"author"];
@@ -133,6 +143,7 @@
     }position:SVPullToRefreshPositionBottom];
     
     [self.recentPostsTableViewController.tableView.pullToRefreshView setHidden:YES];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
    
 }
 
@@ -155,43 +166,52 @@
 -(void)achieveGetUsersBlogsResponse:(NSArray *)response
 {
     self.recentPostsTableViewController.title = [[response lastObject] objectForKey:@"blogName"];
+    self.userInfoFlag = YES;
     
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setImage:[UIImage imageNamed:@"CategoryImage"] forState:UIControlStateNormal];
-    [button setFrame:CGRectMake(0.0, 0.0, 31, 44)];
-    [button addTarget:self action:@selector(selectCategoriesTableViewController) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:button];
-    self.recentPostsTableViewController.navigationItem.rightBarButtonItem = rightBarButton;
-    
-//    self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
-//    [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"CategoryImage"]
-//                                     style:UIBarButtonItemStyleBordered
-//                                    target:self
-//                                    action:@selector(selectCategoriesTableViewController)];
+    [self checkFlag];
 }
 
 #pragma mark - KCGetPostsRequestManagerDelegate
 - (void)achieveGetPostsResponse:(NSArray *)response
 {
+    self.postsFlag = YES;
     [self.recentPostsTableViewController handleMyPostsWithRawResponse:response];
     
     NSString *newOffSet = [NSString stringWithFormat:@"%lu",(unsigned long)[self.recentPostsTableViewController.myPosts count]];
     [self.getPostsRequestManager.myFilter setObject:newOffSet forKey:@"offset"];
     
+    [self checkFlag];
+    
     [self.recentPostsTableViewController.tableView.pullToRefreshView setHidden:NO];
     [self.recentPostsTableViewController.tableView.pullToRefreshView stopAnimating];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+//    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 #pragma mark  - KCErrorNotificationCenter Protocol
 - (void)handleRequest:(WPRequest *)request Error:(NSError *)error
 {
+    [indicator stopAnimating];
+    
     if ([request.method isEqualToString:@"wp.getUsersBlogs"]) {
         [[UIApplication sharedApplication]setNetworkActivityIndicatorVisible:NO];
         self.recentPostsTableViewController.navigationItem.rightBarButtonItem =
         [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(resendRequests)];
     } else if ([request.method isEqualToString:@"wp.getPosts"]){
         [self.recentPostsTableViewController.tableView.pullToRefreshView stopAnimating];
+    }
+}
+
+- (void)checkFlag
+{
+    if (self.userInfoFlag && self.postsFlag) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setImage:[UIImage imageNamed:@"CategoryImage"] forState:UIControlStateNormal];
+        [button setFrame:CGRectMake(0.0, 0.0, 31, 44)];
+        [button addTarget:self action:@selector(selectCategoriesTableViewController) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+        self.recentPostsTableViewController.navigationItem.rightBarButtonItem = rightBarButton;
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        [indicator stopAnimating];
     }
 }
 @end

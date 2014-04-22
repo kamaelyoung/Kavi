@@ -7,11 +7,14 @@
 //
 
 #import "KCCommentsViewController.h"
+#import "KCCommentTableViewCell.h"
 
 @interface KCCommentsViewController ()
 @end
 
 @implementation KCCommentsViewController
+@synthesize noCommentLabel = _noCommentLabel;
+@synthesize myComments = _myComments;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -20,6 +23,18 @@
         // Custom initialization
     }
     return self;
+}
+
+- (UILabel *)noCommentLabel
+{
+    if (!_noCommentLabel) {
+        _noCommentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 0.f, 250.f, 25.f)];
+        _noCommentLabel.textAlignment = NSTextAlignmentCenter;
+        _noCommentLabel.text = @"还没有评论，赶紧抢沙发吧";
+        _noCommentLabel.textColor = [UIColor grayColor];
+        _noCommentLabel.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2 , [UIScreen mainScreen].bounds.size.height/2 - 30);
+    }
+    return _noCommentLabel;
 }
 
 - (instancetype)init
@@ -34,35 +49,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    self.tableView.rowHeight = 64.0f;
-//    self.edgesForExtendedLayout = UIRectEdgeNone;
-    
     self.tableView.tableFooterView = [UIView new];
-    
-//    UIBarButtonItem *addCommentButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewComment)];
-//    self.navigationItem.rightBarButtonItem  = addCommentButton;
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    [self.commentView willMoveToSuperview:self.navigationController.view];
     self.title = @"评论";
+    
+    if (self.myComments != 0) {
+        [self.noCommentLabel removeFromSuperview];
+    }
 }
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -89,27 +88,40 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentity = @"comment_cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentity];
+    KCCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentity];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+        cell = [[KCCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                       reuseIdentifier:@"comment_cell"];
     }
     
     cell.textLabel.numberOfLines = 0;
-    cell.textLabel.text = [self.myComments[indexPath.row] objectForKey:@"content"];
-    cell.detailTextLabel.text = [self.myComments[indexPath.row] objectForKey:@"author"];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
-    CGSize maxSize = CGSizeMake([UIScreen mainScreen].bounds.size.height - 120, MAXFLOAT);
+    cell.textLabel.text = [self.myComments[indexPath.row] objectForKey:@"content"];
+    
+    cell.detailTextLabel.text = [self.myComments[indexPath.row] objectForKey:@"author"];
+    cell.detailTextLabel.tintColor = [UIColor grayColor];
+    
+    CGSize maxSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, MAXFLOAT);
     
     CGRect frame = [[self.myComments[indexPath.row] objectForKey:@"content"]
                     boundingRectWithSize:maxSize
                     options:NSStringDrawingUsesLineFragmentOrigin
                     attributes:@{NSFontAttributeName: cell.textLabel.font} context:nil];
     
-//    NSLog(@"textLabel frame = %@",NSStringFromCGRect(frame));
+//    NSLog(@"cell.textLabel frame = %@",NSStringFromCGRect(frame));
     [cell.textLabel setFrame:frame];
-    [cell setFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, frame.size.height + 64)];
+    
+//    NSLog(@"cell.textLabel.frame = %@",NSStringFromCGRect(cell.textLabel.frame));
+    
+//    cell.textLabel.layer.borderWidth = 3.f;
+//    cell.layer.borderWidth = 3.f;
+    
+    [cell setFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, (frame.size.height + 64.f)*1.2)];
+    
+//    NSLog(@"cell.frame = %@",NSStringFromCGRect(cell.frame));
+    
 //    NSLog(@"cell frame = %@",NSStringFromCGRect(cell.frame));
     return cell;
 }

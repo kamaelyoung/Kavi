@@ -31,7 +31,6 @@
 
 - (void)receiveErrorNotification:(NSNotification *)notification
 {
-//    [self performSelector:@selector(showErrorWithStatus:) withObject:@"出错了" afterDelay:0.5f];
     [self performSelector:@selector(showErrorWithStatus:) withObject:[notification.userInfo objectForKey:@"error"] afterDelay:0.5f];
     
     if ([[notification.userInfo objectForKey:@"requestOwner"] respondsToSelector:@selector(handleRequest:Error:)]){

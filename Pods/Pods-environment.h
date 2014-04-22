@@ -6,17 +6,17 @@
 // project.
 
 
-// HPGrowingTextView
-#define COCOAPODS_POD_AVAILABLE_HPGrowingTextView
-#define COCOAPODS_VERSION_MAJOR_HPGrowingTextView 1
-#define COCOAPODS_VERSION_MINOR_HPGrowingTextView 1
-#define COCOAPODS_VERSION_PATCH_HPGrowingTextView 0
-
 // NSData+Base64
 #define COCOAPODS_POD_AVAILABLE_NSData_Base64
 #define COCOAPODS_VERSION_MAJOR_NSData_Base64 1
 #define COCOAPODS_VERSION_MINOR_NSData_Base64 0
 #define COCOAPODS_VERSION_PATCH_NSData_Base64 0
+
+// RPFloatingPlaceholders
+#define COCOAPODS_POD_AVAILABLE_RPFloatingPlaceholders
+#define COCOAPODS_VERSION_MAJOR_RPFloatingPlaceholders 0
+#define COCOAPODS_VERSION_MINOR_RPFloatingPlaceholders 2
+#define COCOAPODS_VERSION_PATCH_RPFloatingPlaceholders 5
 
 // SVProgressHUD
 #define COCOAPODS_POD_AVAILABLE_SVProgressHUD

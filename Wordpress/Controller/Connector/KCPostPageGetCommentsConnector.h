@@ -9,11 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "KCGetCommentsRequestManager.h"
 #import "KCCommentsViewController.h"
+#import "KCAddNewCommentViewController.h"
+#import "KCNewCommentRequestManager.h"
 
-@interface KCPostPageGetCommentsConnector : NSObject <KCGetCommentsRequestManagerDelegate>
+@interface KCPostPageGetCommentsConnector : NSObject <KCGetCommentsRequestManagerDelegate,KCNewCommentRequestManagerDelegate>
 @property (nonatomic,strong) KCGetCommentsRequestManager *getCommentsRequestManager;
 @property (nonatomic,strong) KCCommentsViewController *commentsViewController;
-//@property (nonatomic,strong) NSMutableDictionary *getCommentsRequestFilter;
+@property (nonatomic,strong) KCAddNewCommentViewController *addNewCommentViewController;
+@property (nonatomic,strong) KCNewCommentRequestManager *newCommentRequestManager;
+@property (nonatomic,strong) NSString *myPostID;
 
 - (instancetype)init;
 - (void)sendGetCommentsRequestWith:(NSMutableDictionary *)filter;

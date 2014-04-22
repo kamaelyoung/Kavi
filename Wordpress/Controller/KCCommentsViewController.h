@@ -10,4 +10,5 @@
 
 @interface KCCommentsViewController : UITableViewController
 @property (nonatomic,strong) NSMutableArray *myComments;
+@property (nonatomic,strong) UILabel *noCommentLabel;
 @end
