@@ -1,16 +1,22 @@
 PODS:
   - NSData+Base64 (1.0.0)
   - RPFloatingPlaceholders (0.2.5)
-  - SVProgressHUD (HEAD based on 1.0)
-  - SVPullToRefresh (HEAD based on 0.4.1)
+  - SVProgressHUD (1.0)
+  - SVPullToRefresh (0.4.1)
   - xmlrpc (HEAD based on 2.3.3):
     - NSData+Base64 (~> 1.0.0)
 
 DEPENDENCIES:
   - RPFloatingPlaceholders (~> 0.2.5)
-  - SVProgressHUD (HEAD)
-  - SVPullToRefresh (HEAD)
+  - SVProgressHUD (from `https://github.com/kavichen/SVProgressHUD.git`)
+  - SVPullToRefresh (from `https://github.com/kavichen/SVPullToRefresh.git`)
   - xmlrpc (HEAD)
+
+EXTERNAL SOURCES:
+  SVProgressHUD:
+    :git: https://github.com/kavichen/SVProgressHUD.git
+  SVPullToRefresh:
+    :git: https://github.com/kavichen/SVPullToRefresh.git
 
 SPEC CHECKSUMS:
   NSData+Base64: bd5dacbc799c0339bd6a961a9ea80dd6eba11b33
