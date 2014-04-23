@@ -27,4 +27,5 @@
     NSArray *rawResponse = [response object];
     [self.delegate achieveGetTermsResponse:rawResponse];
 }
+
 @end

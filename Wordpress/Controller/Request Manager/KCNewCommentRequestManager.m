@@ -36,8 +36,6 @@
                                           self.myPostID,
                                           self.myComment]];
     [self.myRequestManager spawnConnectWithWPRequest:newCommentRequest delegate:self];
-    
-    NSLog(@"%@",self.myComment);
 }
 
 - (void)request:(XMLRPCRequest *)request didReceiveResponse:(XMLRPCResponse *)response

@@ -114,6 +114,7 @@
     
     self.myConnector = [[KCPostPageGetCommentsConnector alloc] init];
     [self.myConnector sendGetCommentsRequestWith:myFilter];
+    [SVProgressHUD showWithStatus:@"正在获取评论" maskType:SVProgressHUDMaskTypeClear];
     
     [self.navigationController pushViewController:self.myConnector.commentsViewController
                                          animated:YES];

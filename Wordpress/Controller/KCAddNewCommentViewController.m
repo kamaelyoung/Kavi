@@ -10,8 +10,6 @@
 
 
 @interface KCAddNewCommentViewController ()
-
-
 @end
 
 @implementation KCAddNewCommentViewController
@@ -30,11 +28,6 @@
     [super viewDidLoad];
     
     // Uncomment the code below to add a text field programmatically
-    
-//    NSLog(@"%@",self.view.layer.border);
-    
-    
-    
     CGRect nameFrame = CGRectMake(20.f, 20.f, 273.f, 40.f);
     self.nickNameTextField = [[RPFloatingPlaceholderTextField alloc] initWithFrame:nameFrame];
     self.nickNameTextField.backgroundColor = [UIColor whiteColor];

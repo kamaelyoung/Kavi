@@ -177,6 +177,13 @@
 			name = Connector;
 			sourceTree = "<group>";
 		};
+		5AA3D9BA1906789000D2A227 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Test;
+			sourceTree = "<group>";
+		};
 		5AE4A44D18D93F800000DB21 = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +219,7 @@
 		5AE4A45F18D93F800000DB21 /* Wordpress */ = {
 			isa = PBXGroup;
 			children = (
+				5AA3D9BA1906789000D2A227 /* Test */,
 				5AE4A49018D9401D0000DB21 /* Controller */,
 				5AE4A48F18D940170000DB21 /* View */,
 				5AE4A48E18D9400F0000DB21 /* Model */,
@@ -593,6 +601,7 @@
 				GCC_PREFIX_HEADER = "Wordpress/Wordpress-Prefix.pch";
 				INFOPLIST_FILE = "Wordpress/Wordpress-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -608,6 +617,7 @@
 				GCC_PREFIX_HEADER = "Wordpress/Wordpress-Prefix.pch";
 				INFOPLIST_FILE = "Wordpress/Wordpress-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

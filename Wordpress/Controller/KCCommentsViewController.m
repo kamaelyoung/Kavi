@@ -57,10 +57,6 @@
 {
     [super viewWillAppear:animated];
     self.title = @"评论";
-    
-    if (self.myComments != 0) {
-        [self.noCommentLabel removeFromSuperview];
-    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated
