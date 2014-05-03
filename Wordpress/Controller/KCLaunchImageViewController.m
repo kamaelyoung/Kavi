@@ -36,9 +36,9 @@
                   modalTransitionStyle:(UIModalTransitionStyle)theStyle
                                  image:(NSString *)imageName
                              taskBlock:(void (^)(void))block
-
 {
     self = [super init];
+
     if (self) {
         [viewController setModalTransitionStyle:theStyle];
         self.myImage = [UIImage imageNamed:imageName];
@@ -48,9 +48,19 @@
     return self;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return STATUS_BAR_HIDDEN;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+        [self prefersStatusBarHidden];
+        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+    }
     
     self.fromImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.toImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];

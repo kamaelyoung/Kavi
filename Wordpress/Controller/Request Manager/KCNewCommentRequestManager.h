@@ -17,6 +17,7 @@
 @property (nonatomic,strong) NSString *myPostID;
 @property (nonatomic,strong) NSMutableDictionary *myComment;
 
+
 - (void)sendRequestFromOwner:(id)owner;
 
 @end

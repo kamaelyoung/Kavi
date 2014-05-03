@@ -75,7 +75,7 @@
                     baseURL:[NSURL fileURLWithPath:mainBundleDirectory]];
     
     self.webView.backgroundColor = [UIColor whiteColor];
-    
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -87,7 +87,9 @@
                                     CGPointZero.y,
                                     self.view.frame.size.width,
                                     self.view.frame.size.height);
+    [self.view addSubview:self.webView];
 }
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
