@@ -1,5 +1,7 @@
 PODS:
+  - KCLaunchImage (0.0.1)
   - NSData+Base64 (1.0.0)
+  - Reveal-iOS-SDK (1.0.3)
   - RPFloatingPlaceholders (0.2.5)
   - SVProgressHUD (1.0)
   - SVPullToRefresh (0.4.1)
@@ -7,6 +9,8 @@ PODS:
     - NSData+Base64 (~> 1.0.0)
 
 DEPENDENCIES:
+  - KCLaunchImage (~> 0.0.1)
+  - Reveal-iOS-SDK
   - RPFloatingPlaceholders (~> 0.2.5)
   - SVProgressHUD (from `https://github.com/kavichen/SVProgressHUD.git`)
   - SVPullToRefresh (from `https://github.com/kavichen/SVPullToRefresh.git`)
@@ -19,7 +23,9 @@ EXTERNAL SOURCES:
     :git: https://github.com/kavichen/SVPullToRefresh.git
 
 SPEC CHECKSUMS:
+  KCLaunchImage: de38289eed102db300db2fcba344085fcfc8c421
   NSData+Base64: bd5dacbc799c0339bd6a961a9ea80dd6eba11b33
+  Reveal-iOS-SDK: 8e6a6f22a9520437e4a180fe1d4e99f43b75430e
   RPFloatingPlaceholders: f18ef716afa3158e8552053d721d4851a934f3d0
   SVProgressHUD: 5e10939a296debf5fe5a5895eda9539b8b2114f1
   SVPullToRefresh: 61a0e4bd12bd6f8e3465909810b0fbeb1a28d5f2

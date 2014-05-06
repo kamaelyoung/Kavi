@@ -4,12 +4,22 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Pods-KCLaunchImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-NSData+Base64.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>Pods-RPFloatingPlaceholders.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Reveal-iOS-SDK.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -37,32 +47,42 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>10715076BAF941BAB4776143</key>
+		<key>485F33B6BD7F421CA5E58460</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>561269F295604299AA48F94E</key>
+		<key>5889A572D18D4FE28847AEDB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9C85EF2F951F496C9347543B</key>
+		<key>5D3094D817614F3C889859EA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C6606630DBBD4D76B4C6CB09</key>
+		<key>5E8215C3BD5E4495ACBC146E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DB5F2545FA1944BE8C3090E5</key>
+		<key>6C5EAC701DB14F5DAA8387F6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EAFF00DE3B3F46F4A0DAC414</key>
+		<key>82FDF64DA92E4D04A936E403</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>93DE667B89B94845A9DE983E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DD79124C6EAA4352972A9DBB</key>
 		<dict>
 			<key>primary</key>
 			<true/>

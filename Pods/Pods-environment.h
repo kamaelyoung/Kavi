@@ -6,6 +6,12 @@
 // project.
 
 
+// KCLaunchImage
+#define COCOAPODS_POD_AVAILABLE_KCLaunchImage
+#define COCOAPODS_VERSION_MAJOR_KCLaunchImage 0
+#define COCOAPODS_VERSION_MINOR_KCLaunchImage 0
+#define COCOAPODS_VERSION_PATCH_KCLaunchImage 1
+
 // NSData+Base64
 #define COCOAPODS_POD_AVAILABLE_NSData_Base64
 #define COCOAPODS_VERSION_MAJOR_NSData_Base64 1
@@ -17,6 +23,12 @@
 #define COCOAPODS_VERSION_MAJOR_RPFloatingPlaceholders 0
 #define COCOAPODS_VERSION_MINOR_RPFloatingPlaceholders 2
 #define COCOAPODS_VERSION_PATCH_RPFloatingPlaceholders 5
+
+// Reveal-iOS-SDK
+#define COCOAPODS_POD_AVAILABLE_Reveal_iOS_SDK
+#define COCOAPODS_VERSION_MAJOR_Reveal_iOS_SDK 1
+#define COCOAPODS_VERSION_MINOR_Reveal_iOS_SDK 0
+#define COCOAPODS_VERSION_PATCH_Reveal_iOS_SDK 3
 
 // SVProgressHUD
 #define COCOAPODS_POD_AVAILABLE_SVProgressHUD

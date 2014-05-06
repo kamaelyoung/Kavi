@@ -8,7 +8,7 @@
 
 #import "KCAppDelegate.h"
 #import "KCRootNavigationController.h"
-#import "KCLaunchImageViewController.h"
+#import <KCLaunchImageViewController.h>
 
 @implementation KCAppDelegate
 
@@ -26,8 +26,6 @@
                                                          [splashScreen removeFromSuperview];
                                                      }];
     
-//    self.window.rootViewController = [KCRootNavigationController sharedInstance];
-//    CHLog(@"测试名称：%@",@"值");
     return YES;
 }
 							

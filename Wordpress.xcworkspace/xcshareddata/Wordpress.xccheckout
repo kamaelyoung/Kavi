@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>3C923DF3-BF97-4E42-B5DE-7AACC6ECEE5C</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Wordpress</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>C943FA12-6B36-4C14-9F81-9048947C8182</key>
+		<string>https://github.com/kavichen/Wordpress-in-iOS.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Wordpress.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>C943FA12-6B36-4C14-9F81-9048947C8182</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/kavichen/Wordpress-in-iOS.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>C943FA12-6B36-4C14-9F81-9048947C8182</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C943FA12-6B36-4C14-9F81-9048947C8182</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Wordpress</string>
+		</dict>
+	</array>
+</dict>
+</plist>
