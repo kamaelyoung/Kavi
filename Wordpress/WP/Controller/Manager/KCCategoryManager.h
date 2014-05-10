@@ -10,8 +10,6 @@
 #import "KCGetTermsRequestManager.h"
 #import "KCCategoryTableViewController.h"
 #import "KCErrorNotificationCenter.h"
-#import "KCPostListInCategoryManager.h"
-
 
 @interface KCCategoryManager : NSObject <KCGetTermsRequestManagerDelegate,KCErrorNotificationCenterProtocol>
 

@@ -55,7 +55,7 @@
 #pragma mark - Functional Method
 - (void)sendGetPostsRequest
 {
-    WPRequest *getPostsRequest = [self.myRequestManager createRequest];
+    WPRequest *getPostsRequest = [self.myRequestManager createRequestInOwner:self];
     [self.myRequestManager setWPRequest:getPostsRequest
                                  Method:@"wp.getPosts"
                          withParameters:@[@"1",

@@ -13,7 +13,6 @@
 
 @interface KCRootNavigationController ()
 {
-//    UIBarButtonItem *leftNavigationBarButtomItem;
     UIActivityIndicatorView *indicator;
 }
 @property (nonatomic,strong) KCPostsTableViewController *recentPostsTableViewController;

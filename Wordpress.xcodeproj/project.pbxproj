@@ -7,22 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5A25AFEE18E6B8F8006843CD /* KCPostPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A25AFED18E6B8F8006843CD /* KCPostPageViewController.m */; };
 		5A25AFF018E91B9C006843CD /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 5A25AFEF18E91B9C006843CD /* style.css */; };
-		5A29BC9318FB6B9200E2380C /* KCErrorNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A29BC9218FB6B9200E2380C /* KCErrorNotificationCenter.m */; };
-		5A42F25D18E3C06000FE6085 /* KCPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A42F25B18E3C06000FE6085 /* KCPostTableViewCell.m */; };
-		5A42F25E18E3C06000FE6085 /* KCPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A42F25C18E3C06000FE6085 /* KCPostTableViewCell.xib */; };
-		5A71099B18F5237300EB85A1 /* KCCategoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A71099A18F5237300EB85A1 /* KCCategoryTableViewController.m */; };
-		5A7109A118F52DFD00EB85A1 /* KCCategoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7109A018F52DFD00EB85A1 /* KCCategoryManager.m */; };
-		5A7109A418F53BEF00EB85A1 /* KCPostListInCategoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A7109A318F53BEF00EB85A1 /* KCPostListInCategoryManager.m */; };
-		5A81CA9C18F4F41B0059D0C3 /* WPRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A81CA9918F4F41B0059D0C3 /* WPRequestManager.m */; };
-		5AA3D95B1901180700D2A227 /* KCGetCommentsRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D95A1901180700D2A227 /* KCGetCommentsRequestManager.m */; };
-		5AA3D95F19011CF500D2A227 /* KCPostPageGetCommentsConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D95E19011CF500D2A227 /* KCPostPageGetCommentsConnector.m */; };
-		5AA3D9651901327000D2A227 /* KCCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D9641901327000D2A227 /* KCCommentsViewController.m */; };
-		5AA3D9B319051F9900D2A227 /* KCAddNewCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D9B219051F9900D2A227 /* KCAddNewCommentViewController.m */; };
-		5AA3D9B61906093800D2A227 /* KCNewCommentRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D9B51906093800D2A227 /* KCNewCommentRequestManager.m */; };
-		5AA3D9B91906515600D2A227 /* KCCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3D9B81906515600D2A227 /* KCCommentTableViewCell.m */; };
-		5AE4A0AA18E286160007759A /* KCRootNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4A0A918E286160007759A /* KCRootNavigationController.m */; };
+		5AC5907C191DC41B002C8A52 /* KCRootNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5907B191DC41B002C8A52 /* KCRootNavigationController.m */; };
+		5AC590B1191DC486002C8A52 /* KCErrorNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC59080191DC485002C8A52 /* KCErrorNotificationCenter.m */; };
+		5AC590B2191DC486002C8A52 /* KCNetworkErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC59082191DC485002C8A52 /* KCNetworkErrorHandler.m */; };
+		5AC590B3191DC486002C8A52 /* KCCategoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC59085191DC485002C8A52 /* KCCategoryManager.m */; };
+		5AC590B4191DC486002C8A52 /* KCPostListInCategoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC59087191DC486002C8A52 /* KCPostListInCategoryManager.m */; };
+		5AC590B5191DC486002C8A52 /* KCPostPageGetCommentsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC59089191DC486002C8A52 /* KCPostPageGetCommentsManager.m */; };
+		5AC590B6191DC486002C8A52 /* KCBlogInfoRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5908C191DC486002C8A52 /* KCBlogInfoRequestManager.m */; };
+		5AC590B7191DC486002C8A52 /* KCGetCommentsRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5908E191DC486002C8A52 /* KCGetCommentsRequestManager.m */; };
+		5AC590B8191DC486002C8A52 /* KCGetPostsRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC59090191DC486002C8A52 /* KCGetPostsRequestManager.m */; };
+		5AC590B9191DC486002C8A52 /* KCGetTermsRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC59092191DC486002C8A52 /* KCGetTermsRequestManager.m */; };
+		5AC590BA191DC486002C8A52 /* KCGetUsersBlogsRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC59094191DC486002C8A52 /* KCGetUsersBlogsRequestManager.m */; };
+		5AC590BB191DC486002C8A52 /* KCNewCommentRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC59096191DC486002C8A52 /* KCNewCommentRequestManager.m */; };
+		5AC590BC191DC486002C8A52 /* KCPostRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC59098191DC486002C8A52 /* KCPostRequestManager.m */; };
+		5AC590BD191DC486002C8A52 /* KCRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5909A191DC486002C8A52 /* KCRequestManager.m */; };
+		5AC590BE191DC486002C8A52 /* WPRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5909C191DC486002C8A52 /* WPRequestManager.m */; };
+		5AC590BF191DC486002C8A52 /* KCAddNewCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5909F191DC486002C8A52 /* KCAddNewCommentViewController.m */; };
+		5AC590C0191DC486002C8A52 /* KCCategoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC590A1191DC486002C8A52 /* KCCategoryTableViewController.m */; };
+		5AC590C1191DC486002C8A52 /* KCCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC590A3191DC486002C8A52 /* KCCommentsViewController.m */; };
+		5AC590C2191DC486002C8A52 /* KCPostPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC590A5191DC486002C8A52 /* KCPostPageViewController.m */; };
+		5AC590C3191DC486002C8A52 /* KCPostsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC590A7191DC486002C8A52 /* KCPostsTableViewController.m */; };
+		5AC590C4191DC486002C8A52 /* WPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC590AA191DC486002C8A52 /* WPRequest.m */; };
+		5AC590C5191DC486002C8A52 /* KCCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC590AD191DC486002C8A52 /* KCCommentTableViewCell.m */; };
+		5AC590C6191DC486002C8A52 /* KCPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC590AF191DC486002C8A52 /* KCPostTableViewCell.m */; };
+		5AC590C7191DC486002C8A52 /* KCPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AC590B0191DC486002C8A52 /* KCPostTableViewCell.xib */; };
 		5AE4A45A18D93F800000DB21 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE4A45918D93F800000DB21 /* Foundation.framework */; };
 		5AE4A45C18D93F800000DB21 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE4A45B18D93F800000DB21 /* CoreGraphics.framework */; };
 		5AE4A45E18D93F800000DB21 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE4A45D18D93F800000DB21 /* UIKit.framework */; };
@@ -36,12 +45,6 @@
 		5AE4A47B18D93F810000DB21 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE4A45D18D93F800000DB21 /* UIKit.framework */; };
 		5AE4A48318D93F810000DB21 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5AE4A48118D93F810000DB21 /* InfoPlist.strings */; };
 		5AE4A48518D93F810000DB21 /* WordpressTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4A48418D93F810000DB21 /* WordpressTests.m */; };
-		5AE4A4A318D968EB0000DB21 /* WPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4A4A218D968EB0000DB21 /* WPRequest.m */; };
-		5AE4A4A918D981C30000DB21 /* KCPostsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4A4A818D981C30000DB21 /* KCPostsTableViewController.m */; };
-		5AF9457318F7E125009112F5 /* KCRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF9457218F7E125009112F5 /* KCRequestManager.m */; };
-		5AF9457618F7E519009112F5 /* KCGetUsersBlogsRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF9457518F7E519009112F5 /* KCGetUsersBlogsRequestManager.m */; };
-		5AF9457918F7E8C1009112F5 /* KCGetPostsRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF9457818F7E8C1009112F5 /* KCGetPostsRequestManager.m */; };
-		5AF9457F18F8D6A2009112F5 /* KCGetTermsRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF9457E18F8D6A2009112F5 /* KCGetTermsRequestManager.m */; };
 		B0E568436612432490C17C30 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC12DA695FB64963BFB16FBD /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -57,36 +60,54 @@
 
 /* Begin PBXFileReference section */
 		2ED28D173AA34971908983B2 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
-		5A25AFEC18E6B8F8006843CD /* KCPostPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCPostPageViewController.h; path = Controller/KCPostPageViewController.h; sourceTree = "<group>"; };
-		5A25AFED18E6B8F8006843CD /* KCPostPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCPostPageViewController.m; path = Controller/KCPostPageViewController.m; sourceTree = "<group>"; };
 		5A25AFEF18E91B9C006843CD /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
-		5A29BC9118FB6B9200E2380C /* KCErrorNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCErrorNotificationCenter.h; path = Controller/KCErrorNotificationCenter.h; sourceTree = "<group>"; };
-		5A29BC9218FB6B9200E2380C /* KCErrorNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCErrorNotificationCenter.m; path = Controller/KCErrorNotificationCenter.m; sourceTree = "<group>"; };
-		5A42F25A18E3C06000FE6085 /* KCPostTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCPostTableViewCell.h; path = View/KCPostTableViewCell.h; sourceTree = "<group>"; };
-		5A42F25B18E3C06000FE6085 /* KCPostTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCPostTableViewCell.m; path = View/KCPostTableViewCell.m; sourceTree = "<group>"; };
-		5A42F25C18E3C06000FE6085 /* KCPostTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KCPostTableViewCell.xib; path = View/KCPostTableViewCell.xib; sourceTree = "<group>"; };
-		5A71099918F5237300EB85A1 /* KCCategoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCCategoryTableViewController.h; path = Controller/KCCategoryTableViewController.h; sourceTree = "<group>"; };
-		5A71099A18F5237300EB85A1 /* KCCategoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCCategoryTableViewController.m; path = Controller/KCCategoryTableViewController.m; sourceTree = "<group>"; };
-		5A71099F18F52DFD00EB85A1 /* KCCategoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCCategoryManager.h; path = Controller/KCCategoryManager.h; sourceTree = "<group>"; };
-		5A7109A018F52DFD00EB85A1 /* KCCategoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCCategoryManager.m; path = Controller/KCCategoryManager.m; sourceTree = "<group>"; };
-		5A7109A218F53BEF00EB85A1 /* KCPostListInCategoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCPostListInCategoryManager.h; sourceTree = "<group>"; };
-		5A7109A318F53BEF00EB85A1 /* KCPostListInCategoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCPostListInCategoryManager.m; sourceTree = "<group>"; };
-		5A81CA9818F4F41B0059D0C3 /* WPRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPRequestManager.h; path = "Controller/Request Manager/WPRequestManager.h"; sourceTree = "<group>"; };
-		5A81CA9918F4F41B0059D0C3 /* WPRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPRequestManager.m; path = "Controller/Request Manager/WPRequestManager.m"; sourceTree = "<group>"; };
-		5AA3D9591901180700D2A227 /* KCGetCommentsRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCGetCommentsRequestManager.h; path = "Controller/Request Manager/KCGetCommentsRequestManager.h"; sourceTree = "<group>"; };
-		5AA3D95A1901180700D2A227 /* KCGetCommentsRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCGetCommentsRequestManager.m; path = "Controller/Request Manager/KCGetCommentsRequestManager.m"; sourceTree = "<group>"; };
-		5AA3D95D19011CF500D2A227 /* KCPostPageGetCommentsConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCPostPageGetCommentsConnector.h; path = Controller/Connector/KCPostPageGetCommentsConnector.h; sourceTree = "<group>"; };
-		5AA3D95E19011CF500D2A227 /* KCPostPageGetCommentsConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCPostPageGetCommentsConnector.m; path = Controller/Connector/KCPostPageGetCommentsConnector.m; sourceTree = "<group>"; };
-		5AA3D9631901327000D2A227 /* KCCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCCommentsViewController.h; path = Controller/KCCommentsViewController.h; sourceTree = "<group>"; };
-		5AA3D9641901327000D2A227 /* KCCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCCommentsViewController.m; path = Controller/KCCommentsViewController.m; sourceTree = "<group>"; };
-		5AA3D9B119051F9900D2A227 /* KCAddNewCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCAddNewCommentViewController.h; path = Controller/KCAddNewCommentViewController.h; sourceTree = "<group>"; };
-		5AA3D9B219051F9900D2A227 /* KCAddNewCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCAddNewCommentViewController.m; path = Controller/KCAddNewCommentViewController.m; sourceTree = "<group>"; };
-		5AA3D9B41906093800D2A227 /* KCNewCommentRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCNewCommentRequestManager.h; path = "Controller/Request Manager/KCNewCommentRequestManager.h"; sourceTree = "<group>"; };
-		5AA3D9B51906093800D2A227 /* KCNewCommentRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCNewCommentRequestManager.m; path = "Controller/Request Manager/KCNewCommentRequestManager.m"; sourceTree = "<group>"; };
-		5AA3D9B71906515600D2A227 /* KCCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCCommentTableViewCell.h; path = View/KCCommentTableViewCell.h; sourceTree = "<group>"; };
-		5AA3D9B81906515600D2A227 /* KCCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCCommentTableViewCell.m; path = View/KCCommentTableViewCell.m; sourceTree = "<group>"; };
-		5AE4A0A818E286160007759A /* KCRootNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCRootNavigationController.h; path = Controller/KCRootNavigationController.h; sourceTree = "<group>"; };
-		5AE4A0A918E286160007759A /* KCRootNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCRootNavigationController.m; path = Controller/KCRootNavigationController.m; sourceTree = "<group>"; };
+		5AC5907A191DC41B002C8A52 /* KCRootNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCRootNavigationController.h; sourceTree = "<group>"; };
+		5AC5907B191DC41B002C8A52 /* KCRootNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCRootNavigationController.m; sourceTree = "<group>"; };
+		5AC5907F191DC485002C8A52 /* KCErrorNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCErrorNotificationCenter.h; sourceTree = "<group>"; };
+		5AC59080191DC485002C8A52 /* KCErrorNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCErrorNotificationCenter.m; sourceTree = "<group>"; };
+		5AC59081191DC485002C8A52 /* KCNetworkErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCNetworkErrorHandler.h; sourceTree = "<group>"; };
+		5AC59082191DC485002C8A52 /* KCNetworkErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCNetworkErrorHandler.m; sourceTree = "<group>"; };
+		5AC59084191DC485002C8A52 /* KCCategoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCCategoryManager.h; sourceTree = "<group>"; };
+		5AC59085191DC485002C8A52 /* KCCategoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCCategoryManager.m; sourceTree = "<group>"; };
+		5AC59086191DC485002C8A52 /* KCPostListInCategoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCPostListInCategoryManager.h; sourceTree = "<group>"; };
+		5AC59087191DC486002C8A52 /* KCPostListInCategoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCPostListInCategoryManager.m; sourceTree = "<group>"; };
+		5AC59088191DC486002C8A52 /* KCPostPageGetCommentsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCPostPageGetCommentsManager.h; sourceTree = "<group>"; };
+		5AC59089191DC486002C8A52 /* KCPostPageGetCommentsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCPostPageGetCommentsManager.m; sourceTree = "<group>"; };
+		5AC5908B191DC486002C8A52 /* KCBlogInfoRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCBlogInfoRequestManager.h; sourceTree = "<group>"; };
+		5AC5908C191DC486002C8A52 /* KCBlogInfoRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCBlogInfoRequestManager.m; sourceTree = "<group>"; };
+		5AC5908D191DC486002C8A52 /* KCGetCommentsRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCGetCommentsRequestManager.h; sourceTree = "<group>"; };
+		5AC5908E191DC486002C8A52 /* KCGetCommentsRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCGetCommentsRequestManager.m; sourceTree = "<group>"; };
+		5AC5908F191DC486002C8A52 /* KCGetPostsRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCGetPostsRequestManager.h; sourceTree = "<group>"; };
+		5AC59090191DC486002C8A52 /* KCGetPostsRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCGetPostsRequestManager.m; sourceTree = "<group>"; };
+		5AC59091191DC486002C8A52 /* KCGetTermsRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCGetTermsRequestManager.h; sourceTree = "<group>"; };
+		5AC59092191DC486002C8A52 /* KCGetTermsRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCGetTermsRequestManager.m; sourceTree = "<group>"; };
+		5AC59093191DC486002C8A52 /* KCGetUsersBlogsRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCGetUsersBlogsRequestManager.h; sourceTree = "<group>"; };
+		5AC59094191DC486002C8A52 /* KCGetUsersBlogsRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCGetUsersBlogsRequestManager.m; sourceTree = "<group>"; };
+		5AC59095191DC486002C8A52 /* KCNewCommentRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCNewCommentRequestManager.h; sourceTree = "<group>"; };
+		5AC59096191DC486002C8A52 /* KCNewCommentRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCNewCommentRequestManager.m; sourceTree = "<group>"; };
+		5AC59097191DC486002C8A52 /* KCPostRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCPostRequestManager.h; sourceTree = "<group>"; };
+		5AC59098191DC486002C8A52 /* KCPostRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCPostRequestManager.m; sourceTree = "<group>"; };
+		5AC59099191DC486002C8A52 /* KCRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCRequestManager.h; sourceTree = "<group>"; };
+		5AC5909A191DC486002C8A52 /* KCRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCRequestManager.m; sourceTree = "<group>"; };
+		5AC5909B191DC486002C8A52 /* WPRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPRequestManager.h; sourceTree = "<group>"; };
+		5AC5909C191DC486002C8A52 /* WPRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPRequestManager.m; sourceTree = "<group>"; };
+		5AC5909E191DC486002C8A52 /* KCAddNewCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCAddNewCommentViewController.h; sourceTree = "<group>"; };
+		5AC5909F191DC486002C8A52 /* KCAddNewCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCAddNewCommentViewController.m; sourceTree = "<group>"; };
+		5AC590A0191DC486002C8A52 /* KCCategoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCCategoryTableViewController.h; sourceTree = "<group>"; };
+		5AC590A1191DC486002C8A52 /* KCCategoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCCategoryTableViewController.m; sourceTree = "<group>"; };
+		5AC590A2191DC486002C8A52 /* KCCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCCommentsViewController.h; sourceTree = "<group>"; };
+		5AC590A3191DC486002C8A52 /* KCCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCCommentsViewController.m; sourceTree = "<group>"; };
+		5AC590A4191DC486002C8A52 /* KCPostPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCPostPageViewController.h; sourceTree = "<group>"; };
+		5AC590A5191DC486002C8A52 /* KCPostPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCPostPageViewController.m; sourceTree = "<group>"; };
+		5AC590A6191DC486002C8A52 /* KCPostsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCPostsTableViewController.h; sourceTree = "<group>"; };
+		5AC590A7191DC486002C8A52 /* KCPostsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCPostsTableViewController.m; sourceTree = "<group>"; };
+		5AC590A9191DC486002C8A52 /* WPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WPRequest.h; sourceTree = "<group>"; };
+		5AC590AA191DC486002C8A52 /* WPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WPRequest.m; sourceTree = "<group>"; };
+		5AC590AC191DC486002C8A52 /* KCCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCCommentTableViewCell.h; sourceTree = "<group>"; };
+		5AC590AD191DC486002C8A52 /* KCCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCCommentTableViewCell.m; sourceTree = "<group>"; };
+		5AC590AE191DC486002C8A52 /* KCPostTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCPostTableViewCell.h; sourceTree = "<group>"; };
+		5AC590AF191DC486002C8A52 /* KCPostTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCPostTableViewCell.m; sourceTree = "<group>"; };
+		5AC590B0191DC486002C8A52 /* KCPostTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KCPostTableViewCell.xib; sourceTree = "<group>"; };
 		5AE4A45618D93F800000DB21 /* Wordpress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wordpress.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AE4A45918D93F800000DB21 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5AE4A45B18D93F800000DB21 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -104,18 +125,6 @@
 		5AE4A48018D93F810000DB21 /* WordpressTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WordpressTests-Info.plist"; sourceTree = "<group>"; };
 		5AE4A48218D93F810000DB21 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5AE4A48418D93F810000DB21 /* WordpressTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WordpressTests.m; sourceTree = "<group>"; };
-		5AE4A4A118D968EB0000DB21 /* WPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WPRequest.h; path = Model/WPRequest.h; sourceTree = "<group>"; };
-		5AE4A4A218D968EB0000DB21 /* WPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WPRequest.m; path = Model/WPRequest.m; sourceTree = "<group>"; };
-		5AE4A4A718D981C30000DB21 /* KCPostsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCPostsTableViewController.h; path = Controller/KCPostsTableViewController.h; sourceTree = "<group>"; };
-		5AE4A4A818D981C30000DB21 /* KCPostsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCPostsTableViewController.m; path = Controller/KCPostsTableViewController.m; sourceTree = "<group>"; };
-		5AF9457118F7E125009112F5 /* KCRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCRequestManager.h; path = "Controller/Request Manager/KCRequestManager.h"; sourceTree = "<group>"; };
-		5AF9457218F7E125009112F5 /* KCRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCRequestManager.m; path = "Controller/Request Manager/KCRequestManager.m"; sourceTree = "<group>"; };
-		5AF9457418F7E519009112F5 /* KCGetUsersBlogsRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCGetUsersBlogsRequestManager.h; path = "Controller/Request Manager/KCGetUsersBlogsRequestManager.h"; sourceTree = "<group>"; };
-		5AF9457518F7E519009112F5 /* KCGetUsersBlogsRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCGetUsersBlogsRequestManager.m; path = "Controller/Request Manager/KCGetUsersBlogsRequestManager.m"; sourceTree = "<group>"; };
-		5AF9457718F7E8C1009112F5 /* KCGetPostsRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCGetPostsRequestManager.h; path = "Controller/Request Manager/KCGetPostsRequestManager.h"; sourceTree = "<group>"; };
-		5AF9457818F7E8C1009112F5 /* KCGetPostsRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCGetPostsRequestManager.m; path = "Controller/Request Manager/KCGetPostsRequestManager.m"; sourceTree = "<group>"; };
-		5AF9457D18F8D6A2009112F5 /* KCGetTermsRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KCGetTermsRequestManager.h; path = "Controller/Request Manager/KCGetTermsRequestManager.h"; sourceTree = "<group>"; };
-		5AF9457E18F8D6A2009112F5 /* KCGetTermsRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KCGetTermsRequestManager.m; path = "Controller/Request Manager/KCGetTermsRequestManager.m"; sourceTree = "<group>"; };
 		AC12DA695FB64963BFB16FBD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -144,34 +153,107 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5A81CA9318F4F3680059D0C3 /* Request Manager */ = {
+		5AC5907D191DC46B002C8A52 /* WP */ = {
 			isa = PBXGroup;
 			children = (
-				5AF9457D18F8D6A2009112F5 /* KCGetTermsRequestManager.h */,
-				5AF9457E18F8D6A2009112F5 /* KCGetTermsRequestManager.m */,
-				5A81CA9818F4F41B0059D0C3 /* WPRequestManager.h */,
-				5A81CA9918F4F41B0059D0C3 /* WPRequestManager.m */,
-				5AF9457118F7E125009112F5 /* KCRequestManager.h */,
-				5AF9457218F7E125009112F5 /* KCRequestManager.m */,
-				5AF9457418F7E519009112F5 /* KCGetUsersBlogsRequestManager.h */,
-				5AF9457518F7E519009112F5 /* KCGetUsersBlogsRequestManager.m */,
-				5AF9457718F7E8C1009112F5 /* KCGetPostsRequestManager.h */,
-				5AF9457818F7E8C1009112F5 /* KCGetPostsRequestManager.m */,
-				5AA3D9591901180700D2A227 /* KCGetCommentsRequestManager.h */,
-				5AA3D95A1901180700D2A227 /* KCGetCommentsRequestManager.m */,
-				5AA3D9B41906093800D2A227 /* KCNewCommentRequestManager.h */,
-				5AA3D9B51906093800D2A227 /* KCNewCommentRequestManager.m */,
+				5AC5907E191DC485002C8A52 /* Controller */,
+				5AC590A8191DC486002C8A52 /* Model */,
+				5AC590AB191DC486002C8A52 /* View */,
 			);
-			name = "Request Manager";
+			name = WP;
 			sourceTree = "<group>";
 		};
-		5AA3D95C19011C9200D2A227 /* Connector */ = {
+		5AC5907E191DC485002C8A52 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				5AA3D95D19011CF500D2A227 /* KCPostPageGetCommentsConnector.h */,
-				5AA3D95E19011CF500D2A227 /* KCPostPageGetCommentsConnector.m */,
+				5AC5907F191DC485002C8A52 /* KCErrorNotificationCenter.h */,
+				5AC59080191DC485002C8A52 /* KCErrorNotificationCenter.m */,
+				5AC59081191DC485002C8A52 /* KCNetworkErrorHandler.h */,
+				5AC59082191DC485002C8A52 /* KCNetworkErrorHandler.m */,
+				5AC59083191DC485002C8A52 /* Manager */,
+				5AC5908A191DC486002C8A52 /* Request Manager */,
+				5AC5909D191DC486002C8A52 /* View Controller */,
 			);
-			name = Connector;
+			name = Controller;
+			path = WP/Controller;
+			sourceTree = "<group>";
+		};
+		5AC59083191DC485002C8A52 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				5AC59084191DC485002C8A52 /* KCCategoryManager.h */,
+				5AC59085191DC485002C8A52 /* KCCategoryManager.m */,
+				5AC59086191DC485002C8A52 /* KCPostListInCategoryManager.h */,
+				5AC59087191DC486002C8A52 /* KCPostListInCategoryManager.m */,
+				5AC59088191DC486002C8A52 /* KCPostPageGetCommentsManager.h */,
+				5AC59089191DC486002C8A52 /* KCPostPageGetCommentsManager.m */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		5AC5908A191DC486002C8A52 /* Request Manager */ = {
+			isa = PBXGroup;
+			children = (
+				5AC5908B191DC486002C8A52 /* KCBlogInfoRequestManager.h */,
+				5AC5908C191DC486002C8A52 /* KCBlogInfoRequestManager.m */,
+				5AC5908D191DC486002C8A52 /* KCGetCommentsRequestManager.h */,
+				5AC5908E191DC486002C8A52 /* KCGetCommentsRequestManager.m */,
+				5AC5908F191DC486002C8A52 /* KCGetPostsRequestManager.h */,
+				5AC59090191DC486002C8A52 /* KCGetPostsRequestManager.m */,
+				5AC59091191DC486002C8A52 /* KCGetTermsRequestManager.h */,
+				5AC59092191DC486002C8A52 /* KCGetTermsRequestManager.m */,
+				5AC59093191DC486002C8A52 /* KCGetUsersBlogsRequestManager.h */,
+				5AC59094191DC486002C8A52 /* KCGetUsersBlogsRequestManager.m */,
+				5AC59095191DC486002C8A52 /* KCNewCommentRequestManager.h */,
+				5AC59096191DC486002C8A52 /* KCNewCommentRequestManager.m */,
+				5AC59097191DC486002C8A52 /* KCPostRequestManager.h */,
+				5AC59098191DC486002C8A52 /* KCPostRequestManager.m */,
+				5AC59099191DC486002C8A52 /* KCRequestManager.h */,
+				5AC5909A191DC486002C8A52 /* KCRequestManager.m */,
+				5AC5909B191DC486002C8A52 /* WPRequestManager.h */,
+				5AC5909C191DC486002C8A52 /* WPRequestManager.m */,
+			);
+			path = "Request Manager";
+			sourceTree = "<group>";
+		};
+		5AC5909D191DC486002C8A52 /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5AC5909E191DC486002C8A52 /* KCAddNewCommentViewController.h */,
+				5AC5909F191DC486002C8A52 /* KCAddNewCommentViewController.m */,
+				5AC590A0191DC486002C8A52 /* KCCategoryTableViewController.h */,
+				5AC590A1191DC486002C8A52 /* KCCategoryTableViewController.m */,
+				5AC590A2191DC486002C8A52 /* KCCommentsViewController.h */,
+				5AC590A3191DC486002C8A52 /* KCCommentsViewController.m */,
+				5AC590A4191DC486002C8A52 /* KCPostPageViewController.h */,
+				5AC590A5191DC486002C8A52 /* KCPostPageViewController.m */,
+				5AC590A6191DC486002C8A52 /* KCPostsTableViewController.h */,
+				5AC590A7191DC486002C8A52 /* KCPostsTableViewController.m */,
+			);
+			path = "View Controller";
+			sourceTree = "<group>";
+		};
+		5AC590A8191DC486002C8A52 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5AC590A9191DC486002C8A52 /* WPRequest.h */,
+				5AC590AA191DC486002C8A52 /* WPRequest.m */,
+			);
+			name = Model;
+			path = WP/Model;
+			sourceTree = "<group>";
+		};
+		5AC590AB191DC486002C8A52 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5AC590AC191DC486002C8A52 /* KCCommentTableViewCell.h */,
+				5AC590AD191DC486002C8A52 /* KCCommentTableViewCell.m */,
+				5AC590AE191DC486002C8A52 /* KCPostTableViewCell.h */,
+				5AC590AF191DC486002C8A52 /* KCPostTableViewCell.m */,
+				5AC590B0191DC486002C8A52 /* KCPostTableViewCell.xib */,
+			);
+			name = View;
+			path = WP/View;
 			sourceTree = "<group>";
 		};
 		5AE4A44D18D93F800000DB21 = {
@@ -209,13 +291,12 @@
 		5AE4A45F18D93F800000DB21 /* Wordpress */ = {
 			isa = PBXGroup;
 			children = (
-				5AE4A49018D9401D0000DB21 /* Controller */,
-				5AE4A48F18D940170000DB21 /* View */,
-				5AE4A48E18D9400F0000DB21 /* Model */,
+				5AC5907D191DC46B002C8A52 /* WP */,
+				5AC5907A191DC41B002C8A52 /* KCRootNavigationController.h */,
+				5AC5907B191DC41B002C8A52 /* KCRootNavigationController.m */,
 				5AE4A47118D93F800000DB21 /* Images.xcassets */,
 				5AE4A46B18D93F800000DB21 /* Main.storyboard */,
 				5AE4A46018D93F800000DB21 /* Supporting Files */,
-				5A25AFEF18E91B9C006843CD /* style.css */,
 			);
 			path = Wordpress;
 			sourceTree = "<group>";
@@ -223,6 +304,7 @@
 		5AE4A46018D93F800000DB21 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5A25AFEF18E91B9C006843CD /* style.css */,
 				5AE4A46818D93F800000DB21 /* KCAppDelegate.h */,
 				5AE4A46918D93F800000DB21 /* KCAppDelegate.m */,
 				5AE4A46118D93F800000DB21 /* Wordpress-Info.plist */,
@@ -249,54 +331,6 @@
 				5AE4A48118D93F810000DB21 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		5AE4A48E18D9400F0000DB21 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				5AE4A4A118D968EB0000DB21 /* WPRequest.h */,
-				5AE4A4A218D968EB0000DB21 /* WPRequest.m */,
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
-		5AE4A48F18D940170000DB21 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				5A42F25A18E3C06000FE6085 /* KCPostTableViewCell.h */,
-				5A42F25B18E3C06000FE6085 /* KCPostTableViewCell.m */,
-				5A42F25C18E3C06000FE6085 /* KCPostTableViewCell.xib */,
-				5AA3D9B71906515600D2A227 /* KCCommentTableViewCell.h */,
-				5AA3D9B81906515600D2A227 /* KCCommentTableViewCell.m */,
-			);
-			name = View;
-			sourceTree = "<group>";
-		};
-		5AE4A49018D9401D0000DB21 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				5AA3D9B119051F9900D2A227 /* KCAddNewCommentViewController.h */,
-				5AA3D9B219051F9900D2A227 /* KCAddNewCommentViewController.m */,
-				5AA3D95C19011C9200D2A227 /* Connector */,
-				5A81CA9318F4F3680059D0C3 /* Request Manager */,
-				5AE4A0A818E286160007759A /* KCRootNavigationController.h */,
-				5AE4A0A918E286160007759A /* KCRootNavigationController.m */,
-				5AE4A4A718D981C30000DB21 /* KCPostsTableViewController.h */,
-				5AE4A4A818D981C30000DB21 /* KCPostsTableViewController.m */,
-				5A25AFEC18E6B8F8006843CD /* KCPostPageViewController.h */,
-				5A25AFED18E6B8F8006843CD /* KCPostPageViewController.m */,
-				5A71099918F5237300EB85A1 /* KCCategoryTableViewController.h */,
-				5A71099A18F5237300EB85A1 /* KCCategoryTableViewController.m */,
-				5A71099F18F52DFD00EB85A1 /* KCCategoryManager.h */,
-				5A7109A018F52DFD00EB85A1 /* KCCategoryManager.m */,
-				5A7109A218F53BEF00EB85A1 /* KCPostListInCategoryManager.h */,
-				5A7109A318F53BEF00EB85A1 /* KCPostListInCategoryManager.m */,
-				5A29BC9118FB6B9200E2380C /* KCErrorNotificationCenter.h */,
-				5A29BC9218FB6B9200E2380C /* KCErrorNotificationCenter.m */,
-				5AA3D9631901327000D2A227 /* KCCommentsViewController.h */,
-				5AA3D9641901327000D2A227 /* KCCommentsViewController.m */,
-			);
-			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -378,7 +412,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A42F25E18E3C06000FE6085 /* KCPostTableViewCell.xib in Resources */,
+				5AC590C7191DC486002C8A52 /* KCPostTableViewCell.xib in Resources */,
 				5AE4A47218D93F800000DB21 /* Images.xcassets in Resources */,
 				5A25AFF018E91B9C006843CD /* style.css in Resources */,
 				5AE4A46418D93F800000DB21 /* InfoPlist.strings in Resources */,
@@ -434,28 +468,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5AA3D9651901327000D2A227 /* KCCommentsViewController.m in Sources */,
-				5AF9457918F7E8C1009112F5 /* KCGetPostsRequestManager.m in Sources */,
-				5AF9457F18F8D6A2009112F5 /* KCGetTermsRequestManager.m in Sources */,
-				5A29BC9318FB6B9200E2380C /* KCErrorNotificationCenter.m in Sources */,
-				5AF9457318F7E125009112F5 /* KCRequestManager.m in Sources */,
-				5A42F25D18E3C06000FE6085 /* KCPostTableViewCell.m in Sources */,
-				5AE4A4A318D968EB0000DB21 /* WPRequest.m in Sources */,
-				5AA3D9B91906515600D2A227 /* KCCommentTableViewCell.m in Sources */,
-				5A81CA9C18F4F41B0059D0C3 /* WPRequestManager.m in Sources */,
-				5AF9457618F7E519009112F5 /* KCGetUsersBlogsRequestManager.m in Sources */,
-				5A7109A118F52DFD00EB85A1 /* KCCategoryManager.m in Sources */,
-				5A25AFEE18E6B8F8006843CD /* KCPostPageViewController.m in Sources */,
-				5A7109A418F53BEF00EB85A1 /* KCPostListInCategoryManager.m in Sources */,
-				5AE4A4A918D981C30000DB21 /* KCPostsTableViewController.m in Sources */,
-				5A71099B18F5237300EB85A1 /* KCCategoryTableViewController.m in Sources */,
-				5AA3D95F19011CF500D2A227 /* KCPostPageGetCommentsConnector.m in Sources */,
-				5AA3D95B1901180700D2A227 /* KCGetCommentsRequestManager.m in Sources */,
+				5AC590C1191DC486002C8A52 /* KCCommentsViewController.m in Sources */,
+				5AC5907C191DC41B002C8A52 /* KCRootNavigationController.m in Sources */,
+				5AC590B3191DC486002C8A52 /* KCCategoryManager.m in Sources */,
 				5AE4A46A18D93F800000DB21 /* KCAppDelegate.m in Sources */,
-				5AA3D9B61906093800D2A227 /* KCNewCommentRequestManager.m in Sources */,
-				5AE4A0AA18E286160007759A /* KCRootNavigationController.m in Sources */,
-				5AA3D9B319051F9900D2A227 /* KCAddNewCommentViewController.m in Sources */,
+				5AC590B5191DC486002C8A52 /* KCPostPageGetCommentsManager.m in Sources */,
+				5AC590B4191DC486002C8A52 /* KCPostListInCategoryManager.m in Sources */,
+				5AC590B2191DC486002C8A52 /* KCNetworkErrorHandler.m in Sources */,
+				5AC590B9191DC486002C8A52 /* KCGetTermsRequestManager.m in Sources */,
+				5AC590B7191DC486002C8A52 /* KCGetCommentsRequestManager.m in Sources */,
+				5AC590B1191DC486002C8A52 /* KCErrorNotificationCenter.m in Sources */,
+				5AC590C0191DC486002C8A52 /* KCCategoryTableViewController.m in Sources */,
+				5AC590C3191DC486002C8A52 /* KCPostsTableViewController.m in Sources */,
+				5AC590BE191DC486002C8A52 /* WPRequestManager.m in Sources */,
+				5AC590C4191DC486002C8A52 /* WPRequest.m in Sources */,
+				5AC590BC191DC486002C8A52 /* KCPostRequestManager.m in Sources */,
+				5AC590B8191DC486002C8A52 /* KCGetPostsRequestManager.m in Sources */,
 				5AE4A46618D93F800000DB21 /* main.m in Sources */,
+				5AC590C2191DC486002C8A52 /* KCPostPageViewController.m in Sources */,
+				5AC590BF191DC486002C8A52 /* KCAddNewCommentViewController.m in Sources */,
+				5AC590C6191DC486002C8A52 /* KCPostTableViewCell.m in Sources */,
+				5AC590BA191DC486002C8A52 /* KCGetUsersBlogsRequestManager.m in Sources */,
+				5AC590BB191DC486002C8A52 /* KCNewCommentRequestManager.m in Sources */,
+				5AC590B6191DC486002C8A52 /* KCBlogInfoRequestManager.m in Sources */,
+				5AC590BD191DC486002C8A52 /* KCRequestManager.m in Sources */,
+				5AC590C5191DC486002C8A52 /* KCCommentTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

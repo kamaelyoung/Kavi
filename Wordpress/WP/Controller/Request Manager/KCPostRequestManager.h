@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WPRequestManager.h"
 #import <XMLRPC.h>
+#import "WPRequestManager.h"
 
 @protocol KCPostRequestManagerDelegate <NSObject>
 @required

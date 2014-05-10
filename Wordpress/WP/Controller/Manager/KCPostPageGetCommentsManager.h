@@ -12,7 +12,7 @@
 #import "KCAddNewCommentViewController.h"
 #import "KCNewCommentRequestManager.h"
 
-@interface KCPostPageGetCommentsConnector : NSObject <KCGetCommentsRequestManagerDelegate,KCNewCommentRequestManagerDelegate>
+@interface KCPostPageGetCommentsManager : NSObject <KCGetCommentsRequestManagerDelegate,KCNewCommentRequestManagerDelegate>
 @property (nonatomic,strong) KCGetCommentsRequestManager *getCommentsRequestManager;
 @property (nonatomic,strong) KCCommentsViewController *commentsViewController;
 @property (nonatomic,strong) KCAddNewCommentViewController *addNewCommentViewController;

@@ -44,7 +44,7 @@
 #pragma mark - Functional Method
 - (void)sendGetBlogInfoRequest
 {
-    WPRequest *getBlogInfoRequest = [self.myRequestManager createRequest];
+    WPRequest *getBlogInfoRequest = [self.myRequestManager createRequestInOwner:self];
     [self.myRequestManager setWPRequest:getBlogInfoRequest
                                  Method:@"wp.getUsersBlogs"
                          withParameters:@[getBlogInfoRequest.myUsername,

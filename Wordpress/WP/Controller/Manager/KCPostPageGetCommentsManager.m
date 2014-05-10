@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 kavi chen. All rights reserved.
 //
 
-#import "KCPostPageGetCommentsConnector.h"
+#import "KCPostPageGetCommentsManager.h"
 
-@implementation KCPostPageGetCommentsConnector
+@implementation KCPostPageGetCommentsManager
 
 @synthesize getCommentsRequestManager = _getCommentsRequestManager;
 @synthesize commentsViewController = _commentsViewController;

@@ -7,11 +7,11 @@
 //
 
 #import "KCPostPageViewController.h"
-#import "KCPostPageGetCommentsConnector.h"
+#import "KCPostPageGetCommentsManager.h"
 
 @interface KCPostPageViewController ()
 @property (nonatomic,strong) UIWebView *webView;
-@property (nonatomic,strong) KCPostPageGetCommentsConnector *myConnector;
+@property (nonatomic,strong) KCPostPageGetCommentsManager *myConnector;
 @end
 
 @implementation KCPostPageViewController
@@ -52,10 +52,10 @@
     return _webView;
 }
 
-- (KCPostPageGetCommentsConnector *)myConnector
+- (KCPostPageGetCommentsManager *)myConnector
 {
     if (!_myConnector){
-        _myConnector = [[KCPostPageGetCommentsConnector alloc] init];
+        _myConnector = [[KCPostPageGetCommentsManager alloc] init];
     }
     return _myConnector;
 }
@@ -114,7 +114,7 @@
     NSMutableDictionary *myFilter = [NSMutableDictionary dictionaryWithObject:postID forKey:@"post_id"];
 
     
-    self.myConnector = [[KCPostPageGetCommentsConnector alloc] init];
+    self.myConnector = [[KCPostPageGetCommentsManager alloc] init];
     [self.myConnector sendGetCommentsRequestWith:myFilter];
     [SVProgressHUD showWithStatus:@"正在获取评论" maskType:SVProgressHUDMaskTypeClear];
     
